@@ -1,6 +1,8 @@
+import axios from 'axios';
+import { NextPage } from 'next';
 import Head from 'next/head';
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,4 +15,14 @@ export default function Home() {
       <div className='text-blue-700 text-3xl'>Hello</div>
     </>
   );
+};
+
+export default Home;
+
+export async function getServerSideProps() {
+  // const res = await axios.get('http://localhost:3000/api/post');
+
+  // console.log(res.data);
+
+  return { props: {} };
 }

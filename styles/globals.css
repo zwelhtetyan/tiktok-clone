@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .active-topic {
+    @apply border-[#F51997] text-[#F51997];
+  }
+}

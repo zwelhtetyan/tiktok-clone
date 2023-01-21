@@ -11,7 +11,7 @@ const Layout = ({ children }: Props) => {
     <>
       <Navbar />
 
-      <div className='flex max-w-7xl mx-auto px-4 py-4'>
+      <div className='flex max-w-7xl mx-auto px-2 lg:px-4 py-4'>
         <Sidebar />
 
         <main>{children}</main>

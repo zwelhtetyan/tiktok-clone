@@ -6,7 +6,7 @@ type Props = {};
 const Navbar = (props: Props) => {
   return (
     <nav className='shadow'>
-      <div className='max-w-7xl mx-auto px-4 py-2'>
+      <div className='max-w-7xl mx-auto px-2 lg:px-4 py-2'>
         <Link href='/'>
           <Image
             src='/tiktik-logo.png'

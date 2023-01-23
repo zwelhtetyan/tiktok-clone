@@ -26,7 +26,7 @@ const Home = ({ videos }: IProps) => {
 export default Home;
 
 export async function getServerSideProps() {
-  const { data: videos } = await axios.get('http://localhost:3000/api/post');
+  // const { data: videos } = await axios.get('http://localhost:3000/api/post');
 
-  return { props: { videos } };
+  return { props: {} };
 }

@@ -13,7 +13,7 @@ const Sidebar = () => {
         href='/'
         className={`${
           router.asPath === '/' &&
-          'text-[#F51997] bg-gray-200 lg:bg-transparent'
+          'text-secondary bg-gray-200 lg:bg-transparent'
         } inline-block  lg:flex items-center px-3 py-3 lg:py-2 rounded-full lg:rounded-sm text-xl font-bold hover:bg-gray-200`}
       >
         <RiHomeSmileFill size={23} />

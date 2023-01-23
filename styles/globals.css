@@ -4,6 +4,6 @@
 
 @layer components {
   .active-topic {
-    @apply lg:border-[#F51997] text-[#F51997] bg-gray-200 lg:bg-transparent;
+    @apply lg:border-secondary text-secondary bg-gray-200 lg:bg-transparent;
   }
 }

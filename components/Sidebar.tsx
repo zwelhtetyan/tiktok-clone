@@ -8,7 +8,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   return (
-    <aside className='max-w-sm border-r pr-2 lg:pr-4 w-14 lg:w-full'>
+    <aside className='max-w-sm pr-2 lg:pr-4 w-14 lg:w-full h-[calc(100vh-90px)] overflow-hidden overflow-y-auto'>
       <Link
         href='/'
         className={`${

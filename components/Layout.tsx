@@ -11,11 +11,11 @@ const Layout = ({ children }: Props) => {
     <>
       <Navbar />
 
-      <div className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4'>
+      <main className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-58px)] overflow-hidden'>
         <Sidebar />
 
-        <main>{children}</main>
-      </div>
+        <div className='w-full pl-2 lg:pl-4'>{children}</div>
+      </main>
     </>
   );
 };

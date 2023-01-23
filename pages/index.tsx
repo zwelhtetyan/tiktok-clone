@@ -1,14 +1,13 @@
 import axios from 'axios';
 import Head from 'next/head';
 import { Video } from '../types';
+import VideoItem from '../components/VideoItem';
 
-interface IProps {
+interface Props {
   videos: Video[];
 }
 
-const Home = ({ videos }: IProps) => {
-  console.log(videos);
-
+const Home = ({ videos }: Props) => {
   return (
     <>
       <Head>
@@ -18,7 +17,11 @@ const Home = ({ videos }: IProps) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='text-blue-700 text-3xl'>Hello</div>
+      <div className='h-[calc(100vh-90px)] overflow-hidden overflow-y-auto'>
+        {videos.map((video) => (
+          <VideoItem key={video._id} video={video} />
+        ))}
+      </div>
     </>
   );
 };
@@ -26,7 +29,7 @@ const Home = ({ videos }: IProps) => {
 export default Home;
 
 export async function getServerSideProps() {
-  // const { data: videos } = await axios.get('http://localhost:3000/api/post');
+  const { data: videos } = await axios.get('http://localhost:3000/api/post');
 
-  return { props: {} };
+  return { props: { videos } };
 }

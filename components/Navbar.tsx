@@ -31,7 +31,7 @@ const Navbar = () => {
         </div>
 
         <div className='flex items-center'>
-          <button className='flex items-center border border-gray-200 rounded px-4 py-[5px] mr-4'>
+          <button className='flex items-center border border-gray-200 rounded px-4 py-[5px] mr-2'>
             <CgMathPlus />
             <p className='ml-2'>Upload</p>
           </button>

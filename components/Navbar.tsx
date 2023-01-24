@@ -2,8 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CgMathPlus } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';
+import { signIn, useSession } from 'next-auth/react';
+import User from './User';
 
 export default function Navbar() {
+  const { data: session } = useSession();
+  console.log(session);
+
   return (
     <nav className='shadow'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
@@ -31,18 +36,29 @@ export default function Navbar() {
         </div>
 
         <div className='flex items-center'>
-          <button className='rounded-full flex md:hidden items-center px-[5px] py-[5px] border bg-gray-200 text-gray-500'>
+          <button className='rounded-full flex md:hidden items-center px-[5px] py-[5px] border bg-gray-200 text-gray-500 mx-2'>
             <IoSearchOutline size={23} />
           </button>
 
-          {/* <button className='flex items-center border border-gray-200 rounded px-4 py-[5px]'>
-            <CgMathPlus />
-            <p className='ml-2'>Upload</p>
-          </button> */}
+          {session && (
+            <>
+              <button className='flex items-center border border-gray-300 bg-gray-200 rounded px-4 py-[5px] mr-2'>
+                <CgMathPlus />
+                <p className='ml-2'>Upload</p>
+              </button>
 
-          <button className='bg-primary text-white rounded px-4 py-[5px] ml-2'>
-            Login
-          </button>
+              <User />
+            </>
+          )}
+
+          {!session && (
+            <button
+              onClick={() => signIn('google')}
+              className='bg-primary text-white rounded px-4 py-[5px]'
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
     </nav>

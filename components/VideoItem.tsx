@@ -88,7 +88,7 @@ export default function VideoItem({
           />
 
           {/* action buttons */}
-          <div className='absolute hidden group-hover:flex justify-between items-center left-0 right-0 bottom-7 px-4 text-white'>
+          <div className='absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-7 px-4 text-white'>
             <>
               {isPlaying ? (
                 <IoMdPause size={25} onClick={handlePause} />

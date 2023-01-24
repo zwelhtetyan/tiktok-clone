@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Home({ videos }: Props) {
-  const [isMute, setIsMute] = useState(false);
+  const [isMute, setIsMute] = useState(true);
 
   const handleMute = (e: MouseEvent) => {
     e.stopPropagation();

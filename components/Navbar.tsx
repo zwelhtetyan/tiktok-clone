@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CgMathPlus } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <nav className='shadow'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
@@ -42,6 +42,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

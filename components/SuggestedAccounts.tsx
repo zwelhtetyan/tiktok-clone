@@ -1,4 +1,4 @@
-const SuggestedAccounts = () => {
+export default function SuggestedAccounts() {
   return (
     <>
       <h2 className='font-semibold text-lg mb-3 text-gray-500 hidden lg:block'>
@@ -6,6 +6,4 @@ const SuggestedAccounts = () => {
       </h2>
     </>
   );
-};
-
-export default SuggestedAccounts;
+}

@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+export default function Layout({ children }: Props) {
   return (
     <>
       <Navbar />
@@ -18,6 +18,4 @@ const Layout = ({ children }: Props) => {
       </main>
     </>
   );
-};
-
-export default Layout;
+}

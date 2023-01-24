@@ -6,7 +6,7 @@ interface TopicProp {
   topic: { name: string; icon: ReactNode };
 }
 
-const Topic = ({ topic }: TopicProp) => {
+function Topic({ topic }: TopicProp) {
   const router = useRouter();
   const activeTopic = router.query.topic;
 
@@ -27,9 +27,9 @@ const Topic = ({ topic }: TopicProp) => {
       {topic.icon} <p className='ml-2 hidden lg:block'>{topic.name}</p>
     </button>
   );
-};
+}
 
-const PopularTopics = () => {
+export default function PopularTopics() {
   return (
     <div className='mb-4'>
       <h2 className='font-semibold text-lg mb-3 text-gray-500 hidden lg:block'>
@@ -43,6 +43,4 @@ const PopularTopics = () => {
       </div>
     </div>
   );
-};
-
-export default PopularTopics;
+}

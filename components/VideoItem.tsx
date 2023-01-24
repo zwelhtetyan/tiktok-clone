@@ -8,8 +8,11 @@ interface Props {
   video: Video;
 }
 
-const VideoItem = ({ video: { postedBy, caption, video } }: Props) => {
+export default function VideoItem({
+  video: { postedBy, caption, video },
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
+
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMute, setIsMute] = useState(false);
 
@@ -37,7 +40,27 @@ const VideoItem = ({ video: { postedBy, caption, video } }: Props) => {
     }
   };
 
-  useEffect(() => setIsPlaying(!videoRef.current!.paused), []);
+  useEffect(() => {
+    const videoElem = videoRef.current!;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          videoElem.play();
+          setIsPlaying(true);
+        } else {
+          videoElem.pause();
+          setIsPlaying(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(videoElem);
+
+    return () => observer.unobserve(videoElem);
+  }, []);
+
   useEffect(() => setIsMute(videoRef.current!.muted), []);
 
   return (
@@ -60,35 +83,39 @@ const VideoItem = ({ video: { postedBy, caption, video } }: Props) => {
 
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
-      <div className='relative rounded-md max-w-[280px] max-h-[500px] xs:ml-[60px] overflow-hidden cursor-pointer'>
-        <video
-          ref={videoRef}
-          src={video.asset.url}
-          loop
-          className='w-full h-full object-cover object-center'
-        />
+      <div
+        onClick={handlePause}
+        className='group relative rounded-md overflow-hidden cursor-pointer bg-black xs:ml-[60px] h-[497px] max-w-[280px] flex items-center'
+      >
+        <div className='w-full max-h-[500px]'>
+          <video
+            ref={videoRef}
+            src={video.asset.url}
+            loop
+            muted
+            className='w-full h-full object-cover object-center'
+          />
 
-        {/* action buttons */}
-        <div className='absolute flex justify-between items-center left-0 right-0 bottom-7 px-4 text-white'>
-          <>
-            {isPlaying ? (
-              <IoMdPause size={25} onClick={handlePause} />
-            ) : (
-              <IoPlay size={25} onClick={handlePause} />
-            )}
-          </>
+          {/* action buttons */}
+          <div className='absolute hidden group-hover:flex justify-between items-center left-0 right-0 bottom-7 px-4 text-white'>
+            <>
+              {isPlaying ? (
+                <IoMdPause size={25} onClick={handlePause} />
+              ) : (
+                <IoPlay size={25} onClick={handlePause} />
+              )}
+            </>
 
-          <>
-            {isMute ? (
-              <HiVolumeOff size={25} onClick={handleMute} />
-            ) : (
-              <HiVolumeUp size={25} onClick={handleMute} />
-            )}
-          </>
+            <>
+              {isMute ? (
+                <HiVolumeOff size={25} onClick={handleMute} />
+              ) : (
+                <HiVolumeUp size={25} onClick={handleMute} />
+              )}
+            </>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default VideoItem;
+}

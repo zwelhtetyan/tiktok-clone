@@ -4,7 +4,7 @@ import SuggestedAccounts from './SuggestedAccounts';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const Sidebar = () => {
+export default function Sidebar() {
   const router = useRouter();
 
   return (
@@ -27,6 +27,4 @@ const Sidebar = () => {
       <SuggestedAccounts />
     </aside>
   );
-};
-
-export default Sidebar;
+}

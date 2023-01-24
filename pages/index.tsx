@@ -7,7 +7,7 @@ interface Props {
   videos: Video[];
 }
 
-const Home = ({ videos }: Props) => {
+export default function Home({ videos }: Props) {
   return (
     <>
       <Head>
@@ -24,9 +24,7 @@ const Home = ({ videos }: Props) => {
       </div>
     </>
   );
-};
-
-export default Home;
+}
 
 export async function getServerSideProps() {
   const { data: videos } = await axios.get('http://localhost:3000/api/post');

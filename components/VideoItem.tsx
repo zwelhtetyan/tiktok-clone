@@ -3,7 +3,7 @@ import { Video } from '../types';
 import { IoMdPause } from 'react-icons/io';
 import { IoPlay } from 'react-icons/io5';
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 interface Props {
   video: Video;
 }
@@ -16,7 +16,8 @@ export default function VideoItem({
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMute, setIsMute] = useState(false);
 
-  const handlePause = () => {
+  const handlePause = (e: MouseEvent) => {
+    e.stopPropagation();
     const videoElem = videoRef.current!;
 
     if (!videoElem.paused) {
@@ -50,6 +51,7 @@ export default function VideoItem({
           setIsPlaying(true);
         } else {
           videoElem.pause();
+          videoElem.currentTime = 0;
           setIsPlaying(false);
         }
       },
@@ -64,7 +66,7 @@ export default function VideoItem({
   useEffect(() => setIsMute(videoRef.current!.muted), []);
 
   return (
-    <div className='pb-6 mb-6 border-b border-b-gray-200'>
+    <div className='video-item pb-6 mb-6 border-b border-b-gray-200'>
       <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
         <Image
           src={postedBy.image}

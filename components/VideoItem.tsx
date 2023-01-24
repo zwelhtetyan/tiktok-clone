@@ -67,7 +67,7 @@ export default function VideoItem({
   useEffect(() => setIsMute(videoRef.current!.muted), []);
 
   return (
-    <div className='video-item pb-6 mb-6 border-b border-b-gray-200'>
+    <div className='pb-6 mb-6 border-b border-b-gray-200'>
       <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
         <Image
           src={postedBy.image}

@@ -29,7 +29,8 @@ export default function VideoItem({
     }
   };
 
-  const handleMute = () => {
+  const handleMute = (e: MouseEvent) => {
+    e.stopPropagation();
     const videoElem = videoRef.current!;
 
     if (videoElem.muted) {

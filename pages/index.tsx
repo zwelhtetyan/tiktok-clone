@@ -2,12 +2,30 @@ import axios from 'axios';
 import Head from 'next/head';
 import { Video } from '../types';
 import VideoItem from '../components/VideoItem';
+import { MouseEvent, useEffect, useState } from 'react';
 
 interface Props {
   videos: Video[];
 }
 
 export default function Home({ videos }: Props) {
+  const [isMute, setIsMute] = useState(false);
+
+  const handleMute = (e: MouseEvent) => {
+    e.stopPropagation();
+    setIsMute((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const videoElems = document.querySelectorAll('.video');
+
+    videoElems.forEach((elem) => {
+      const video = elem as HTMLVideoElement;
+
+      isMute ? (video.muted = true) : (video.muted = false);
+    });
+  }, [isMute]);
+
   return (
     <>
       <Head>
@@ -19,7 +37,12 @@ export default function Home({ videos }: Props) {
 
       <div className='h-[calc(100vh-90px)] overflow-hidden overflow-y-auto'>
         {videos.map((video) => (
-          <VideoItem key={video._id} video={video} />
+          <VideoItem
+            key={video._id}
+            video={video}
+            isMute={isMute}
+            handleMute={handleMute}
+          />
         ))}
       </div>
     </>

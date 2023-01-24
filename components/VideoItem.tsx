@@ -6,15 +6,18 @@ import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 interface Props {
   video: Video;
+  isMute: boolean;
+  handleMute(e: MouseEvent): void;
 }
 
 export default function VideoItem({
   video: { postedBy, caption, video },
+  isMute,
+  handleMute,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMute, setIsMute] = useState(false);
 
   const handlePause = (e: MouseEvent) => {
     e.stopPropagation();
@@ -26,19 +29,6 @@ export default function VideoItem({
     } else {
       videoElem.play();
       setIsPlaying(true);
-    }
-  };
-
-  const handleMute = (e: MouseEvent) => {
-    e.stopPropagation();
-    const videoElem = videoRef.current!;
-
-    if (videoElem.muted) {
-      videoElem.muted = false;
-      setIsMute(false);
-    } else {
-      videoElem.muted = true;
-      setIsMute(true);
     }
   };
 
@@ -63,8 +53,6 @@ export default function VideoItem({
 
     return () => observer.unobserve(videoElem);
   }, []);
-
-  useEffect(() => setIsMute(videoRef.current!.muted), []);
 
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-200'>
@@ -96,7 +84,7 @@ export default function VideoItem({
             src={video.asset.url}
             loop
             muted
-            className='w-full h-full object-cover object-center'
+            className='video w-full h-full object-cover object-center'
           />
 
           {/* action buttons */}

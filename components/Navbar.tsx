@@ -6,8 +6,7 @@ import { signIn, useSession } from 'next-auth/react';
 import User from './User';
 
 export default function Navbar() {
-  const { data: session } = useSession();
-  console.log(session);
+  const { data: user } = useSession();
 
   return (
     <nav className='shadow'>
@@ -40,7 +39,7 @@ export default function Navbar() {
             <IoSearchOutline size={23} />
           </button>
 
-          {session && (
+          {user && (
             <>
               <button className='flex items-center border border-gray-300 bg-gray-200 rounded px-4 py-[5px] mr-2'>
                 <CgMathPlus />
@@ -51,7 +50,7 @@ export default function Navbar() {
             </>
           )}
 
-          {!session && (
+          {!user && (
             <button
               onClick={() => signIn('google')}
               className='bg-primary text-white rounded px-4 py-[5px]'

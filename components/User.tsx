@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
 
 export default function User() {
-  const { data: session } = useSession();
+  const { data: user } = useSession();
 
   return (
     <Menu as='div' className='relative inline-block w-11 xs:w-12 h-11 xs:h-12'>
       <div className='flex items-center'>
         <Menu.Button className='inline-flex w-full justify-center items-center rounded-md'>
           <Image
-            src={session?.user?.image!}
+            src={user?.image}
             width={100}
             height={100}
             alt='user_img'
@@ -38,7 +38,6 @@ export default function User() {
                   className={`${
                     active && 'bg-gray-200'
                   } text-gray-800 group flex w-full items-center rounded-md px-2 py-2`}
-                  onClick={() => signOut()}
                 >
                   Dark Mode
                 </button>

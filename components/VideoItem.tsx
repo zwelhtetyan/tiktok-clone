@@ -76,7 +76,7 @@ export default function VideoItem({
 
       <div
         onClick={handlePause}
-        className='group relative rounded-md overflow-hidden cursor-pointer bg-black xs:ml-[60px] h-[497px] max-w-[280px] flex items-center'
+        className='group relative rounded-lg overflow-hidden cursor-pointer bg-black xs:ml-[60px] h-[497px] max-w-[280px] flex items-center'
       >
         <div className='w-full max-h-[500px]'>
           <video

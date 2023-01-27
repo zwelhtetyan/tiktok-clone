@@ -7,11 +7,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  @apply bg-gray-100 hidden xs:block;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-sm bg-gray-200 hover:bg-gray-300 transition-all;
+  @apply rounded-sm bg-gray-200 hover:bg-gray-300 transition-all hidden xs:block;
 }
 
 @layer components {

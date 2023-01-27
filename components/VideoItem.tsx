@@ -55,7 +55,7 @@ export default function VideoItem({
   }, []);
 
   return (
-    <div className='pb-6 mb-6 border-b border-b-gray-200'>
+    <div className='pb-6 mb-6 border-b border-b-gray-100'>
       <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
         <Image
           src={postedBy.image}
@@ -76,35 +76,33 @@ export default function VideoItem({
 
       <div
         onClick={handlePause}
-        className='group relative rounded-lg overflow-hidden cursor-pointer bg-black xs:ml-[60px] h-[497px] max-w-[280px] flex items-center'
+        className='group relative rounded-lg overflow-hidden cursor-pointer bg-black xs:ml-[60px] max-w-[280px] flex items-center'
       >
-        <div className='w-full max-h-[500px]'>
-          <video
-            ref={videoRef}
-            src={video.asset.url}
-            loop
-            muted
-            className='video w-full h-full object-cover object-center'
-          />
+        <video
+          ref={videoRef}
+          src={video.asset.url}
+          loop
+          muted
+          className='video w-full object-cover object-center'
+        />
 
-          {/* action buttons */}
-          <div className='absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-7 px-4 text-white'>
-            <>
-              {isPlaying ? (
-                <IoMdPause size={25} onClick={handlePause} />
-              ) : (
-                <IoPlay size={25} onClick={handlePause} />
-              )}
-            </>
+        {/* action buttons */}
+        <div className='absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-5 xs:bottom-7 px-4 text-white'>
+          <>
+            {isPlaying ? (
+              <IoMdPause size={25} onClick={handlePause} />
+            ) : (
+              <IoPlay size={25} onClick={handlePause} />
+            )}
+          </>
 
-            <>
-              {isMute ? (
-                <HiVolumeOff size={25} onClick={handleMute} />
-              ) : (
-                <HiVolumeUp size={25} onClick={handleMute} />
-              )}
-            </>
-          </div>
+          <>
+            {isMute ? (
+              <HiVolumeOff size={25} onClick={handleMute} />
+            ) : (
+              <HiVolumeUp size={25} onClick={handleMute} />
+            )}
+          </>
         </div>
       </div>
     </div>

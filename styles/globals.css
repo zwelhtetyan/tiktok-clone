@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-sm bg-gray-200 hover:bg-gray-300 transition-all;
+}
+
 @layer components {
   .active-topic {
     @apply lg:border-secondary text-secondary bg-gray-200 lg:bg-transparent;

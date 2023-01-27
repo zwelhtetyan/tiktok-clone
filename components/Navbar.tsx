@@ -41,10 +41,13 @@ export default function Navbar() {
 
           {user && (
             <>
-              <button className='flex items-center border border-gray-300 bg-gray-200 rounded px-4 py-[5px] mr-2'>
+              <Link
+                href='/upload'
+                className='flex items-center border border-gray-300 bg-gray-200 rounded px-4 py-[5px] mr-2'
+              >
                 <CgMathPlus />
                 <p className='ml-2'>Upload</p>
-              </button>
+              </Link>
 
               <User />
             </>

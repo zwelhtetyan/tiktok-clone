@@ -32,8 +32,7 @@ export default {
       type: 'array',
       of: [
         {
-          type: 'reference',
-          to: [{type: 'user'}],
+          type: 'postedBy',
         },
       ],
     },

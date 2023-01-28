@@ -36,7 +36,7 @@ export default function Home({ videos }: Props) {
       </Head>
 
       <div className='h-[calc(100vh-90px)] overflow-hidden overflow-y-auto'>
-        {videos.map((video) => (
+        {videos?.map((video) => (
           <VideoItem
             key={video._id}
             video={video}

@@ -9,7 +9,7 @@ export default function Navbar() {
   const { data: user } = useSession();
 
   return (
-    <nav className='shadow'>
+    <nav className='border-b border-b-[rgba(34,90,89,0.2)]'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
         <Link href='/'>
           <Image
@@ -54,10 +54,7 @@ export default function Navbar() {
           )}
 
           {!user && (
-            <button
-              onClick={() => signIn('google')}
-              className='bg-primary text-white rounded px-4 py-[5px]'
-            >
+            <button onClick={() => signIn('google')} className='btn-primary'>
               Login
             </button>
           )}

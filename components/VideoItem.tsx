@@ -74,10 +74,7 @@ export default function VideoItem({
 
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
-      <div
-        onClick={handlePause}
-        className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[490px] bg-black max-w-[280px] flex items-center overflow-hidden cursor-pointer'
-      >
+      <div className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[490px] bg-black max-w-[280px] flex items-center overflow-hidden cursor-pointer'>
         <video
           ref={videoRef}
           src={video.asset.url}

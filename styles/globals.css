@@ -18,4 +18,8 @@
   .active-topic {
     @apply lg:border-secondary text-secondary bg-gray-200 lg:bg-transparent;
   }
+
+  .btn-primary {
+    @apply bg-primary text-white rounded px-4 py-[5px];
+  }
 }

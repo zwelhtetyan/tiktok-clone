@@ -8,7 +8,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className='w-16 lg:w-full lg:max-w-sm pr-2 border-r border-r-gray-100 lg:pr-4 h-[calc(100vh-58px)] overflow-hidden overflow-y-auto'>
+    <aside className='w-16 lg:w-full lg:max-w-sm mr-2 lg:mr-4 pr-2 border-r border-r-gray-100 lg:pr-4 h-[calc(100vh-96px)] overflow-hidden overflow-y-auto'>
       <Link
         href='/'
         className={`${

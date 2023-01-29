@@ -35,7 +35,7 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='h-[calc(100vh-90px)] overflow-hidden overflow-y-auto'>
+      <div className='h-[calc(100vh-96px)] overflow-hidden overflow-y-auto'>
         {videos?.map((video) => (
           <VideoItem
             key={video._id}

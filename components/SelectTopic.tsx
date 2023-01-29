@@ -1,25 +1,23 @@
-import { Fragment, useState } from 'react';
+import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { VscCheck } from 'react-icons/vsc';
 import { HiChevronUpDown } from 'react-icons/hi2';
+import { topics } from '../utils/constants';
 
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
-];
+interface SelectedTopicProps {
+  selectedTopic: { name: string; icon: ReactNode };
+  setSelectedTopic: (parm: any) => void;
+}
 
-export default function SelectTopic() {
-  const [selected, setSelected] = useState(people[0]);
-
+export default function SelectTopic({
+  selectedTopic,
+  setSelectedTopic,
+}: SelectedTopicProps) {
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selectedTopic} onChange={setSelectedTopic}>
       <div className='relative mt-1'>
         <Listbox.Button className='relative w-full rounded-lg py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
-          <span className='block truncate'>{selected.name}</span>
+          <span className='block truncate'>{selectedTopic.name}</span>
           <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
             <HiChevronUpDown
               className='h-5 w-5 text-gray-400'
@@ -34,16 +32,16 @@ export default function SelectTopic() {
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Listbox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-            {people.map((person, personIdx) => (
+          <Listbox.Options className='absolute mt-1 max-h-52 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+            {topics.map((topic, idx) => (
               <Listbox.Option
-                key={personIdx}
+                key={idx}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
-                    active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                    active ? 'bg-pink-200' : 'text-gray-900'
                   }`
                 }
-                value={person}
+                value={topic}
               >
                 {({ selected }) => (
                   <>
@@ -52,10 +50,10 @@ export default function SelectTopic() {
                         selected ? 'font-medium' : 'font-normal'
                       }`}
                     >
-                      {person.name}
+                      {topic.name}
                     </span>
                     {selected ? (
-                      <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600'>
+                      <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-primary'>
                         <VscCheck
                           size={20}
                           className='h-5 w-5'

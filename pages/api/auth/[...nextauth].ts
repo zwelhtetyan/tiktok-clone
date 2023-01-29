@@ -2,6 +2,7 @@ import axios from 'axios';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { User } from '../../../types';
+import { client } from '../../../utils/client';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -20,7 +21,7 @@ export default NextAuth({
         image: token?.picture!,
       };
 
-      await axios.post('http://localhost:3000/api/auth', userInfo);
+      await client.createIfNotExists(userInfo);
       return userInfo;
     },
   },

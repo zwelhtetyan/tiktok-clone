@@ -6,7 +6,7 @@ import { signIn, useSession } from 'next-auth/react';
 import User from './User';
 
 export default function Navbar() {
-  const { data: user } = useSession();
+  const { data: user }: any = useSession();
 
   return (
     <nav className='border-b border-b-[rgba(34,90,89,0.2)]'>
@@ -35,7 +35,7 @@ export default function Navbar() {
         </div>
 
         <div className='flex items-center'>
-          <button className='rounded-full flex md:hidden items-center px-[5px] py-[5px] border bg-gray-200 text-gray-500 mx-2'>
+          <button className='btn-secondary rounded-full flex md:hidden items-center p-[5px] text-gray-500 mx-2'>
             <IoSearchOutline size={23} />
           </button>
 
@@ -43,7 +43,7 @@ export default function Navbar() {
             <>
               <Link
                 href='/upload'
-                className='flex items-center border border-gray-300 bg-gray-200 rounded px-4 py-[5px] mr-2'
+                className='btn-secondary flex items-center mr-2'
               >
                 <CgMathPlus />
                 <p className='ml-2'>Upload</p>

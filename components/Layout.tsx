@@ -18,7 +18,7 @@ export default function Layout({ children }: Props) {
       <main className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-64px)] overflow-hidden'>
         {homeRoute && <Sidebar />}
 
-        <div className='w-full pl-2 lg:pl-4'>{children}</div>
+        <div className='w-full'>{children}</div>
       </main>
     </>
   );

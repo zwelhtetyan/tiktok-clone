@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
 
 export default function User() {
-  const { data: user } = useSession();
+  const { data: user }: any = useSession();
 
   return (
     <Menu as='div' className='relative inline-block w-11 xs:w-12 h-11 xs:h-12'>

@@ -6,4 +6,5 @@ export const client = createClient({
   apiVersion: '2023-01-22',
   useCdn: false,
   token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
+  ignoreBrowserTokenWarning: true,
 });

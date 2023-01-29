@@ -22,7 +22,7 @@
 
 @layer components {
   .active-topic {
-    @apply lg:border-secondary text-secondary bg-gray-200 lg:bg-transparent;
+    @apply lg:border-primary text-primary bg-gray-200 lg:bg-transparent;
   }
 
   .btn-primary {

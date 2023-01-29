@@ -21,7 +21,7 @@ function Topic({ topic }: TopicProp) {
         topic.name === activeTopic
           ? 'active-topic'
           : 'border-gray-200 hover:bg-gray-200 hover:border-gray-300'
-      } rounded-full flex items-center px-3 py-3 lg:py-2 border
+      } rounded-full flex items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border
       `}
     >
       {topic.icon} <p className='ml-2 hidden lg:block'>{topic.name}</p>

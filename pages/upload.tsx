@@ -184,6 +184,7 @@ export default function Upload() {
             </div>
           </div>
 
+          {/* mobile layout */}
           <div className='mt-12 flex md:hidden items-center justify-center gap-4'>
             <button onClick={handleDiscard} className='btn-secondary py-2 w-36'>
               Discard

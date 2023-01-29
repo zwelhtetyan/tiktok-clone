@@ -4,6 +4,8 @@ import { CgMathPlus } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';
 import { signIn, useSession } from 'next-auth/react';
 import User from './User';
+import LogoLight from '../utils/LogoLight';
+import LogoDark from '../utils/LogoDark';
 
 export default function Navbar() {
   const { data: user }: any = useSession();
@@ -12,14 +14,7 @@ export default function Navbar() {
     <nav className='border-b border-b-[rgba(34,90,89,0.2)]'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
         <Link href='/'>
-          <Image
-            src='/tiktik-logo.png'
-            width={200}
-            height={200}
-            priority
-            alt='logo'
-            className='w-28 xs:w-32'
-          />
+          <LogoLight />
         </Link>
 
         <div className='hidden md:flex items-center bg-gray-100 rounded-full overflow-hidden border border-transparent focus-within:border-gray-300 focus-within:bg-gray-200'>
@@ -35,11 +30,7 @@ export default function Navbar() {
         </div>
 
         <div className='flex items-center'>
-          <button className='btn-secondary rounded-full flex md:hidden items-center p-[5px] text-gray-500 mx-2'>
-            <IoSearchOutline size={23} />
-          </button>
-
-          {user && (
+          {user ? (
             <>
               <Link
                 href='/upload'
@@ -51,9 +42,7 @@ export default function Navbar() {
 
               <User />
             </>
-          )}
-
-          {!user && (
+          ) : (
             <button onClick={() => signIn('google')} className='btn-primary'>
               Login
             </button>

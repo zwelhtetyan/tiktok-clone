@@ -2,9 +2,14 @@ import { Fragment } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
+import { IoIosLogOut, IoMdMoon } from 'react-icons/io';
+import { MdWbSunny } from 'react-icons/md';
+import useThemeStore from '../store/theme';
+import themeToggler from '../utils/themeToggler';
 
 export default function User() {
   const { data: user }: any = useSession();
+  const { theme, setTheme } = useThemeStore();
 
   return (
     <Menu as='div' className='relative inline-block w-11 xs:w-12 h-11 xs:h-12'>
@@ -35,11 +40,17 @@ export default function User() {
             <Menu.Item>
               {({ active }) => (
                 <button
+                  onClick={() => themeToggler(setTheme)}
                   className={`${
                     active && 'bg-gray-200'
-                  } text-gray-800 group flex w-full items-center rounded-md px-2 py-2`}
+                  } text-gray-800 group flex justify-between w-full items-center rounded-md px-2 py-2`}
                 >
-                  Dark Mode
+                  <p>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>
+                  {theme === 'dark' ? (
+                    <MdWbSunny size={20} />
+                  ) : (
+                    <IoMdMoon size={20} />
+                  )}
                 </button>
               )}
             </Menu.Item>
@@ -48,10 +59,11 @@ export default function User() {
                 <button
                   className={`${
                     active && 'bg-gray-200'
-                  } text-gray-800 group flex w-full items-center rounded-md px-2 py-2`}
+                  } text-gray-800 group flex justify-between w-full items-center rounded-md px-2 py-2`}
                   onClick={() => signOut()}
                 >
-                  Log out
+                  <p>Log out</p>
+                  <IoIosLogOut size={20} />
                 </button>
               )}
             </Menu.Item>

@@ -6,16 +6,17 @@ import { signIn, useSession } from 'next-auth/react';
 import User from './User';
 import LogoLight from '../utils/LogoLight';
 import LogoDark from '../utils/LogoDark';
+import useThemeStore from '../store/theme';
 
 export default function Navbar() {
   const { data: user }: any = useSession();
 
+  const { theme } = useThemeStore();
+
   return (
-    <nav className='border-b border-b-[rgba(34,90,89,0.2)]'>
+    <nav className='border-b border-b-[rgba(34,90,89,0.2)] dark:bg-black'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
-        <Link href='/'>
-          <LogoLight />
-        </Link>
+        <Link href='/'>{theme === 'dark' ? <LogoDark /> : <LogoLight />}</Link>
 
         <div className='hidden md:flex items-center bg-gray-100 rounded-full overflow-hidden border border-transparent focus-within:border-gray-300 focus-within:bg-gray-200'>
           <input

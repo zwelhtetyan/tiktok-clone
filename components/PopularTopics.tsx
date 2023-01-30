@@ -20,8 +20,8 @@ function Topic({ topic }: TopicProp) {
       className={`${
         topic.name === activeTopic
           ? 'active-topic'
-          : 'border-gray-200 dark:border-gray-600 dark:text-white dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
-      } rounded-full flex items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border
+          : 'border-gray-200 dark:text-white dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
+      } rounded-full flex items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
       `}
     >
       {topic.icon} <p className='ml-2 hidden lg:block'>{topic.name}</p>

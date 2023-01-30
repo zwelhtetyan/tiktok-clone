@@ -14,10 +14,10 @@ export default function Sidebar() {
         href='/'
         className={`${
           router.asPath === '/' &&
-          'text-primary dark:text-primary bg-gray-200 lg:bg-transparent'
+          'text-primary dark:text-primary bg-gray-200 dark:bg-black dark:border dark:border-darkSecondary lg:bg-transparent'
         } inline-block lg:flex items-center px-3 py-3 lg:py-2 rounded-full lg:rounded-sm text-xl dark:text-white font-bold hover:bg-gray-200 dark:hover:bg-darkBtnHover`}
       >
-        <RiHomeSmileFill size={23} />
+        <RiHomeSmileFill size={22} />
         <p className='ml-2 hidden lg:block'>For You</p>
       </Link>
 
@@ -25,8 +25,8 @@ export default function Sidebar() {
         className={`${
           false
             ? 'active-topic'
-            : 'border-gray-200 hover:bg-gray-200 hover:border-gray-300'
-        } rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border
+            : 'border-gray-200 dark:text-white dark:bg-darkBtn hover:border-gray-300'
+        } rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
 
         `}
       >

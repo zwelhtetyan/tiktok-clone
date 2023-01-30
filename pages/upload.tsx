@@ -88,11 +88,11 @@ export default function Upload() {
         <title>Upload | Tik Tik</title>
       </Head>
 
-      <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto'>
-        <div className='border shadow-sm max-w-4xl mx-auto p-6 rounded-lg mb-4 xs:mb-0 overflow-hidden'>
+      <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto dark:text-white'>
+        <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-6 rounded-lg mb-4 xs:mb-0 overflow-hidden'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>
-            <p className='text-[rgba(22,24,35,0.5)]'>
+            <p className='text-[rgba(22,24,35,0.5)] dark:text-gray-400'>
               Post a video to your account
             </p>
           </div>
@@ -101,9 +101,11 @@ export default function Upload() {
             {/* left */}
             <label
               htmlFor='video'
-              className={`${isUploading ? 'bg-gray-100' : ''} ${
+              className={`${
+                isUploading ? 'bg-gray-100 dark:bg-darkBtnHover' : ''
+              } ${
                 videoAsset ? 'p-0 bg-black border-none' : 'p-4'
-              } flex flex-col items-center justify-center w-[260px] h-[458px] rounded-lg border-2 border-dashed border-gray-300 text-[rgba(22,24,35,0.5)] cursor-pointer hover:border-primary transition-all`}
+              } flex flex-col items-center justify-center w-[260px] h-[458px] rounded-lg border-2 border-dashed border-gray-300 hover:border-primary text-gray-500 cursor-pointer transition-all`}
             >
               {videoAsset ? (
                 <video
@@ -125,7 +127,7 @@ export default function Upload() {
                   <div className='flex justify-center text-gray-300'>
                     <FaCloudUploadAlt size={45} />
                   </div>
-                  <h3 className='font-semibold text-lg mb-6 text-black'>
+                  <h3 className='font-semibold text-lg mb-6 text-black dark:text-white'>
                     Select video to upload
                   </h3>
                   <p className='mb-2 text-sm'>MP4 or WebM</p>
@@ -156,7 +158,7 @@ export default function Upload() {
                 onChange={(e) => setCaption(e.target.value)}
                 type='text'
                 id='caption'
-                className='block shadow-md outline-none w-full rounded-lg py-3 px-3'
+                className='block border shadow-md outline-none w-full rounded-lg py-2 px-3 dark:bg-transparent dark:border-darkBorder'
               />
 
               <p className='mb-2 mt-6 font-semibold'>Choose a topic</p>
@@ -175,7 +177,7 @@ export default function Upload() {
 
                 <button
                   onClick={handleUpload}
-                  className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border disabled:border-gray-200'
+                  className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
                   disabled={!caption || !selectedTopic || !videoAsset}
                 >
                   {isPosting ? 'Posting...' : 'Post'}
@@ -192,7 +194,7 @@ export default function Upload() {
 
             <button
               onClick={handleUpload}
-              className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border disabled:border-gray-200'
+              className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
               disabled={!caption || !selectedTopic || !videoAsset}
             >
               {isPosting ? 'Posting...' : 'Post'}

@@ -23,6 +23,8 @@ export default function App({
       document.documentElement.classList.remove('dark');
       setTheme('');
     }
+
+    document.body.classList.add('dark:bg-dark');
   }, [setTheme]);
 
   return (

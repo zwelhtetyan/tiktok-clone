@@ -18,6 +18,11 @@ module.exports = {
 
       colors: {
         primary: 'rgb(254 44 85)',
+        dark: '#121212',
+        darkSecondary: '#2F2F2F',
+        darkBorder: 'rgb(255,255,255,.12)',
+        darkBtn: 'rgba(255,255,255,0.08)',
+        darkBtnHover: 'rgb(255,255,255,.04)',
       },
     },
   },

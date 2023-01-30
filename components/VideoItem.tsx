@@ -55,7 +55,7 @@ export default function VideoItem({
   }, []);
 
   return (
-    <div className='pb-6 mb-6 border-b border-b-gray-100'>
+    <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
       <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
         <Image
           src={postedBy.image}

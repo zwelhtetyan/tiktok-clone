@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 hidden xs:block;
+  @apply bg-transparent hidden xs:block;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-sm bg-gray-200 hover:bg-gray-300 transition-all hidden xs:block;
+  @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all hidden xs:block;
 }
 
 @layer base {
@@ -30,6 +30,6 @@
   }
 
   .btn-secondary {
-    @apply border border-gray-300 bg-gray-200 rounded px-4 py-[5px] hover:border-gray-400/50;
+    @apply border border-gray-300 dark:border-[rgb(22,24,35,0.12)] bg-gray-200 dark:bg-darkBtn dark:text-white rounded px-4 py-[5px] hover:border-gray-400/50 dark:hover:bg-darkBtnHover;
   }
 }

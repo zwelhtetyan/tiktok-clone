@@ -14,7 +14,7 @@ export default function Sidebar() {
         href='/'
         className={`${
           router.asPath === '/' &&
-          'text-primary dark:text-primary bg-gray-200 dark:bg-black dark:border dark:border-darkSecondary lg:bg-transparent'
+          'text-primary dark:text-primary bg-gray-200 dark:bg-black dark:border dark:border-darkSecondary dark:lg:border-transparent lg:bg-transparent'
         } inline-block lg:flex items-center px-3 py-3 lg:py-2 rounded-full lg:rounded-sm text-xl dark:text-white font-bold hover:bg-gray-200 dark:hover:bg-darkBtnHover`}
       >
         <RiHomeSmileFill size={22} />

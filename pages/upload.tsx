@@ -12,6 +12,8 @@ interface Event<T = EventTarget> {
   target: T;
 }
 
+const noTopic = { name: '', icon: '' };
+
 export default function Upload() {
   const { data: user }: any = useSession();
   const router = useRouter();
@@ -21,7 +23,7 @@ export default function Upload() {
   );
 
   const [caption, setCaption] = useState('');
-  const [selectedTopic, setSelectedTopic] = useState(topics[0]);
+  const [selectedTopic, setSelectedTopic] = useState(noTopic);
   const [isUploading, setIsUploading] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
 
@@ -48,7 +50,7 @@ export default function Upload() {
   }
 
   async function handleUpload() {
-    if (!caption || !selectedTopic || !videoAsset) return;
+    if (!caption || !videoAsset) return;
 
     setIsPosting(true);
 
@@ -78,7 +80,7 @@ export default function Upload() {
   function handleDiscard() {
     setVideoAsset(null);
     setCaption('');
-    setSelectedTopic(topics[0]);
+    setSelectedTopic(noTopic);
     setIsPosting(false);
   }
 
@@ -195,7 +197,7 @@ export default function Upload() {
             <button
               onClick={handleUpload}
               className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
-              disabled={!caption || !selectedTopic || !videoAsset}
+              disabled={!caption || !videoAsset}
             >
               {isPosting ? 'Posting...' : 'Post'}
             </button>

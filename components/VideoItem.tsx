@@ -32,27 +32,27 @@ export default function VideoItem({
     }
   };
 
-  useEffect(() => {
-    const videoElem = videoRef.current!;
+  // useEffect(() => {
+  //   const videoElem = videoRef.current!;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          videoElem.play();
-          setIsPlaying(true);
-        } else {
-          videoElem.pause();
-          videoElem.currentTime = 0;
-          setIsPlaying(false);
-        }
-      },
-      { threshold: 0.5 }
-    );
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         videoElem.play();
+  //         setIsPlaying(true);
+  //       } else {
+  //         videoElem.pause();
+  //         videoElem.currentTime = 0;
+  //         setIsPlaying(false);
+  //       }
+  //     },
+  //     { threshold: 0.5 }
+  //   );
 
-    observer.observe(videoElem);
+  //   observer.observe(videoElem);
 
-    return () => observer.unobserve(videoElem);
-  }, []);
+  //   return () => observer.unobserve(videoElem);
+  // }, []);
 
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
@@ -74,7 +74,7 @@ export default function VideoItem({
 
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
-      <div className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[490px] bg-black max-w-[280px] flex items-center overflow-hidden cursor-pointer'>
+      <div className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[480px] bg-black max-w-[270px] flex items-center overflow-hidden cursor-pointer'>
         <video
           ref={videoRef}
           src={video.asset.url}

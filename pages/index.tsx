@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { Video } from '../types';
 import VideoItem from '../components/VideoItem';
 import { MouseEvent, useEffect, useState } from 'react';
+import { pauseAllVideo } from '../utils/pauseAllVideo';
 
 interface Props {
   videos: Video[];
@@ -29,14 +30,6 @@ export default function Home({ videos }: Props) {
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
 
-    function pauseAllVideo() {
-      videoElems.forEach((elem) => {
-        const videoTag = elem as HTMLVideoElement;
-        videoTag.pause();
-        videoTag.currentTime = 0;
-      });
-    }
-
     let CURRENT_ID = 1;
 
     const observer = new IntersectionObserver(
@@ -53,7 +46,7 @@ export default function Home({ videos }: Props) {
 
             currentVideo.play();
           } else {
-            pauseAllVideo();
+            pauseAllVideo(videoElems);
 
             CURRENT_ID++;
             const id = CURRENT_ID.toString();
@@ -61,7 +54,7 @@ export default function Home({ videos }: Props) {
             videoToPlay.play();
           }
         } else if (+selectedVideo.id < CURRENT_ID) {
-          pauseAllVideo();
+          pauseAllVideo(videoElems);
 
           CURRENT_ID--;
           const id = CURRENT_ID.toString();

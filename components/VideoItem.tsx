@@ -3,7 +3,10 @@ import { Video } from '../types';
 import { IoMdPause } from 'react-icons/io';
 import { IoPlay } from 'react-icons/io5';
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
+import { pauseAllVideo } from '../utils/pauseAllVideo';
+import { updateActionBtn } from '../utils/updateActionBtn';
+
 interface Props {
   video: Video;
   isMute: boolean;
@@ -19,42 +22,20 @@ export default function VideoItem({
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const [isPlaying, setIsPlaying] = useState(true);
-
   const handlePause = (e: MouseEvent) => {
     e.stopPropagation();
     const videoElem = videoRef.current!;
 
     if (!videoElem.paused) {
       videoElem.pause();
-      setIsPlaying(false);
+      updateActionBtn(id.toString(), true);
     } else {
+      const videoElems = document.querySelectorAll('.video');
+      pauseAllVideo(videoElems, false);
       videoElem.play();
-      setIsPlaying(true);
+      updateActionBtn(id.toString());
     }
   };
-
-  // useEffect(() => {
-  //   const videoElem = videoRef.current!;
-
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         videoElem.play();
-  //         setIsPlaying(true);
-  //       } else {
-  //         videoElem.pause();
-  //         videoElem.currentTime = 0;
-  //         setIsPlaying(false);
-  //       }
-  //     },
-  //     { threshold: 0.5 }
-  //   );
-
-  //   observer.observe(videoElem);
-
-  //   return () => observer.unobserve(videoElem);
-  // }, []);
 
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
@@ -87,13 +68,18 @@ export default function VideoItem({
         />
 
         {/* action buttons */}
-        <div className='absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-5 xs:bottom-7 px-4 text-white'>
+        <div
+          id={id.toString()}
+          className='action-btn-container absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-5 xs:bottom-7 px-4 text-white'
+        >
           <>
-            {isPlaying ? (
-              <IoMdPause size={25} onClick={handlePause} />
-            ) : (
-              <IoPlay size={25} onClick={handlePause} />
-            )}
+            <IoMdPause
+              size={25}
+              onClick={handlePause}
+              className='pause-btn hidden'
+            />
+
+            <IoPlay size={25} onClick={handlePause} className='play-btn' />
           </>
 
           <>

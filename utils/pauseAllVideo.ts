@@ -1,7 +1,10 @@
-export function pauseAllVideo(elements: NodeList) {
+export function pauseAllVideo(elements: NodeList, resetCurrentTime = true) {
   elements.forEach((elem) => {
     const videoTag = elem as HTMLVideoElement;
     videoTag.pause();
-    videoTag.currentTime = 0;
+
+    if (resetCurrentTime) {
+      videoTag.currentTime = 0;
+    }
   });
 }

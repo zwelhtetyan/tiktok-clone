@@ -4,6 +4,7 @@ import { Video } from '../types';
 import VideoItem from '../components/VideoItem';
 import { MouseEvent, useEffect, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
+import { updateActionBtn } from '../utils/updateActionBtn';
 
 interface Props {
   videos: Video[];
@@ -45,6 +46,7 @@ export default function Home({ videos }: Props) {
             ) as HTMLVideoElement;
 
             currentVideo.play();
+            updateActionBtn(id);
           } else {
             pauseAllVideo(videoElems);
 
@@ -52,6 +54,7 @@ export default function Home({ videos }: Props) {
             const id = CURRENT_ID.toString();
             const videoToPlay = document.getElementById(id) as HTMLVideoElement;
             videoToPlay.play();
+            updateActionBtn(id);
           }
         } else if (+selectedVideo.id < CURRENT_ID) {
           pauseAllVideo(videoElems);
@@ -60,6 +63,7 @@ export default function Home({ videos }: Props) {
           const id = CURRENT_ID.toString();
           const videoToPlay = document.getElementById(id) as HTMLVideoElement;
           videoToPlay.play();
+          updateActionBtn(id);
         }
       },
       { threshold: 0.5 }

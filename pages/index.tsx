@@ -29,6 +29,14 @@ export default function Home({ videos }: Props) {
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
 
+    function pauseAllVideo() {
+      videoElems.forEach((elem) => {
+        const videoTag = elem as HTMLVideoElement;
+        videoTag.pause();
+        videoTag.currentTime = 0;
+      });
+    }
+
     let CURRENT_ID = 1;
 
     const observer = new IntersectionObserver(
@@ -37,14 +45,15 @@ export default function Home({ videos }: Props) {
         const selectedVideo = selectedEntry.target as HTMLVideoElement;
 
         if (+selectedVideo.id === CURRENT_ID) {
-          const id = CURRENT_ID.toString();
-          const currentVideo = document.getElementById(id) as HTMLVideoElement;
-
           if (selectedEntry.isIntersecting) {
+            const id = CURRENT_ID.toString();
+            const currentVideo = document.getElementById(
+              id
+            ) as HTMLVideoElement;
+
             currentVideo.play();
           } else {
-            currentVideo.pause();
-            currentVideo.currentTime = 0;
+            pauseAllVideo();
 
             CURRENT_ID++;
             const id = CURRENT_ID.toString();
@@ -52,13 +61,7 @@ export default function Home({ videos }: Props) {
             videoToPlay.play();
           }
         } else if (+selectedVideo.id < CURRENT_ID) {
-          const currentId = CURRENT_ID.toString();
-          const currentVideo = document.getElementById(
-            currentId
-          ) as HTMLVideoElement;
-
-          currentVideo.pause();
-          currentVideo.currentTime = 0;
+          pauseAllVideo();
 
           CURRENT_ID--;
           const id = CURRENT_ID.toString();

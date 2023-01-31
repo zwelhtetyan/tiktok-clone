@@ -7,12 +7,14 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 interface Props {
   video: Video;
   isMute: boolean;
+  id: number;
   handleMute(e: MouseEvent): void;
 }
 
 export default function VideoItem({
   video: { postedBy, caption, video },
   isMute,
+  id,
   handleMute,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -81,6 +83,7 @@ export default function VideoItem({
           loop
           muted
           className='video w-full object-cover object-center'
+          id={id.toString()}
         />
 
         {/* action buttons */}

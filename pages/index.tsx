@@ -29,20 +29,42 @@ export default function Home({ videos }: Props) {
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
 
+    let CURRENT_ID = 1;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log(entries);
+        const selectedEntry = entries[0];
+        const selectedVideo = selectedEntry.target as HTMLVideoElement;
 
-        entries.forEach((entry) => {
-          const videoTag = entry.target as HTMLVideoElement;
+        if (+selectedVideo.id === CURRENT_ID) {
+          const id = CURRENT_ID.toString();
+          const currentVideo = document.getElementById(id) as HTMLVideoElement;
 
-          if (entry.isIntersecting) {
-            videoTag.play();
+          if (selectedEntry.isIntersecting) {
+            currentVideo.play();
           } else {
-            videoTag.pause();
-            videoTag.currentTime = 0;
+            currentVideo.pause();
+            currentVideo.currentTime = 0;
+
+            CURRENT_ID++;
+            const id = CURRENT_ID.toString();
+            const videoToPlay = document.getElementById(id) as HTMLVideoElement;
+            videoToPlay.play();
           }
-        });
+        } else if (+selectedVideo.id < CURRENT_ID) {
+          const currentId = CURRENT_ID.toString();
+          const currentVideo = document.getElementById(
+            currentId
+          ) as HTMLVideoElement;
+
+          currentVideo.pause();
+          currentVideo.currentTime = 0;
+
+          CURRENT_ID--;
+          const id = CURRENT_ID.toString();
+          const videoToPlay = document.getElementById(id) as HTMLVideoElement;
+          videoToPlay.play();
+        }
       },
       { threshold: 0.5 }
     );
@@ -62,9 +84,10 @@ export default function Home({ videos }: Props) {
       </Head>
 
       <div className='h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
-        {videos?.map((video) => (
+        {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}
+            id={idx + 1}
             video={video}
             isMute={isMute}
             handleMute={handleMute}

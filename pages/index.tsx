@@ -5,6 +5,7 @@ import VideoItem from '../components/VideoItem';
 import { MouseEvent, useEffect, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
+import useScroll from '../hooks/useScroll';
 
 interface Props {
   videos: Video[];
@@ -14,7 +15,7 @@ let CURRENT_ID = 1;
 
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
-  const [isScrollDown, setIsScrollDown] = useState(true);
+  const { ref, isScrollDown } = useScroll();
 
   const handleMute = (e: MouseEvent) => {
     e.stopPropagation();
@@ -30,27 +31,6 @@ export default function Home({ videos }: Props) {
       isMute ? (video.muted = true) : (video.muted = false);
     });
   }, [isMute]);
-
-  useEffect(() => {
-    const elem = document.querySelector('.video-container')!;
-    let current = 0;
-
-    function checkDirection() {
-      const scrollH = elem.scrollTop;
-
-      if (scrollH > current) {
-        setIsScrollDown(true);
-      } else {
-        setIsScrollDown(false);
-      }
-
-      current = scrollH;
-    }
-
-    elem.addEventListener('scroll', checkDirection, false);
-
-    return () => elem.removeEventListener('scroll', checkDirection, false);
-  }, []);
 
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
@@ -106,7 +86,10 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='video-container h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
+      <div
+        ref={ref}
+        className='h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'
+      >
         {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}

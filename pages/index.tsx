@@ -5,17 +5,13 @@ import VideoItem from '../components/VideoItem';
 import { MouseEvent, useEffect, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
-import useScroll from '../hooks/useScroll';
 
 interface Props {
   videos: Video[];
 }
 
-let CURRENT_ID = 1;
-
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
-  const { ref, isScrollDown } = useScroll();
 
   const handleMute = (e: MouseEvent) => {
     e.stopPropagation();
@@ -34,6 +30,25 @@ export default function Home({ videos }: Props) {
 
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
+    const elem = document.querySelector('.video-container')!;
+
+    let CURRENT_ID = 1;
+    let isScrollDown = true;
+    let current = 0;
+
+    function checkDirection() {
+      const scrollH = elem.scrollTop;
+
+      if (scrollH > current) {
+        isScrollDown = true;
+      } else {
+        isScrollDown = false;
+      }
+
+      current = scrollH;
+    }
+
+    elem.addEventListener('scroll', checkDirection);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -74,8 +89,11 @@ export default function Home({ videos }: Props) {
 
     videoElems.forEach((video) => observer.observe(video));
 
-    return () => videoElems.forEach((video) => observer.unobserve(video));
-  }, [isScrollDown]);
+    return () => {
+      videoElems.forEach((video) => observer.unobserve(video));
+      elem.removeEventListener('scroll', checkDirection);
+    };
+  }, []);
 
   return (
     <>
@@ -86,10 +104,7 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div
-        ref={ref}
-        className='h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'
-      >
+      <div className='video-container h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
         {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}

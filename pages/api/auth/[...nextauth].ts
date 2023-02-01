@@ -12,6 +12,7 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  secret: 'zwel',
   callbacks: {
     async session({ session, user, token }): Promise<any> {
       const userInfo: User = {

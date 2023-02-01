@@ -10,8 +10,11 @@ interface Props {
   videos: Video[];
 }
 
+let CURRENT_ID = 1;
+
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
+  const [isScrollDown, setIsScrollDown] = useState(true);
 
   const handleMute = (e: MouseEvent) => {
     e.stopPropagation();
@@ -29,41 +32,61 @@ export default function Home({ videos }: Props) {
   }, [isMute]);
 
   useEffect(() => {
-    const videoElems = document.querySelectorAll('.video');
+    const elem = document.querySelector('.video-container')!;
+    let current = 0;
 
-    let CURRENT_ID = 1;
+    function checkDirection() {
+      const scrollH = elem.scrollTop;
+
+      if (scrollH > current) {
+        setIsScrollDown(true);
+      } else {
+        setIsScrollDown(false);
+      }
+
+      current = scrollH;
+    }
+
+    elem.addEventListener('scroll', checkDirection, false);
+
+    return () => elem.removeEventListener('scroll', checkDirection, false);
+  }, []);
+
+  useEffect(() => {
+    const videoElems = document.querySelectorAll('.video');
 
     const observer = new IntersectionObserver(
       (entries) => {
+        // console.log({ entry: entries[0], CURRENT_ID });
+
         const selectedEntry = entries[0];
         const selectedVideo = selectedEntry.target as HTMLVideoElement;
 
-        if (+selectedVideo.id === CURRENT_ID) {
-          if (selectedEntry.isIntersecting) {
-            const id = CURRENT_ID.toString();
-            const currentVideo = document.getElementById(
-              id
-            ) as HTMLVideoElement;
+        if (!isScrollDown) {
+          if (+selectedVideo.id < CURRENT_ID && selectedEntry.isIntersecting) {
+            CURRENT_ID = +selectedVideo.id;
 
-            currentVideo.play();
-            updateActionBtn(id);
-          } else {
             pauseAllVideo(videoElems);
-
-            CURRENT_ID++;
-            const id = CURRENT_ID.toString();
-            const videoToPlay = document.getElementById(id) as HTMLVideoElement;
-            videoToPlay.play();
-            updateActionBtn(id);
+            selectedVideo.play();
+            updateActionBtn(selectedVideo.id);
           }
-        } else if (+selectedVideo.id < CURRENT_ID) {
-          pauseAllVideo(videoElems);
+        } else {
+          if (+selectedVideo.id === CURRENT_ID) {
+            if (selectedEntry.isIntersecting) {
+              selectedVideo.play();
+              updateActionBtn(selectedVideo.id);
+            } else {
+              CURRENT_ID++;
+              const id = CURRENT_ID.toString();
+              const videoToPlay = document.getElementById(
+                id
+              ) as HTMLVideoElement;
 
-          CURRENT_ID--;
-          const id = CURRENT_ID.toString();
-          const videoToPlay = document.getElementById(id) as HTMLVideoElement;
-          videoToPlay.play();
-          updateActionBtn(id);
+              pauseAllVideo(videoElems);
+              videoToPlay.play();
+              updateActionBtn(id);
+            }
+          }
         }
       },
       { threshold: 0.5 }
@@ -72,7 +95,7 @@ export default function Home({ videos }: Props) {
     videoElems.forEach((video) => observer.observe(video));
 
     return () => videoElems.forEach((video) => observer.unobserve(video));
-  }, []);
+  }, [isScrollDown]);
 
   return (
     <>
@@ -83,7 +106,7 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
+      <div className='video-container h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
         {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}

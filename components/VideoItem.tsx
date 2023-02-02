@@ -6,6 +6,7 @@ import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
 import { MouseEvent, useRef, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
+import Link from 'next/link';
 
 interface Props {
   video: Video;
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export default function VideoItem({
-  video: { postedBy, caption, video },
+  video: { _id: videoId, postedBy, caption, video },
   isMute,
   id,
   handleMute,
@@ -57,7 +58,10 @@ export default function VideoItem({
 
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
-      <div className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[480px] bg-black max-w-[270px] flex items-center overflow-hidden cursor-pointer'>
+      <Link
+        href={`detail/${videoId}`}
+        className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[480px] bg-black max-w-[270px] flex items-center overflow-hidden cursor-pointer'
+      >
         <video
           ref={videoRef}
           src={video.asset.url}
@@ -90,7 +94,7 @@ export default function VideoItem({
             )}
           </>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

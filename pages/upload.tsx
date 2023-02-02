@@ -4,7 +4,6 @@ import SelectTopic from '../components/SelectTopic';
 import { client } from '../utils/client';
 import { useState } from 'react';
 import { SanityAssetDocument } from '@sanity/client';
-import { topics } from '../utils/constants';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
@@ -87,7 +86,7 @@ export default function Upload() {
   return (
     <>
       <Head>
-        <title>Upload | Tik Tik</title>
+        <title>Upload | Tik Tok</title>
       </Head>
 
       <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto dark:text-white'>

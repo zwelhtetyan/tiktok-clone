@@ -5,6 +5,7 @@ import VideoItem from '../components/VideoItem';
 import { MouseEvent, useEffect, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
+import { ROOT_URL } from '../utils';
 
 interface Props {
   videos: Video[];
@@ -120,7 +121,7 @@ export default function Home({ videos }: Props) {
 }
 
 export async function getServerSideProps() {
-  const { data: videos } = await axios.get('http://localhost:3000/api/post');
+  const { data: videos } = await axios.get(`${ROOT_URL}/api/post`);
 
   return { props: { videos } };
 }

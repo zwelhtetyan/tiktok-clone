@@ -1,4 +1,6 @@
+import axios from 'axios';
 import Head from 'next/head';
+import Link from 'next/link';
 import React from 'react';
 
 export default function Detail() {
@@ -9,4 +11,12 @@ export default function Detail() {
       </Head>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const videoId: string = context.params.id;
+
+  // const {data} = axios.get(`${process.env.NEXT_PUBLIC_ROOT_URL}/`)
+
+  return { props: {} };
 }

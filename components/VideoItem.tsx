@@ -25,6 +25,7 @@ export default function VideoItem({
 
   const handlePause = (e: MouseEvent) => {
     e.stopPropagation();
+
     const videoElem = videoRef.current!;
 
     if (!videoElem.paused) {
@@ -59,7 +60,7 @@ export default function VideoItem({
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
       <Link
-        href={`detail/${videoId}`}
+        href={`/detail/${videoId}`}
         className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[480px] bg-black max-w-[270px] flex items-center overflow-hidden cursor-pointer'
       >
         <video

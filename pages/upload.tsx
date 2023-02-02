@@ -90,7 +90,7 @@ export default function Upload() {
       </Head>
 
       <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto dark:text-white'>
-        <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-6 rounded-lg mb-4 xs:mb-0 overflow-hidden'>
+        <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-4 xs:p-6 rounded-lg mb-10 xs:mb-0 overflow-hidden'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>
             <p className='text-[rgba(22,24,35,0.5)] dark:text-gray-400'>
@@ -188,7 +188,7 @@ export default function Upload() {
           </div>
 
           {/* mobile layout */}
-          <div className='mt-12 flex md:hidden items-center justify-center gap-4'>
+          <div className='mt-10 xs:mt-12 flex md:hidden items-center justify-center gap-4'>
             <button onClick={handleDiscard} className='btn-secondary py-2 w-36'>
               Discard
             </button>

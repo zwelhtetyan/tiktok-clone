@@ -7,6 +7,7 @@ import { MouseEvent, useRef, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface Props {
   video: Video;
@@ -21,6 +22,7 @@ export default function VideoItem({
   id,
   handleMute,
 }: Props) {
+  const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePause = (e: MouseEvent) => {
@@ -59,8 +61,8 @@ export default function VideoItem({
 
       <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
 
-      <Link
-        href={`/detail/${videoId}`}
+      <div
+        onClick={() => router.push(`/detail/${videoId}`)}
         className='group relative rounded-lg xs:ml-[60px] h-[470px] xs:h-[480px] bg-black max-w-[270px] flex items-center overflow-hidden cursor-pointer'
       >
         <video
@@ -95,7 +97,7 @@ export default function VideoItem({
             )}
           </>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

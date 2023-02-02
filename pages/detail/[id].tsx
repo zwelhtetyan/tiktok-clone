@@ -1,7 +1,15 @@
 import axios from 'axios';
 import Head from 'next/head';
+import { ROOT_URL } from '../../utils';
+import { Video } from '../../types';
 
-export default function Detail() {
+interface DetailProps {
+  videoDetail: Video;
+}
+
+export default function Detail({ videoDetail }: DetailProps) {
+  console.log(videoDetail);
+
   return (
     <>
       <Head>
@@ -11,10 +19,12 @@ export default function Detail() {
   );
 }
 
-export async function getServerSideProps(context: any) {
-  const videoId: string = context.params.id;
+export async function getServerSideProps({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const res = await axios.get(`${ROOT_URL}/api/post/${id}`);
 
-  // const {data} = axios.get(`${process.env.NEXT_PUBLIC_ROOT_URL}/`)
-
-  return { props: {} };
+  return { props: { videoDetail: res.data } };
 }

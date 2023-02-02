@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { SanityAssetDocument } from '@sanity/client';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import Layout from '../components/Layout';
 
 interface Event<T = EventTarget> {
   target: T;
@@ -84,7 +85,7 @@ export default function Upload() {
   }
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>Upload | Tik Tok</title>
       </Head>
@@ -203,6 +204,6 @@ export default function Upload() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }

@@ -25,7 +25,7 @@ export default function Sidebar() {
         className={`${
           false
             ? 'active-topic'
-            : 'border-gray-200 dark:text-white dark:bg-darkBtn hover:border-gray-300'
+            : 'border-gray-200 dark:text-white bg-gray-50 dark:bg-darkBtn hover:border-gray-300'
         } rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
 
         `}

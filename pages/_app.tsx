@@ -1,9 +1,8 @@
 import { SessionProvider } from 'next-auth/react';
-import Layout from '../components/Layout';
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import useThemeStore from '../store/theme';
+import '../styles/globals.css';
 
 export default function App({
   Component,
@@ -29,9 +28,7 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </SessionProvider>
   );
 }

@@ -13,7 +13,7 @@ export default function Detail({ videoDetail }: DetailProps) {
   return (
     <>
       <Head>
-        <title>video name | Tik Tok</title>
+        <title>{videoDetail.caption} | Tik Tok</title>
       </Head>
     </>
   );

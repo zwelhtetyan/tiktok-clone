@@ -23,7 +23,8 @@ export const allPostsQuery = () => {
       userName,
       image
     },
-    }
+    },
+    _createdAt
   }`;
 
   return query;

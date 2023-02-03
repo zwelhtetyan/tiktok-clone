@@ -8,6 +8,7 @@ import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { formatDate } from '../utils/formatDate';
 
 interface Props {
   video: Video;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export default function VideoItem({
-  video: { _id: videoId, postedBy, caption, video },
+  video: { _id: videoId, postedBy, caption, video, _createdAt },
   isMute,
   id,
   handleMute,
@@ -52,9 +53,12 @@ export default function VideoItem({
           className='w-12 h-12 xs:w-[52px] xs:h-[52px] rounded-full mr-2 xs:mr-3 p-[4px] duration-200 hover:bg-gray-200 dark:hover:bg-darkSecondary cursor-pointer'
         />
         <div>
-          <h2 className='font-bold mb-1 text-lg xs:text-base'>
+          <h2 className='font-bold text-lg xs:text-base leading-5 xs:leading-7'>
             {postedBy.userName}
           </h2>
+          <p className='xs:hidden text-gray-500 text-sm'>
+            {formatDate(_createdAt!)}
+          </p>
           <p className='max-w-md leading-[1.3rem] hidden xs:block'>{caption}</p>
         </div>
       </header>
@@ -70,7 +74,7 @@ export default function VideoItem({
           src={video.asset.url}
           loop
           muted
-          className='video w-full h-full'
+          className='video w-full object-cover object-center'
           id={id.toString()}
         />
 

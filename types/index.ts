@@ -27,6 +27,7 @@ export interface Video {
     };
   }[];
   userId: string;
+  _createdAt?: string;
 }
 
 export interface User {

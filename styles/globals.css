@@ -32,4 +32,8 @@
   .btn-secondary {
     @apply border border-gray-300 dark:border-[rgb(22,24,35,0.12)] bg-gray-200 dark:bg-darkBtn dark:text-white rounded px-4 py-[5px] hover:border-gray-400/50 dark:hover:bg-darkBtnHover;
   }
+
+  .reaction-btn {
+    @apply w-9 h-9 bg-[#7e7b7b5e] flex items-center justify-center rounded-full  hover:bg-[#5c59595e] mr-2;
+  }
 }

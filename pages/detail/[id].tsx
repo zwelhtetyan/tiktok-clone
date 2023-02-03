@@ -4,6 +4,7 @@ import { ROOT_URL } from '../../utils';
 import { Video } from '../../types';
 import { RxCross2 } from 'react-icons/rx';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface DetailProps {
   videoDetail: Video;
@@ -40,7 +41,19 @@ export default function Detail({ videoDetail }: DetailProps) {
           </div>
         </div>
 
-        <div className='w-[500px] h-screen border-l border-l- border-l-darkBorder'></div>
+        <div className='w-[500px] h-screen border-l border-l- border-l-darkBorder p-6'>
+          <header>
+            <div>
+              <Image
+                src={videoDetail.postedBy.image}
+                width={100}
+                height={100}
+                alt='profile_img'
+                className='w-12 h-12 xs:w-14 xs:h-14 rounded-full mr-2 xs:mr-3 p-[4px] duration-200 hover:bg-gray-200 dark:hover:bg-darkSecondary cursor-pointer'
+              />
+            </div>
+          </header>
+        </div>
       </div>
     </>
   );

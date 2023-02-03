@@ -49,7 +49,7 @@ export default function VideoItem({
           width={100}
           height={100}
           alt='profile_img'
-          className='w-10 h-10 xs:w-12 xs:h-12 rounded-full mr-2 xs:mr-3'
+          className='w-12 h-12 xs:w-[52px] xs:h-[52px] rounded-full mr-2 xs:mr-3 p-[4px] duration-200 hover:bg-gray-200 dark:hover:bg-darkSecondary cursor-pointer'
         />
         <div>
           <h2 className='font-bold mb-1 text-lg xs:text-base'>

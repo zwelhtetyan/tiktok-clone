@@ -12,7 +12,7 @@ interface Event<T = EventTarget> {
   target: T;
 }
 
-const noTopic = { name: '', icon: '' };
+const noTopic = { name: 'No Topic', icon: '' };
 
 export default function Upload() {
   const { data: user }: any = useSession();
@@ -69,7 +69,7 @@ export default function Upload() {
         _type: 'postedBy',
         _ref: user?._id,
       },
-      topic: selectedTopic.name,
+      topic: selectedTopic.name === 'No Topic' ? '' : selectedTopic.name,
     };
 
     await client.create(doc);

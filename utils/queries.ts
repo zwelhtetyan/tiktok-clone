@@ -53,7 +53,8 @@ export const postDetailQuery = (postId: string | string[]) => {
         _ref,
       _id,
     },
-    }
+    },
+    _createdAt
   }`;
   return query;
 };

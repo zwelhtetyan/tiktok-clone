@@ -70,7 +70,7 @@ export default function VideoItem({
           src={video.asset.url}
           loop
           muted
-          className='video w-full object-cover object-center'
+          className='video w-full h-full'
           id={id.toString()}
         />
 

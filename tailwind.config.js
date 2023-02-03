@@ -24,6 +24,11 @@ module.exports = {
         darkBtn: 'rgba(255,255,255,0.08)',
         darkBtnHover: 'rgb(255,255,255,.04)',
       },
+
+      backgroundImage: {
+        'img-blur-dark': 'url(/blur-dark.jpeg)',
+        'img-blur-light': 'url(/blur-light.jpg)',
+      },
     },
   },
   plugins: [],

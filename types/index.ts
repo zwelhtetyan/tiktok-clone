@@ -13,11 +13,7 @@ export interface Video {
     image: string;
   };
   likes: {
-    postedBy: {
-      _id: string;
-      userName: string;
-      image: string;
-    };
+    _ref: string;
   }[];
   comments: {
     comment: string;

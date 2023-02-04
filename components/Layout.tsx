@@ -9,6 +9,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   const { pathname } = useRouter();
+
   const homeRoute = pathname === '/';
 
   return (

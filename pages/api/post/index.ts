@@ -2,9 +2,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { allPostsQuery } from '../../../utils/queries';
 import { client } from '../../../utils/client';
+import { Video } from '../../../types';
 
 type Data = {
-  name: string;
+  data?: Video[];
+  message?: string;
 };
 
 export default async function handler(
@@ -17,5 +19,11 @@ export default async function handler(
     const data = await client.fetch(query);
 
     res.status(200).json(data);
+  } else if (req.method === 'POST') {
+    const doc = req.body;
+
+    await client.create(doc);
+
+    res.status(201).json({ message: 'Posted successfully' });
   }
 }

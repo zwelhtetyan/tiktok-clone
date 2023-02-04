@@ -2,9 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { postDetailQuery } from '../../../utils/queries';
 import { client } from '../../../utils/client';
+import { Video } from '../../../types';
 
 type Data = {
-  name: string;
+  data: Video;
 };
 
 export default async function handler(

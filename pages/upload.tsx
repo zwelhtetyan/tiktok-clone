@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import SelectTopic from '../components/SelectTopic';
 import { client } from '../utils/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SanityAssetDocument } from '@sanity/client';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
+import axios from 'axios';
+import { ROOT_URL } from '../utils';
 
 interface Event<T = EventTarget> {
   target: T;
@@ -21,7 +23,6 @@ export default function Upload() {
   const [videoAsset, setVideoAsset] = useState<SanityAssetDocument | null>(
     null
   );
-
   const [caption, setCaption] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(noTopic);
   const [isUploading, setIsUploading] = useState(false);
@@ -72,7 +73,7 @@ export default function Upload() {
       topic: selectedTopic.name === 'No Topic' ? '' : selectedTopic.name,
     };
 
-    await client.create(doc);
+    await axios.post(`${ROOT_URL}/api/post`, doc);
     router.push('/');
     setIsPosting(false);
   }
@@ -83,6 +84,12 @@ export default function Upload() {
     setSelectedTopic(noTopic);
     setIsPosting(false);
   }
+
+  useEffect(() => {
+    if (!user) {
+      router.back();
+    }
+  }, [user, router]);
 
   return (
     <Layout>

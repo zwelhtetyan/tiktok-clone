@@ -40,3 +40,10 @@ export const topics = [
     icon: <BiFootball size={20} />,
   },
 ];
+
+export const socialIcons = [
+  { icon: '/facebook.png' },
+  { icon: '/pinterest.png' },
+  { icon: '/twitter.png' },
+  { icon: '/whatsapp.png' },
+];

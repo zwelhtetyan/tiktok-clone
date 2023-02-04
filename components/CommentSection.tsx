@@ -116,13 +116,13 @@ export default function CommentSection({ videoDetail }: DetailProps) {
         </div>
 
         <div className='mt-6 w-full flex items-center h-9'>
-          <div className='h-full pl-2 pr-1 flex-1 dark:bg-darkSecondary text-sm rounded-l-md flex items-center overflow-hidden'>
+          <div className='h-full pl-2 pr-1 flex-1 bg-gray-100 dark:bg-darkSecondary text-sm rounded-l-md flex items-center overflow-hidden'>
             <p className='truncate'>{ROOT_URL + router.asPath}</p>
           </div>
 
           <button
             onClick={copyToClipboard}
-            className='h-full w-24 text-sm rounded-r-md dark:bg-darkBtn dark:hover:bg-darkBtnHover'
+            className='h-full w-24 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
           >
             {isCopied ? 'Copied' : 'Copy link'}
           </button>
@@ -135,7 +135,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
         <input
           placeholder='Add comment...'
           type='text'
-          className='flex-1 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
+          className='flex-1 bg-gray-200 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
         />
 
         <button

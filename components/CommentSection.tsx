@@ -85,14 +85,19 @@ export default function CommentSection({ videoDetail }: DetailProps) {
     );
 
     setIsCommenting(false);
+
     setPost((post) => ({
       ...post,
-      comments: [
-        ...post.comments,
-        updatedPost.comments[updatedPost.comments.length - 1],
-      ],
+      comments: post.comments
+        ? [
+            ...post.comments,
+            updatedPost.comments[updatedPost.comments.length - 1],
+          ]
+        : [updatedPost.comments[updatedPost.comments.length - 1]],
     }));
   }
+
+  console.log(post);
 
   async function handleDeleteComment(commentKey: string) {
     setIsDeletingCmt(true);

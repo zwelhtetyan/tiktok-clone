@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { socialIcons } from '../utils/constants';
 import { RiMessage2Fill } from 'react-icons/ri';
 import { BsHeartFill } from 'react-icons/bs';
@@ -27,6 +27,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [isCommenting, setIsCommenting] = useState(false);
   const [isDeletingCmt, setIsDeletingCmt] = useState(false);
   const [deletingCmtKey, setDeletingCmtKey] = useState('');
+
+  const showNewCmt = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
   const { data: user }: any = useSession();
@@ -113,13 +115,16 @@ export default function CommentSection({ videoDetail }: DetailProps) {
     }
   }
 
+  // scroll bottom to show last comment
+  useEffect(() => {
+    showNewCmt.current?.scrollIntoView();
+  }, [post]);
+
   useEffect(() => {
     const INTERVAL = setTimeout(() => setIsCopied(false), 1000);
 
     return () => clearInterval(INTERVAL);
   }, [isCopied]);
-
-  console.log(post);
 
   return (
     <div className='flex flex-col w-[500px] h-screen border-l dark:border-l-darkBorder'>
@@ -211,6 +216,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
           />
         ))}
+        <div ref={showNewCmt} className='w-0 h-0 opacity-0 apple' />
       </div>
 
       <div className='w-full px-6 py-4 border-t dark:border-t-darkBorder'>

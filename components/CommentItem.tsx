@@ -29,7 +29,7 @@ export default function CommentItem({
     <div className='flex items-start mb-4'>
       <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-[52px] xs:h-[52px]' />
       <div className='flex-1 flex items-start justify-between'>
-        <div className='flex-1'>
+        <div className='flex-1 pr-2'>
           <h2 className='font-semibold leading-6'>
             {userName}
             {isCreator && (

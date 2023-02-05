@@ -1,25 +1,22 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { signIn } from 'next-auth/react';
-import { Fragment, useState } from 'react';
-import { BsHeartFill } from 'react-icons/bs';
+import { Dispatch, Fragment, memo, useState } from 'react';
 
-export default function NotLogin() {
-  let [isOpen, setIsOpen] = useState(false);
+interface Props {
+  bool?: boolean;
+  setShowLogin: (bool: boolean) => void;
+}
+
+export default memo(function NotLogin({ bool, setShowLogin }: Props) {
+  let [isOpen, setIsOpen] = useState(bool ?? false);
 
   function closeModal() {
+    setShowLogin(false);
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
   }
 
   return (
     <>
-      <button className='reaction-btn' onClick={openModal}>
-        <BsHeartFill size={18} />
-      </button>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={closeModal}>
           <Transition.Child
@@ -79,4 +76,4 @@ export default function NotLogin() {
       </Transition>
     </>
   );
-}
+});

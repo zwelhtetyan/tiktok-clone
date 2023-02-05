@@ -51,8 +51,9 @@ export const postDetailQuery = (postId: string | string[]) => {
       comment,
       _key,
       postedBy->{
-        _ref,
       _id,
+      userName,
+      image
     },
     },
     _createdAt

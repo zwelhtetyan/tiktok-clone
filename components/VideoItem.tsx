@@ -9,6 +9,7 @@ import { updateActionBtn } from '../utils/updateActionBtn';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { formatDate } from '../utils/formatDate';
+import UserProfile from './UserProfile';
 
 interface Props {
   video: Video;
@@ -45,12 +46,9 @@ export default function VideoItem({
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
       <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
-        <Image
+        <UserProfile
           src={postedBy.image}
-          width={100}
-          height={100}
-          alt='profile_img'
-          className='w-12 h-12 xs:w-[52px] xs:h-[52px] rounded-full mr-2 xs:mr-3 p-[4px] duration-200 hover:bg-gray-200 dark:hover:bg-darkSecondary cursor-pointer'
+          className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
         />
         <div>
           <h2 className='font-bold text-lg xs:text-base leading-5 xs:leading-7'>

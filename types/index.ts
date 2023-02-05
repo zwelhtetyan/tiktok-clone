@@ -19,7 +19,10 @@ export interface Video {
     comment: string;
     _key: string;
     postedBy: {
-      _ref: string;
+      _ref?: string;
+      _id?: string;
+      userName?: string;
+      image?: string;
     };
   }[];
   userId: string;

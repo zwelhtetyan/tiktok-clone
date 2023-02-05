@@ -1,4 +1,3 @@
-import Spinner from '../utils/Spinner';
 import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
@@ -25,6 +24,10 @@ export default function CommentItem({
   deletingCmtKey,
   isCommentCreator,
 }: Props) {
+  function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
+
   return (
     <div className='group flex items-start mb-4'>
       <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
@@ -33,7 +36,7 @@ export default function CommentItem({
           <h2 className='font-semibold leading-6'>
             {userName}
             {isCreator && (
-              <span className='font-bold text-primary'>
+              <span className='font-bold text-sm text-primary'>
                 <span className='ml-[4px] text-black dark:text-white text-sm'>
                   •
                 </span>{' '}
@@ -47,12 +50,14 @@ export default function CommentItem({
         <div className='w-9'>
           {isDeletingCmt && _key === deletingCmtKey ? (
             <div className='w-9 h-9 rounded-full flex items-center justify-center'>
-              <Spinner />
+              <div className='spinner' />
             </div>
           ) : isCommentCreator ? (
             <div
               onClick={handleDeleteComment}
-              className='reaction-btn text-red-600 cursor-pointer hidden group-hover:flex'
+              className={`${
+                isTouchDevice() ? 'flex' : 'hidden'
+              } reaction-btn text-red-600 cursor-pointer group-hover:flex`}
             >
               <AiTwotoneDelete size={20} />
             </div>

@@ -26,7 +26,8 @@ module.exports = {
       },
 
       backgroundImage: {
-        'img-blur': 'url(/img-blur.jpeg)',
+        'img-blur-light': 'url(/blur-img-light.jpg)',
+        'img-blur-dark': 'url(/blur-img-dark.jpeg)',
       },
     },
   },

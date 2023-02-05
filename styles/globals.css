@@ -7,17 +7,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent hidden xs:block;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all hidden xs:block;
-}
-
-@layer base {
-  body {
-    @apply overflow-hidden;
-  }
+  @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all;
 }
 
 @layer components {
@@ -35,5 +29,9 @@
 
   .reaction-btn {
     @apply w-9 h-9 bg-gray-100 dark:bg-[#7e7b7b5e] flex items-center justify-center rounded-full hover:bg-gray-200  dark:hover:bg-[#5c59595e];
+  }
+
+  .spinner {
+    @apply animate-spin h-6 w-6 rounded-full border-2 border-l-primary border-b-primary dark:border-darkBorder dark:border-l-primary dark:border-b-primary;
   }
 }

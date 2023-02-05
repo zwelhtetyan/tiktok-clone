@@ -12,7 +12,6 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import UserProfile from './UserProfile';
 import CommentItem from './CommentItem';
-import Spinner from '../utils/Spinner';
 
 interface DetailProps {
   videoDetail: Video;
@@ -132,9 +131,10 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   }, [isCopied]);
 
   return (
-    <div className='flex flex-col w-[500px] h-screen border-l dark:border-l-darkBorder'>
+    <div className='flex flex-col w-full max-w-3xl mx-auto lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>
       {showLogin && <NotLogin bool setShowLogin={setShowLogin} />}
-      <header className='p-6 border-b dark:border-b-darkBorder'>
+
+      <header className='p-4 lg:p-6 border-b dark:border-b-darkBorder'>
         <div className='w-full flex items-center justify-between mb-2'>
           <div className='flex items-center'>
             <UserProfile
@@ -146,7 +146,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
               <h2 className='text-lg font-bold leading-6'>
                 {post.postedBy.userName}
               </h2>
-              <p className='text-gray-500 text-sm'>
+              <p className='text-gray-400 text-sm'>
                 {formatDate(post._createdAt!)}
               </p>
             </div>
@@ -157,11 +157,11 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
         <div className='mt-6 flex items-center justify-between'>
           <div className='flex items-center'>
-            <div className='flex items-center mr-6 text-sm'>
+            <div className='flex items-center mr-4 md:mr-6 text-sm'>
               <button
                 onClick={handleLike}
                 disabled={liking}
-                className={`reaction-btn mr-2 ${
+                className={`reaction-btn mr-1 md:mr-2 ${
                   isAlreadyLike ? 'text-primary' : ''
                 }`}
               >
@@ -171,7 +171,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
               {post.likes?.length || 0}
             </div>
             <div className='flex items-center text-sm'>
-              <button className='reaction-btn mr-2'>
+              <button className='reaction-btn mr-1 md:mr-2'>
                 <RiMessage2Fill size={18} />
               </button>
               {post.comments?.length || 0}
@@ -199,14 +199,14 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
           <button
             onClick={copyToClipboard}
-            className='h-full w-24 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
+            className='h-full w-20 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
           >
             {isCopied ? 'Copied' : 'Copy link'}
           </button>
         </div>
       </header>
 
-      <div className='flex-1 p-6 overflow-hidden overflow-y-auto'>
+      <div className='flex-1 max-h-[400px] lg:max-h-[unset] p-4 lg:p-6 overflow-hidden overflow-y-auto'>
         {post.comments?.map((cmt) => (
           <CommentItem
             key={cmt._key}
@@ -224,7 +224,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
         <div ref={showNewCmt} className='w-0 h-0 opacity-0 apple' />
       </div>
 
-      <div className='w-full px-6 py-4 border-t dark:border-t-darkBorder'>
+      <div className='w-full p-4 lg:px-6 py-4 border-t dark:border-t-darkBorder'>
         <form onSubmit={handleAddComment} className='w-full flex items-center'>
           <input
             onClick={handleClickCommentBox}
@@ -233,14 +233,14 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             placeholder='Add comment...'
             disabled={isCommenting}
             type='text'
-            className='flex-1 bg-gray-200 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
+            className='flex-1 min-w-0 bg-gray-200 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
           />
 
           <button
             className='py-2 pl-3 disabled:text-gray-400 dark:disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
             disabled={!commentVal.trim()}
           >
-            {isCommenting ? <Spinner /> : 'Post'}
+            {isCommenting ? <div className='spinner' /> : 'Post'}
           </button>
         </form>
       </div>

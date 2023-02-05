@@ -5,6 +5,7 @@ import { Video } from '../../types';
 import { RxCross2 } from 'react-icons/rx';
 import { useRouter } from 'next/router';
 import CommentSection from '../../components/CommentSection';
+import { useEffect } from 'react';
 
 interface DetailProps {
   videoDetail: Video;
@@ -13,6 +14,9 @@ interface DetailProps {
 export default function Detail({ videoDetail }: DetailProps) {
   const router = useRouter();
 
+  // scroll top
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <>
       <Head>
@@ -20,6 +24,7 @@ export default function Detail({ videoDetail }: DetailProps) {
       </Head>
 
       <div className='lg:min-h-screen w-full flex flex-col lg:flex-row dark:bg-dark dark:text-white'>
+        {/* left */}
         <div className='h-[480px] w-full lg:flex-1 lg:h-screen bg-img-blur-light dark:bg-img-blur-dark bg-no-repeat bg-cover object-cover'>
           <div
             onClick={() => router.back()}
@@ -40,6 +45,7 @@ export default function Detail({ videoDetail }: DetailProps) {
           </div>
         </div>
 
+        {/* right */}
         <CommentSection videoDetail={videoDetail} />
       </div>
     </>

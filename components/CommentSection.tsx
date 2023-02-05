@@ -28,6 +28,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [deletingCmtKey, setDeletingCmtKey] = useState('');
 
   const showNewCmt = useRef<HTMLDivElement>(null);
+  const commentInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
   const { data: user }: any = useSession();
@@ -96,8 +97,6 @@ export default function CommentSection({ videoDetail }: DetailProps) {
     }));
   }
 
-  console.log(post);
-
   async function handleDeleteComment(commentKey: string) {
     setIsDeletingCmt(true);
     setDeletingCmtKey(commentKey);
@@ -116,6 +115,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   function handleClickCommentBox() {
     if (!user) {
       setShowLogin(true);
+      commentInputRef.current?.blur();
     }
   }
 
@@ -227,6 +227,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       <div className='w-full p-4 lg:px-6 py-4 border-t dark:border-t-darkBorder'>
         <form onSubmit={handleAddComment} className='w-full flex items-center'>
           <input
+            ref={commentInputRef}
             onClick={handleClickCommentBox}
             onChange={({ target }) => setCommentVal(target.value)}
             value={commentVal}

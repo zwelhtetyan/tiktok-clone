@@ -118,6 +118,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
     return () => clearInterval(INTERVAL);
   }, [isCopied]);
 
+  console.log(post);
+
   return (
     <div className='flex flex-col w-[500px] h-screen border-l dark:border-l-darkBorder'>
       {showLogin && <NotLogin bool setShowLogin={setShowLogin} />}
@@ -199,12 +201,13 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             key={cmt._key}
             _key={cmt._key}
             deletingCmtKey={deletingCmtKey}
-            src={cmt.postedBy?.image || user.image}
-            userName={cmt.postedBy?.userName || user.userName}
+            src={cmt.postedBy?.image || user?.image}
+            userName={cmt.postedBy?.userName || user?.userName}
             commentText={cmt.comment}
-            isCreator={isCreator(cmt.postedBy._id || user._id)}
+            isCreator={isCreator(cmt.postedBy._id || user?._id)}
             handleDeleteComment={() => handleDeleteComment(cmt._key)}
             isDeletingCmt={isDeletingCmt}
+            isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
           />
         ))}
       </div>
@@ -222,7 +225,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
           />
 
           <button
-            className='py-2 px-3 disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
+            className='py-2 pl-3 disabled:text-gray-400 dark:disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
             disabled={!commentVal.trim()}
           >
             {isCommenting ? (

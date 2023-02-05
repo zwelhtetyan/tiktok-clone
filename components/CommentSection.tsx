@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import UserProfile from './UserProfile';
 import CommentItem from './CommentItem';
+import Spinner from '../utils/Spinner';
 
 interface DetailProps {
   videoDetail: Video;
@@ -228,11 +229,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             className='py-2 pl-3 disabled:text-gray-400 dark:disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
             disabled={!commentVal.trim()}
           >
-            {isCommenting ? (
-              <div className='animate-spin h-6 w-6 rounded-full border-2 border-gray-500 border-l-gray-600 border-b-gray-600' />
-            ) : (
-              'Post'
-            )}
+            {isCommenting ? <Spinner /> : 'Post'}
           </button>
         </form>
       </div>

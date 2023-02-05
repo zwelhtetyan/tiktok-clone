@@ -1,3 +1,4 @@
+import Spinner from '../utils/Spinner';
 import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
@@ -45,7 +46,7 @@ export default function CommentItem({
 
         {isDeletingCmt && _key === deletingCmtKey ? (
           <div className='w-9 h-9 rounded-full flex items-center justify-center'>
-            <div className='animate-spin h-6 w-6 rounded-full border-2 border-gray-500 border-l-primary border-b-primary' />
+            <Spinner />
           </div>
         ) : isCommentCreator ? (
           <div

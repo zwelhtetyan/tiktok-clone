@@ -26,10 +26,10 @@ export default function CommentItem({
   isCommentCreator,
 }: Props) {
   return (
-    <div className='flex items-start mb-4'>
-      <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-[52px] xs:h-[52px]' />
+    <div className='group flex items-start mb-4'>
+      <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
       <div className='flex-1 flex items-start justify-between'>
-        <div className='flex-1 pr-2'>
+        <div className='flex-1'>
           <h2 className='font-semibold leading-6'>
             {userName}
             {isCreator && (
@@ -44,20 +44,22 @@ export default function CommentItem({
           <p className='text-sm leading-5'>{commentText}</p>
         </div>
 
-        {isDeletingCmt && _key === deletingCmtKey ? (
-          <div className='w-9 h-9 rounded-full flex items-center justify-center'>
-            <Spinner />
-          </div>
-        ) : isCommentCreator ? (
-          <div
-            onClick={handleDeleteComment}
-            className='reaction-btn text-red-600 cursor-pointer'
-          >
-            <AiTwotoneDelete size={20} />
-          </div>
-        ) : (
-          ''
-        )}
+        <div className='w-9'>
+          {isDeletingCmt && _key === deletingCmtKey ? (
+            <div className='w-9 h-9 rounded-full flex items-center justify-center'>
+              <Spinner />
+            </div>
+          ) : isCommentCreator ? (
+            <div
+              onClick={handleDeleteComment}
+              className='reaction-btn text-red-600 cursor-pointer hidden group-hover:flex'
+            >
+              <AiTwotoneDelete size={20} />
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     </div>
   );

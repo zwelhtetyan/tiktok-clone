@@ -22,8 +22,10 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [isCopied, setIsCopied] = useState(false);
   const [commentVal, setCommentVal] = useState('');
   const [showLogin, setShowLogin] = useState(false);
-
-  console.log(post);
+  const [liking, setLiking] = useState(false);
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [isDeletingCmt, setIsDeletingCmt] = useState(false);
+  const [deletingCmtKey, setDeletingCmtKey] = useState('');
 
   const router = useRouter();
   const { data: user }: any = useSession();
@@ -45,6 +47,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       return;
     }
 
+    setLiking(true);
+
     const obj = {
       userId: user._id,
       postId: post._id,
@@ -56,11 +60,13 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       obj
     );
 
+    setLiking(false);
     setPost((post) => ({ ...post, likes: updatedPost.likes }));
   }
 
-  async function handleComment(e: FormEvent) {
+  async function handleAddComment(e: FormEvent) {
     e.preventDefault();
+    setIsCommenting(true);
 
     const obj = {
       userId: user._id,
@@ -75,7 +81,29 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       obj
     );
 
-    setPost((post) => ({ ...post, comments: updatedPost.comments }));
+    setIsCommenting(false);
+    setPost((post) => ({
+      ...post,
+      comments: [
+        ...post.comments,
+        updatedPost.comments[updatedPost.comments.length - 1],
+      ],
+    }));
+  }
+
+  async function handleDeleteComment(commentKey: string) {
+    setIsDeletingCmt(true);
+    setDeletingCmtKey(commentKey);
+
+    await axios.delete(
+      `${ROOT_URL}/api/post/comment/${[post._id, commentKey]}`
+    );
+
+    setIsDeletingCmt(false);
+    setPost((post) => ({
+      ...post,
+      comments: post.comments.filter((cmt) => cmt._key !== commentKey),
+    }));
   }
 
   function handleClickCommentBox() {
@@ -119,7 +147,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             <div className='flex items-center mr-6 text-sm'>
               <button
                 onClick={handleLike}
-                className={`reaction-btn ${
+                disabled={liking}
+                className={`reaction-btn mr-2 ${
                   isAlreadyLike ? 'text-primary' : ''
                 }`}
               >
@@ -129,7 +158,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
               {post.likes?.length || 0}
             </div>
             <div className='flex items-center text-sm'>
-              <button className='reaction-btn'>
+              <button className='reaction-btn mr-2'>
                 <RiMessage2Fill size={18} />
               </button>
               {post.comments?.length || 0}
@@ -168,21 +197,26 @@ export default function CommentSection({ videoDetail }: DetailProps) {
         {post.comments?.map((cmt) => (
           <CommentItem
             key={cmt._key}
+            _key={cmt._key}
+            deletingCmtKey={deletingCmtKey}
             src={cmt.postedBy?.image || user.image}
             userName={cmt.postedBy?.userName || user.userName}
             commentText={cmt.comment}
             isCreator={isCreator(cmt.postedBy._id || user._id)}
+            handleDeleteComment={() => handleDeleteComment(cmt._key)}
+            isDeletingCmt={isDeletingCmt}
           />
         ))}
       </div>
 
       <div className='w-full px-6 py-4 border-t dark:border-t-darkBorder'>
-        <form onSubmit={handleComment} className='w-full flex items-center'>
+        <form onSubmit={handleAddComment} className='w-full flex items-center'>
           <input
             onClick={handleClickCommentBox}
             onChange={({ target }) => setCommentVal(target.value)}
             value={commentVal}
             placeholder='Add comment...'
+            disabled={isCommenting}
             type='text'
             className='flex-1 bg-gray-200 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
           />
@@ -191,7 +225,11 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             className='py-2 px-3 disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
             disabled={!commentVal.trim()}
           >
-            Post
+            {isCommenting ? (
+              <div className='animate-spin h-6 w-6 rounded-full border-2 border-gray-500 border-l-gray-600 border-b-gray-600' />
+            ) : (
+              'Post'
+            )}
           </button>
         </form>
       </div>

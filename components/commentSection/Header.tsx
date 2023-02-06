@@ -77,8 +77,6 @@ export default memo(function Header({
     router.push('/');
   }
 
-  console.log(loadingFollow);
-
   async function handleFollow() {
     if (!user) {
       setShowLogin(true);

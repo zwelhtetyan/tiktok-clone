@@ -15,8 +15,6 @@ export default async function handler(
       .unset([`comments[_key=="${commentKey}"]`])
       .commit();
 
-    console.log(data);
-
     res.status(200).json(data);
   }
 }

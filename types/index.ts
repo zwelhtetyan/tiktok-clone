@@ -11,6 +11,8 @@ export interface Video {
     _id: string;
     userName: string;
     image: string;
+    follower: { _key: string; _ref: string; _type: string }[];
+    following: { _key: string; _ref: string; _type: string }[];
   };
   likes: {
     _ref: string;
@@ -31,7 +33,9 @@ export interface Video {
 
 export interface User {
   _id: string;
-  _type: string;
+  _type?: string;
   userName: string;
   image: string;
+  follower?: { _key: string; _ref: string; _type: string }[];
+  following?: { _key: string; _ref: string; _type: string }[];
 }

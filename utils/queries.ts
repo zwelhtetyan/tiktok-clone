@@ -12,7 +12,9 @@ export const allPostsQuery = () => {
       postedBy->{
         _id,
         userName,
-        image
+        image,
+        follower,
+        following,
       },
     likes,
     comments[]{
@@ -44,7 +46,9 @@ export const postDetailQuery = (postId: string | string[]) => {
     postedBy->{
       _id,
       userName,
-      image
+      image,
+      follower,
+      following,
     },
     likes,
     comments[]{

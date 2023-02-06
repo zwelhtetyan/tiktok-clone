@@ -1,14 +1,14 @@
 import { RiMessage2Fill } from 'react-icons/ri';
 import UserProfile from '../UserProfile';
 import { BsHeartFill } from 'react-icons/bs';
-import { Video } from '../../types';
+import { User, Video } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import { nativeShareVia, shareVia } from '../../utils/shareVia';
 import { IoMdShareAlt } from 'react-icons/io';
 import { socialIcons } from '../../utils/constants';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
@@ -23,7 +23,7 @@ interface Props {
   setPost: React.Dispatch<React.SetStateAction<Video>>;
 }
 
-export default function Header({
+export default memo(function Header({
   post,
   POST_URL,
   setShowLogin,
@@ -32,12 +32,17 @@ export default function Header({
   const [isCopied, setIsCopied] = useState(false);
   const [liking, setLiking] = useState(false);
   const [deletingPost, setDeletingPost] = useState(false);
-
-  const { data: user }: any = useSession();
-  const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
-  const { isTouchDevice } = useCheckTouchDevice();
+  const [loadingFollow, setLoadingFollow] = useState(false);
 
   const router = useRouter();
+
+  const { data: user }: any = useSession();
+  const { isTouchDevice } = useCheckTouchDevice();
+
+  const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
+  const isAlreadyFollow = post.postedBy.follower?.find(
+    (u) => u._ref === user?._id
+  );
 
   async function handleLike() {
     if (!user) {
@@ -70,6 +75,37 @@ export default function Header({
     setDeletingPost(false);
 
     router.push('/');
+  }
+
+  console.log(loadingFollow);
+
+  async function handleFollow() {
+    if (!user) {
+      setShowLogin(true);
+      return;
+    }
+
+    setLoadingFollow(true);
+
+    const obj = {
+      userId: user._id,
+      creatorId: post.postedBy._id,
+      follow: isAlreadyFollow ? false : true,
+    };
+
+    const { data: updatedUsers }: { data: User[] } = await axios.put(
+      `${ROOT_URL}/api/user`,
+      obj
+    );
+
+    const creator = updatedUsers.find((u) => u._id === post.postedBy._id)!;
+
+    setLoadingFollow(false);
+
+    setPost((post) => ({
+      ...post,
+      postedBy: { ...post.postedBy, follower: creator.follower! },
+    }));
   }
 
   function copyToClipboard() {
@@ -116,9 +152,22 @@ export default function Header({
               <AiTwotoneDelete size={20} />
             </div>
           )
+        ) : isAlreadyFollow ? (
+          <button
+            onClick={handleFollow}
+            disabled={loadingFollow}
+            className='btn-secondary text-sm px-2'
+          >
+            Following
+          </button>
         ) : (
-          <button className='btn-primary text-sm px-2'>Follow</button>
-          // <button className='btn-secondary text-sm px-2'>Following</button>
+          <button
+            disabled={loadingFollow}
+            onClick={handleFollow}
+            className='btn-primary text-sm px-2'
+          >
+            Follow
+          </button>
         )}
       </div>
 
@@ -189,4 +238,4 @@ export default function Header({
       </div>
     </header>
   );
-}
+});

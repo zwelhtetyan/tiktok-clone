@@ -4,7 +4,7 @@ import { ROOT_URL } from '../../utils';
 import { Video } from '../../types';
 import { RxCross2 } from 'react-icons/rx';
 import { useRouter } from 'next/router';
-import CommentSection from '../../components/CommentSection';
+import CommentSection from '../../components/commentSection';
 import { useEffect } from 'react';
 
 interface DetailProps {

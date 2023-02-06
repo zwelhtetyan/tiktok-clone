@@ -5,7 +5,7 @@ import { client } from '../../../utils/client';
 import { Video } from '../../../types';
 
 type Data = {
-  data: Video;
+  message: string;
 };
 
 export default async function handler(
@@ -20,5 +20,11 @@ export default async function handler(
     const data = await client.fetch(query);
 
     res.status(200).json(data[0]);
+  } else if (req.method === 'DELETE') {
+    const id = req.query.id! as string;
+
+    await client.delete(id);
+
+    res.status(200).json({ message: 'Successfully deleted!' });
   }
 }

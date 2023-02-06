@@ -14,6 +14,7 @@ import { AiTwotoneDelete } from 'react-icons/ai';
 import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
 import { ROOT_URL } from '../../utils';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 interface Props {
   post: Video;
@@ -30,10 +31,13 @@ export default function Header({
 }: Props) {
   const [isCopied, setIsCopied] = useState(false);
   const [liking, setLiking] = useState(false);
+  const [deletingPost, setDeletingPost] = useState(false);
 
   const { data: user }: any = useSession();
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
   const { isTouchDevice } = useCheckTouchDevice();
+
+  const router = useRouter();
 
   async function handleLike() {
     if (!user) {
@@ -56,6 +60,16 @@ export default function Header({
 
     setLiking(false);
     setPost((post) => ({ ...post, likes: updatedPost.likes }));
+  }
+
+  async function handleDeletePost() {
+    setDeletingPost(true);
+
+    await axios.delete(`${ROOT_URL}/api/post/${post._id}`);
+
+    setDeletingPost(false);
+
+    router.push('/');
   }
 
   function copyToClipboard() {
@@ -90,9 +104,18 @@ export default function Header({
 
         {/* follow | unfollow */}
         {post.postedBy._id === user?._id ? (
-          <div className='reaction-btn text-red-600 cursor-pointer'>
-            <AiTwotoneDelete size={20} />
-          </div>
+          deletingPost ? (
+            <div className='w-9 h-9 rounded-full flex items-center justify-center'>
+              <div className='spinner' />
+            </div>
+          ) : (
+            <div
+              onClick={handleDeletePost}
+              className='reaction-btn text-red-600 cursor-pointer'
+            >
+              <AiTwotoneDelete size={20} />
+            </div>
+          )
         ) : (
           <button className='btn-primary text-sm px-2'>Follow</button>
           // <button className='btn-secondary text-sm px-2'>Following</button>

@@ -12,6 +12,10 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import UserProfile from './UserProfile';
 import CommentItem from './CommentItem';
+import Link from 'next/link';
+import { nativeShareVia, shareVia } from '../utils/shareVia';
+import { isTouchDevice } from '../utils/isTouchDevice';
+import { IoMdShareAlt } from 'react-icons/io';
 
 interface DetailProps {
   videoDetail: Video;
@@ -32,6 +36,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
   const router = useRouter();
   const { data: user }: any = useSession();
+  const POST_URL = ROOT_URL + router.asPath;
 
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
 
@@ -40,7 +45,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   }
 
   function copyToClipboard() {
-    navigator.clipboard.writeText(ROOT_URL + router.asPath);
+    navigator.clipboard.writeText(POST_URL);
     setIsCopied(true);
   }
 
@@ -155,7 +160,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
         <p>{post.caption}</p>
 
-        <div className='mt-6 flex items-center justify-between'>
+        <div className='mt-6 flex items-center justify-between flex-wrap'>
           <div className='flex items-center'>
             <div className='flex items-center mr-4 md:mr-6 text-sm'>
               <button
@@ -178,18 +183,32 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             </div>
           </div>
 
-          <div className='flex items-center gap-2'>
-            {socialIcons.map((item, idx) => (
-              <Image
-                key={idx}
-                src={item.icon}
-                alt='social_icon'
-                width={30}
-                height={30}
-                className='w-7 h-7 cursor-pointer'
-              />
-            ))}
-          </div>
+          {isTouchDevice() ? (
+            <button
+              className='reaction-btn'
+              onClick={() => nativeShareVia(post.caption, POST_URL)}
+            >
+              <IoMdShareAlt size={22} />
+            </button>
+          ) : (
+            <div className='flex items-center gap-2'>
+              {socialIcons.map((item, idx) => (
+                <Link
+                  target='_blank'
+                  href={shareVia(item.name, POST_URL, post.caption)!}
+                  key={idx}
+                >
+                  <Image
+                    src={item.icon}
+                    alt='social_icon'
+                    width={30}
+                    height={30}
+                    className='w-7 h-7 cursor-pointer'
+                  />
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className='mt-6 w-full flex items-center h-9'>
@@ -223,7 +242,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             />
           ))
         ) : (
-          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center justify-center text-gray-400 dark:text-gray-500'>
+          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center tracking-wide justify-center text-gray-400 dark:text-gray-500'>
             Be the first to comment!
           </div>
         )}

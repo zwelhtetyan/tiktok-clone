@@ -1,3 +1,4 @@
+import { isTouchDevice } from '../utils/isTouchDevice';
 import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
@@ -24,10 +25,6 @@ export default function CommentItem({
   deletingCmtKey,
   isCommentCreator,
 }: Props) {
-  function isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  }
-
   return (
     <div className='group flex items-start mb-4'>
       <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />

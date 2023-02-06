@@ -42,8 +42,8 @@ export const topics = [
 ];
 
 export const socialIcons = [
-  { icon: '/facebook.png' },
-  { icon: '/pinterest.png' },
-  { icon: '/twitter.png' },
-  { icon: '/whatsapp.png' },
+  { icon: '/facebook.png', name: 'facebook' },
+  { icon: '/pinterest.png', name: 'pinterest' },
+  { icon: '/twitter.png', name: 'twitter' },
+  { icon: '/reddit.png', name: 'reddit' },
 ];

@@ -13,5 +13,17 @@ export default {
       title: 'Image',
       type: 'string',
     },
+    {
+      name: 'following',
+      title: 'Following',
+      type: 'array',
+      of: [{type: 'postedBy'}],
+    },
+    {
+      name: 'follower',
+      title: 'Follower',
+      type: 'array',
+      of: [{type: 'postedBy'}],
+    },
   ],
 }

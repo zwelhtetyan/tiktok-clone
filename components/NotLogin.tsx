@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { signIn } from 'next-auth/react';
-import { Dispatch, Fragment, memo, useState } from 'react';
+import { Fragment, memo, useState } from 'react';
 
 interface Props {
   bool?: boolean;

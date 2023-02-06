@@ -3,7 +3,6 @@ import UserProfile from '../UserProfile';
 import { BsHeartFill } from 'react-icons/bs';
 import { Video } from '../../types';
 import { formatDate } from '../../utils/formatDate';
-import { isTouchDevice } from '../../utils/isTouchDevice';
 import { nativeShareVia, shareVia } from '../../utils/shareVia';
 import { IoMdShareAlt } from 'react-icons/io';
 import { socialIcons } from '../../utils/constants';
@@ -11,20 +10,53 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { AiTwotoneDelete } from 'react-icons/ai';
+import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
+import { ROOT_URL } from '../../utils';
+import axios from 'axios';
 
 interface Props {
   post: Video;
-  handleLike(): Promise<void>;
-  liking: boolean;
   POST_URL: string;
+  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setPost: React.Dispatch<React.SetStateAction<Video>>;
 }
 
-export default function Header({ post, handleLike, liking, POST_URL }: Props) {
+export default function Header({
+  post,
+  POST_URL,
+  setShowLogin,
+  setPost,
+}: Props) {
   const [isCopied, setIsCopied] = useState(false);
+  const [liking, setLiking] = useState(false);
 
   const { data: user }: any = useSession();
-
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
+  const { isTouchDevice } = useCheckTouchDevice();
+
+  async function handleLike() {
+    if (!user) {
+      setShowLogin(true);
+      return;
+    }
+
+    setLiking(true);
+
+    const obj = {
+      userId: user._id,
+      postId: post._id,
+      like: isAlreadyLike ? false : true,
+    };
+
+    const { data: updatedPost }: { data: Video } = await axios.put(
+      `${ROOT_URL}/api/post/like`,
+      obj
+    );
+
+    setLiking(false);
+    setPost((post) => ({ ...post, likes: updatedPost.likes }));
+  }
 
   function copyToClipboard() {
     navigator.clipboard.writeText(POST_URL);
@@ -55,6 +87,16 @@ export default function Header({ post, handleLike, liking, POST_URL }: Props) {
             </p>
           </div>
         </div>
+
+        {/* follow | unfollow */}
+        {post.postedBy._id === user?._id ? (
+          <div className='reaction-btn text-red-600 cursor-pointer'>
+            <AiTwotoneDelete size={20} />
+          </div>
+        ) : (
+          <button className='btn-primary text-sm px-2'>Follow</button>
+          // <button className='btn-secondary text-sm px-2'>Following</button>
+        )}
       </div>
 
       <p>{post.caption}</p>
@@ -82,7 +124,7 @@ export default function Header({ post, handleLike, liking, POST_URL }: Props) {
           </div>
         </div>
 
-        {isTouchDevice() ? (
+        {isTouchDevice ? (
           <button
             className='reaction-btn'
             onClick={() => nativeShareVia(post.caption, POST_URL)}

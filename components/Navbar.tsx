@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { CgMathPlus } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';

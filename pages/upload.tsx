@@ -179,7 +179,8 @@ export default function Upload() {
               <div className='mt-12 hidden md:flex items-center justify-center gap-4'>
                 <button
                   onClick={handleDiscard}
-                  className='btn-secondary py-2 w-36'
+                  disabled={isPosting}
+                  className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
                 >
                   Discard
                 </button>
@@ -197,7 +198,11 @@ export default function Upload() {
 
           {/* mobile layout */}
           <div className='mt-10 xs:mt-12 flex md:hidden items-center justify-center gap-4'>
-            <button onClick={handleDiscard} className='btn-secondary py-2 w-36'>
+            <button
+              onClick={handleDiscard}
+              disabled={isPosting}
+              className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
+            >
               Discard
             </button>
 

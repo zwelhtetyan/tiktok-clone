@@ -1,4 +1,4 @@
-import { isTouchDevice } from '../utils/isTouchDevice';
+import useCheckTouchDevice from '../hooks/useCheckTouchDevice';
 import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
@@ -25,6 +25,8 @@ export default function CommentItem({
   deletingCmtKey,
   isCommentCreator,
 }: Props) {
+  const { isTouchDevice } = useCheckTouchDevice();
+
   return (
     <div className='group flex items-start mb-4'>
       <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
@@ -53,7 +55,7 @@ export default function CommentItem({
             <div
               onClick={handleDeleteComment}
               className={`${
-                isTouchDevice() ? 'flex' : 'hidden'
+                isTouchDevice ? 'flex' : 'hidden'
               } reaction-btn text-red-600 cursor-pointer group-hover:flex`}
             >
               <AiTwotoneDelete size={20} />

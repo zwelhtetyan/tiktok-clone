@@ -16,7 +16,6 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [post, setPost] = useState(videoDetail);
   const [commentVal, setCommentVal] = useState('');
   const [showLogin, setShowLogin] = useState(false);
-  const [liking, setLiking] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
   const [isDeletingCmt, setIsDeletingCmt] = useState(false);
   const [deletingCmtKey, setDeletingCmtKey] = useState('');
@@ -28,33 +27,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const { data: user }: any = useSession();
   const POST_URL = ROOT_URL + router.asPath;
 
-  const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
-
   function isCreator(userId: string) {
     return post.postedBy._id === userId;
-  }
-
-  async function handleLike() {
-    if (!user) {
-      setShowLogin(true);
-      return;
-    }
-
-    setLiking(true);
-
-    const obj = {
-      userId: user._id,
-      postId: post._id,
-      like: isAlreadyLike ? false : true,
-    };
-
-    const { data: updatedPost }: { data: Video } = await axios.put(
-      `${ROOT_URL}/api/post/like`,
-      obj
-    );
-
-    setLiking(false);
-    setPost((post) => ({ ...post, likes: updatedPost.likes }));
   }
 
   async function handleAddComment(e: FormEvent) {
@@ -120,8 +94,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
       <Header
         post={post}
-        handleLike={handleLike}
-        liking={liking}
+        setShowLogin={setShowLogin}
+        setPost={setPost}
         POST_URL={POST_URL}
       />
 

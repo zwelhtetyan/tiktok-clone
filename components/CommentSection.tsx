@@ -207,20 +207,27 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       </header>
 
       <div className='flex-1 max-h-[400px] lg:max-h-[unset] p-4 lg:p-6 overflow-hidden overflow-y-auto'>
-        {post.comments?.map((cmt) => (
-          <CommentItem
-            key={cmt._key}
-            _key={cmt._key}
-            deletingCmtKey={deletingCmtKey}
-            src={cmt.postedBy?.image || user?.image}
-            userName={cmt.postedBy?.userName || user?.userName}
-            commentText={cmt.comment}
-            isCreator={isCreator(cmt.postedBy._id || user?._id)}
-            handleDeleteComment={() => handleDeleteComment(cmt._key)}
-            isDeletingCmt={isDeletingCmt}
-            isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
-          />
-        ))}
+        {post.comments?.length > 0 ? (
+          post.comments?.map((cmt) => (
+            <CommentItem
+              key={cmt._key}
+              _key={cmt._key}
+              deletingCmtKey={deletingCmtKey}
+              src={cmt.postedBy?.image || user?.image}
+              userName={cmt.postedBy?.userName || user?.userName}
+              commentText={cmt.comment}
+              isCreator={isCreator(cmt.postedBy._id || user?._id)}
+              handleDeleteComment={() => handleDeleteComment(cmt._key)}
+              isDeletingCmt={isDeletingCmt}
+              isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
+            />
+          ))
+        ) : (
+          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center justify-center text-gray-400 dark:text-gray-500'>
+            Be the first to comment!
+          </div>
+        )}
+
         <div ref={showNewCmt} className='w-0 h-0 opacity-0 apple' />
       </div>
 

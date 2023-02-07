@@ -14,6 +14,7 @@ interface Props {
 
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
+  const [allPostedBy, setAllPostedBy] = useState(videos.map((u) => u.postedBy));
 
   const handleMute = (e: MouseEvent) => {
     e.preventDefault();
@@ -21,6 +22,10 @@ export default function Home({ videos }: Props) {
 
     setIsMute((prev) => !prev);
   };
+
+  useEffect(() => {
+    setAllPostedBy(videos.map((u) => u.postedBy));
+  }, [videos]);
 
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
@@ -108,12 +113,14 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='video-container h-[calc(100vh-96px)] overflow-hidden overflow-y-auto pt-2'>
+      <div className='video-container max-w-[720px] h-[calc(100vh-97px)] overflow-hidden overflow-y-auto pt-2'>
         {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}
             id={idx + 1}
             video={video}
+            postedBy={allPostedBy[idx]}
+            setAllPostedBy={setAllPostedBy}
             isMute={isMute}
             handleMute={handleMute}
           />

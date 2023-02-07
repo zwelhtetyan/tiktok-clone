@@ -2,11 +2,13 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Video } from '../../types';
 import { useRouter } from 'next/router';
 import { ROOT_URL } from '../../utils';
-import NotLogin from '../NotLogin';
 import { useSession } from 'next-auth/react';
-import axios from 'axios';
 import CommentItem from '../CommentItem';
 import Header from './Header';
+import useAddComment from '../../hooks/useAddComment';
+import NotLoginModal from '../modal/NotLoginModal';
+import DeleteModal from '../modal/DeleteModal';
+import useDeleteComment from '../../hooks/useDeleteComment';
 
 interface DetailProps {
   videoDetail: Video;
@@ -16,24 +18,29 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [post, setPost] = useState(videoDetail);
   const [commentVal, setCommentVal] = useState('');
   const [showLogin, setShowLogin] = useState(false);
-  const [isCommenting, setIsCommenting] = useState(false);
-  const [isDeletingCmt, setIsDeletingCmt] = useState(false);
-  const [deletingCmtKey, setDeletingCmtKey] = useState('');
+  const [showDeleteCmtModal, setShowDeleteCmtModal] = useState({
+    show: false,
+    commentText: '',
+    commentKey: '',
+  });
 
   const showNewCmt = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
+  // hooks
   const router = useRouter();
   const { data: user }: any = useSession();
+  const { isCommenting, handleAddComment } = useAddComment();
+  const { deletingComment, handleDeleteComment } = useDeleteComment();
+
   const POST_URL = ROOT_URL + router.asPath;
 
   function isCreator(userId: string) {
     return post.postedBy._id === userId;
   }
 
-  async function handleAddComment(e: FormEvent) {
+  async function addCommentHandler(e: FormEvent) {
     e.preventDefault();
-    setIsCommenting(true);
 
     const obj = {
       userId: user._id,
@@ -43,12 +50,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
     setCommentVal('');
 
-    const { data: updatedPost }: { data: Video } = await axios.put(
-      `${ROOT_URL}/api/post/comment`,
-      obj
-    );
-
-    setIsCommenting(false);
+    const updatedPost = await handleAddComment(obj);
 
     setPost((post) => ({
       ...post,
@@ -61,19 +63,23 @@ export default function CommentSection({ videoDetail }: DetailProps) {
     }));
   }
 
-  async function handleDeleteComment(commentKey: string) {
-    setIsDeletingCmt(true);
-    setDeletingCmtKey(commentKey);
+  async function deleteCommentHandler(commentKey: string) {
+    await handleDeleteComment(post._id, commentKey);
 
-    await axios.delete(
-      `${ROOT_URL}/api/post/comment/${[post._id, commentKey]}`
-    );
-
-    setIsDeletingCmt(false);
     setPost((post) => ({
       ...post,
       comments: post.comments.filter((cmt) => cmt._key !== commentKey),
     }));
+
+    handleCloseDeleteCmtModal();
+  }
+
+  function handleShowDeleteCmtModal(commentText: string, commentKey: string) {
+    setShowDeleteCmtModal({ show: true, commentText, commentKey });
+  }
+
+  function handleCloseDeleteCmtModal() {
+    setShowDeleteCmtModal({ show: false, commentText: '', commentKey: '' });
   }
 
   function handleClickCommentBox() {
@@ -89,8 +95,19 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   }, [post.comments?.length]);
 
   return (
-    <div className='flex flex-col w-full max-w-3xl mx-auto lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>
-      {showLogin && <NotLogin bool setShowLogin={setShowLogin} />}
+    <div className='flex flex-col w-full max-w-3xl mx-auto pt-2 lg:pt-0 lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>
+      {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
+      {showDeleteCmtModal.show && (
+        <DeleteModal
+          onClose={handleCloseDeleteCmtModal}
+          deleteHandler={() =>
+            deleteCommentHandler(showDeleteCmtModal.commentKey)
+          }
+          deleting={deletingComment}
+          type='Comment'
+          text={showDeleteCmtModal.commentText}
+        />
+      )}
 
       <Header
         post={post}
@@ -106,13 +123,15 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             <CommentItem
               key={cmt._key}
               _key={cmt._key}
-              deletingCmtKey={deletingCmtKey}
               src={cmt.postedBy?.image || user?.image}
               userName={cmt.postedBy?.userName || user?.userName}
               commentText={cmt.comment}
               isCreator={isCreator(cmt.postedBy._id || user?._id)}
-              handleDeleteComment={() => handleDeleteComment(cmt._key)}
-              isDeletingCmt={isDeletingCmt}
+              showDeleteModal={() =>
+                handleShowDeleteCmtModal(cmt.comment, cmt._key)
+              }
+              deletingComment={deletingComment}
+              deletingCmtKey={showDeleteCmtModal.commentKey}
               isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
             />
           ))
@@ -127,7 +146,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
       {/* add comment */}
       <div className='w-full p-4 lg:px-6 py-4 border-t dark:border-t-darkBorder'>
-        <form onSubmit={handleAddComment} className='w-full flex items-center'>
+        <form onSubmit={addCommentHandler} className='w-full flex items-center'>
           <input
             ref={commentInputRef}
             onClick={handleClickCommentBox}

@@ -8,8 +8,8 @@ interface Props {
   userName: string;
   commentText: string;
   isCreator: boolean;
-  handleDeleteComment(): void;
-  isDeletingCmt: boolean;
+  showDeleteModal(): void;
+  deletingComment: boolean;
   deletingCmtKey: string;
   isCommentCreator: boolean;
 }
@@ -20,8 +20,8 @@ export default function CommentItem({
   userName,
   commentText,
   isCreator,
-  handleDeleteComment,
-  isDeletingCmt,
+  showDeleteModal,
+  deletingComment,
   deletingCmtKey,
   isCommentCreator,
 }: Props) {
@@ -49,13 +49,13 @@ export default function CommentItem({
         </div>
 
         <div className='w-9'>
-          {isDeletingCmt && _key === deletingCmtKey ? (
+          {deletingComment && _key === deletingCmtKey ? (
             <div className='w-9 h-9 rounded-full flex items-center justify-center'>
               <div className='spinner' />
             </div>
           ) : isCommentCreator ? (
             <div
-              onClick={handleDeleteComment}
+              onClick={showDeleteModal}
               className={`${
                 isTouchDevice ? 'flex' : 'hidden'
               } reaction-btn text-red-600 cursor-pointer group-hover:flex`}

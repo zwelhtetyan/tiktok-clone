@@ -27,7 +27,7 @@ export default function Detail({ videoDetail }: DetailProps) {
         {/* left */}
         <div className='h-[480px] w-full lg:flex-1 lg:h-screen bg-img-blur-light dark:bg-img-blur-dark bg-no-repeat bg-cover object-cover'>
           <div
-            onClick={() => router.back()}
+            onClick={() => router.push('/')}
             title='back'
             className='absolute hidden xs:flex items-center justify-center text-white bg-[#7e7b7b5e] w-9 h-9 rounded-full top-2 left-2 cursor-pointer hover:bg-[#5c59595e]'
           >

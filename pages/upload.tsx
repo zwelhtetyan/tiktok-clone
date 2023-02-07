@@ -97,7 +97,7 @@ export default function Upload() {
         <title>Upload | Tik Tok</title>
       </Head>
 
-      <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
+      <div className='w-full h-[calc(100vh-97px)] overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
         <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-4 xs:p-6 rounded-lg mb-10 xs:mb-0 overflow-hidden'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>

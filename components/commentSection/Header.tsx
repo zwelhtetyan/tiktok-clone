@@ -1,7 +1,7 @@
 import { RiMessage2Fill } from 'react-icons/ri';
 import UserProfile from '../UserProfile';
 import { BsHeartFill } from 'react-icons/bs';
-import { User, Video } from '../../types';
+import { Video } from '../../types';
 import { formatDate } from '../../utils/formatDate';
 import { nativeShareVia, shareVia } from '../../utils/shareVia';
 import { IoMdShareAlt } from 'react-icons/io';
@@ -10,11 +10,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { memo, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { AiTwotoneDelete } from 'react-icons/ai';
 import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
-import { ROOT_URL } from '../../utils';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import useLike from '../../hooks/useLike';
+import useFollow from '../../hooks/useFollow';
+import ShowFollowOrDelete from '../ShowFollowOrDelete';
+import useDeletePost from '../../hooks/useDeletePost';
+import DeleteModal from '../modal/DeleteModal';
 
 interface Props {
   post: Video;
@@ -30,27 +32,27 @@ export default memo(function Header({
   setPost,
 }: Props) {
   const [isCopied, setIsCopied] = useState(false);
-  const [liking, setLiking] = useState(false);
-  const [deletingPost, setDeletingPost] = useState(false);
-  const [loadingFollow, setLoadingFollow] = useState(false);
+  const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
+  //hooks
   const router = useRouter();
+  const { liking, handleLike } = useLike();
+  const { loadingFollow, handleFollow } = useFollow();
+  const { deletingPost, handleDeletePost } = useDeletePost();
 
   const { data: user }: any = useSession();
   const { isTouchDevice } = useCheckTouchDevice();
 
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
-  const isAlreadyFollow = post.postedBy.follower?.find(
+  const isAlreadyFollow = post.postedBy.follower?.some(
     (u) => u._ref === user?._id
   );
 
-  async function handleLike() {
+  async function likeHandler() {
     if (!user) {
       setShowLogin(true);
       return;
     }
-
-    setLiking(true);
 
     const obj = {
       userId: user._id,
@@ -58,32 +60,22 @@ export default memo(function Header({
       like: isAlreadyLike ? false : true,
     };
 
-    const { data: updatedPost }: { data: Video } = await axios.put(
-      `${ROOT_URL}/api/post/like`,
-      obj
-    );
+    const updatedPost = await handleLike(obj);
 
-    setLiking(false);
     setPost((post) => ({ ...post, likes: updatedPost.likes }));
   }
 
-  async function handleDeletePost() {
-    setDeletingPost(true);
-
-    await axios.delete(`${ROOT_URL}/api/post/${post._id}`);
-
-    setDeletingPost(false);
+  async function deletePostHandler() {
+    await handleDeletePost(post._id);
 
     router.push('/');
   }
 
-  async function handleFollow() {
+  async function followHandler() {
     if (!user) {
       setShowLogin(true);
       return;
     }
-
-    setLoadingFollow(true);
 
     const obj = {
       userId: user._id,
@@ -91,14 +83,9 @@ export default memo(function Header({
       follow: isAlreadyFollow ? false : true,
     };
 
-    const { data: updatedUsers }: { data: User[] } = await axios.put(
-      `${ROOT_URL}/api/user`,
-      obj
-    );
+    const updatedUsers = await handleFollow(obj);
 
     const creator = updatedUsers.find((u) => u._id === post.postedBy._id)!;
-
-    setLoadingFollow(false);
 
     setPost((post) => ({
       ...post,
@@ -119,8 +106,18 @@ export default memo(function Header({
 
   return (
     <header className='p-4 lg:p-6 border-b dark:border-b-darkBorder'>
-      <div className='w-full flex items-center justify-between mb-2'>
-        <div className='flex items-center'>
+      {showDeletePostModal && (
+        <DeleteModal
+          onClose={() => setShowDeletePostModal(false)}
+          deleteHandler={deletePostHandler}
+          deleting={deletingPost}
+          type='Post'
+          text={post.caption}
+        />
+      )}
+
+      <div className='w-full flex items-start justify-between mb-2'>
+        <div className='flex items-start'>
           <UserProfile
             src={post.postedBy.image}
             className='mr-2 xs:mr-3 xs:w-14 xs:h-14'
@@ -137,36 +134,13 @@ export default memo(function Header({
         </div>
 
         {/* follow | unfollow */}
-        {post.postedBy._id === user?._id ? (
-          deletingPost ? (
-            <div className='w-9 h-9 rounded-full flex items-center justify-center'>
-              <div className='spinner' />
-            </div>
-          ) : (
-            <div
-              onClick={handleDeletePost}
-              className='reaction-btn text-red-600 cursor-pointer'
-            >
-              <AiTwotoneDelete size={20} />
-            </div>
-          )
-        ) : isAlreadyFollow ? (
-          <button
-            onClick={handleFollow}
-            disabled={loadingFollow}
-            className='btn-secondary text-sm px-2'
-          >
-            Following
-          </button>
-        ) : (
-          <button
-            disabled={loadingFollow}
-            onClick={handleFollow}
-            className='btn-primary text-sm px-2'
-          >
-            Follow
-          </button>
-        )}
+        <ShowFollowOrDelete
+          followHandler={followHandler}
+          showDeleteModal={() => setShowDeletePostModal(true)}
+          isCreator={post.postedBy._id === user?._id}
+          isAlreadyFollow={isAlreadyFollow}
+          loadingFollow={loadingFollow}
+        />
       </div>
 
       <p>{post.caption}</p>
@@ -175,7 +149,7 @@ export default memo(function Header({
         <div className='flex items-center'>
           <div className='flex items-center mr-4 md:mr-6 text-sm'>
             <button
-              onClick={handleLike}
+              onClick={likeHandler}
               disabled={liking}
               className={`reaction-btn mr-1 md:mr-2 ${
                 isAlreadyLike ? 'text-primary' : ''

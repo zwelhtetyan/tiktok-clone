@@ -9,7 +9,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className='lg:flex lg:flex-col w-14 lg:w-full lg:max-w-sm mr-2 lg:mr-4 border-r border-r-gray-100 dark:border-r-darkBorder lg:pr-4 h-[calc(100vh-96px)] overflow-hidden overflow-y-auto'>
+    <aside className='lg:flex lg:flex-col w-14 lg:w-full lg:max-w-sm mr-2 lg:mr-4 border-r border-r-gray-100 dark:border-r-darkBorder lg:pr-4 h-[calc(100vh-97px)] overflow-hidden overflow-y-auto'>
       <Link
         href='/'
         className={`${

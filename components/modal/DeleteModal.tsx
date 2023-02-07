@@ -1,24 +1,25 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { signIn } from 'next-auth/react';
-import { Fragment, memo, useState } from 'react';
+import { Fragment, memo } from 'react';
 
 interface Props {
-  bool?: boolean;
-  setShowLogin: (bool: boolean) => void;
+  onClose(): void;
+  deleteHandler(): Promise<void>;
+  deleting: boolean;
+  type: string;
+  text: string;
 }
 
-export default memo(function NotLogin({ bool, setShowLogin }: Props) {
-  let [isOpen, setIsOpen] = useState(bool ?? false);
-
-  function closeModal() {
-    setShowLogin(false);
-    setIsOpen(false);
-  }
-
+export default memo(function DeleteModal({
+  onClose,
+  deleteHandler,
+  deleting,
+  type,
+  text,
+}: Props) {
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+      <Transition appear show={true} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={onClose}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -45,26 +46,34 @@ export default memo(function NotLogin({ bool, setShowLogin }: Props) {
                 <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-medium leading-6 border-b border-b-gray-100 dark:border-b-darkBorder pb-4'
+                    className='text-lg font-bold leading-5 border-b border-b-gray-100 dark:border-b-darkBorder pb-4'
                   >
-                    Login to TikTok
+                    Delete {type}
                   </Dialog.Title>
-                  <div className='mt-6 mb-2 flex-col items-center flex justify-center'>
-                    <p className='tracking-wide mb-3 text-sm text-gray-500 dark:text-gray-400'>
-                      Continue with google
-                    </p>
-                    <div className='flex items-center gap-3'>
+                  <div className='mt-4 flex-col items-center flex justify-center'>
+                    <div>
+                      <h4 className='w-full font-bold text-center line-clamp-1'>
+                        {text}
+                      </h4>
+                      <p className='text-gray-500 dark:text-gray-300 text-sm mt-1'>
+                        Are you sure you want to delete this {type}?
+                      </p>
+                    </div>
+
+                    <div className='w-full mt-4 flex items-center justify-end gap-3'>
                       <button
-                        onClick={closeModal}
-                        className='btn-secondary py-2 px-6'
+                        onClick={onClose}
+                        disabled={deleting}
+                        className='btn-secondary py-2 px-6 disabled:cursor-not-allowed'
                       >
                         Close
                       </button>
                       <button
-                        onClick={() => signIn('google')}
-                        className='btn-primary py-2 px-6'
+                        onClick={deleteHandler}
+                        disabled={deleting}
+                        className='btn-primary py-2 px-6 disabled:cursor-not-allowed'
                       >
-                        Login
+                        {deleting ? 'Deleting...' : 'Delete'}
                       </button>
                     </div>
                   </div>

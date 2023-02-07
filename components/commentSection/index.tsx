@@ -86,7 +86,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   // scroll bottom to show last comment
   useEffect(() => {
     showNewCmt.current?.scrollIntoView();
-  }, [post.comments.length]);
+  }, [post.comments?.length]);
 
   return (
     <div className='flex flex-col w-full max-w-3xl mx-auto lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>

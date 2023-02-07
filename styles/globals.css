@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  width: 6px;
+  /* width: 6px; */
+  @apply w-1 md:w-[6px];
 }
 
 ::-webkit-scrollbar-track {
@@ -12,6 +13,12 @@
 
 ::-webkit-scrollbar-thumb {
   @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all;
+}
+
+@layer base {
+  body {
+    @apply lg:overflow-hidden;
+  }
 }
 
 @layer components {

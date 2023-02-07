@@ -16,7 +16,9 @@ export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
 
   const handleMute = (e: MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
+
     setIsMute((prev) => !prev);
   };
 

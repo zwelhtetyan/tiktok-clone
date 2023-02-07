@@ -18,7 +18,7 @@ async function getAllUsers() {
 
 function UserAccount({ src, userName }: { src: string; userName: string }) {
   return (
-    <div className='flex items-center dark:text-white rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'>
+    <div className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'>
       <UserProfile src={src} className=' mr-2' />
       <div>
         <h2 className='font-semibold leading-5'>{userName}</h2>

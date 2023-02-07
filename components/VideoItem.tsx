@@ -8,6 +8,7 @@ import { updateActionBtn } from '../utils/updateActionBtn';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
 import UserProfile from './UserProfile';
+import { generateFakeUsername } from '../utils/generateFakeUsername';
 
 interface Props {
   video: Video;
@@ -43,23 +44,27 @@ export default function VideoItem({
 
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
-      <header className='flex items-center xs:items-start mb-2 xs:mb-4'>
+      <header className='flex items-center xs:items-start mb-1 xs:mb-4'>
         <UserProfile
           src={postedBy.image}
           className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
         />
         <div>
-          <h2 className='font-bold text-lg xs:text-base leading-5 xs:leading-7'>
+          <h2 className='font-bold text-lg xs:text-base leading-[1.2rem] xs:leading-[1.2rem]'>
             {postedBy.userName}
           </h2>
-          <p className='xs:hidden text-gray-500 text-sm'>
-            {formatDate(_createdAt!)}
+          <p className='text-gray-500 text-sm'>
+            {generateFakeUsername(postedBy.userName)}
           </p>
-          <p className='max-w-md leading-[1.3rem] hidden xs:block'>{caption}</p>
+          <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block'>
+            {caption}
+          </p>
         </div>
       </header>
 
-      <p className='max-w-md leading-[1.3rem] mb-2 xs:hidden'>{caption}</p>
+      <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
+        {caption}
+      </p>
 
       <Link
         href={`detail/${videoId}`}

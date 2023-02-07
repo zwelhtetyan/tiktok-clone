@@ -4,7 +4,7 @@
 
 ::-webkit-scrollbar {
   /* width: 6px; */
-  @apply w-1 md:w-[6px];
+  @apply w-0 xs:w-1 md:w-[6px];
 }
 
 ::-webkit-scrollbar-track {
@@ -27,11 +27,11 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-white rounded px-4 py-[5px] hover:bg-primary/90;
+    @apply bg-primary text-gray-200 rounded px-4 py-[5px] hover:bg-primary/90;
   }
 
   .btn-secondary {
-    @apply border border-gray-300 dark:border-[rgb(22,24,35,0.12)] bg-gray-200 dark:bg-darkBtn dark:text-white rounded px-4 py-[5px] hover:border-gray-400/50 dark:hover:bg-darkBtnHover;
+    @apply border border-gray-300 dark:border-[rgb(22,24,35,0.12)] bg-gray-200 dark:bg-darkBtn text-gray-800 dark:text-gray-200 rounded px-4 py-[5px] hover:border-gray-400/50 dark:hover:bg-darkBtnHover;
   }
 
   .reaction-btn {

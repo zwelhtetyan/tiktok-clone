@@ -20,7 +20,7 @@ function Topic({ topic }: TopicProp) {
       className={`${
         topic.name === activeTopic
           ? 'active-topic'
-          : 'border-gray-200 dark:text-white bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
+          : 'border-gray-200 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
       } rounded-full flex items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
       `}
     >

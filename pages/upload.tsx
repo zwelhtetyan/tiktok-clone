@@ -97,7 +97,7 @@ export default function Upload() {
         <title>Upload | Tik Tok</title>
       </Head>
 
-      <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto dark:text-white'>
+      <div className='w-full h-[calc(100vh-96px)] overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
         <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-4 xs:p-6 rounded-lg mb-10 xs:mb-0 overflow-hidden'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>
@@ -136,7 +136,7 @@ export default function Upload() {
                   <div className='flex justify-center text-gray-300'>
                     <FaCloudUploadAlt size={45} />
                   </div>
-                  <h3 className='font-semibold text-lg mb-6 text-black dark:text-white'>
+                  <h3 className='font-semibold text-lg mb-6 text-black dark:text-gray-200'>
                     Select video to upload
                   </h3>
                   <p className='mb-2 text-sm'>MP4 or WebM</p>

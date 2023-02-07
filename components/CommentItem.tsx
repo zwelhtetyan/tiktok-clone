@@ -36,14 +36,16 @@ export default function CommentItem({
             {userName}
             {isCreator && (
               <span className='font-bold text-sm text-primary'>
-                <span className='ml-[4px] text-black dark:text-white text-sm'>
+                <span className='ml-[4px] text-gray-800 dark:text-gray-200 text-sm'>
                   •
                 </span>{' '}
                 Creator
               </span>
             )}
           </h2>
-          <p className='text-sm leading-5'>{commentText}</p>
+          <p className='text-sm leading-5 text-gray-600 dark:text-gray-200'>
+            {commentText}
+          </p>
         </div>
 
         <div className='w-9'>

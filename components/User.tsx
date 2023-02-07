@@ -43,7 +43,7 @@ export default function User() {
                   onClick={() => themeToggler(setTheme)}
                   className={`${
                     active && 'bg-gray-200 dark:bg-darkSecondary'
-                  } text-gray-800 dark:text-white group flex justify-between w-full items-center rounded-md px-2 py-2`}
+                  } text-gray-800 dark:text-gray-200 group flex justify-between w-full items-center rounded-md px-2 py-2`}
                 >
                   <p>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>
                   {theme === 'dark' ? (
@@ -59,7 +59,7 @@ export default function User() {
                 <button
                   className={`${
                     active && 'bg-gray-200 dark:bg-darkSecondary'
-                  } text-gray-800 dark:text-white group flex justify-between w-full items-center rounded-md px-2 py-2`}
+                  } text-gray-800 dark:text-gray-200 group flex justify-between w-full items-center rounded-md px-2 py-2`}
                   onClick={() => signOut()}
                 >
                   <p>Log out</p>

@@ -38,7 +38,7 @@ export default function ShowFollowOrDelete({
         <button
           disabled={loadingFollow}
           onClick={followHandler}
-          className='py-[3px] px-2 rounded font-semibold text-sm text-primary border border-primary hover:bg-gray-200 dark:hover:bg-darkBtn'
+          className='py-[3px] px-2 rounded font-semibold text-sm text-primary border border-primary hover:bg-gray-200 dark:hover:bg-darkSecondary'
         >
           Follow
         </button>

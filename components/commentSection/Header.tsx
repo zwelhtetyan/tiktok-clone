@@ -8,7 +8,7 @@ import { IoMdShareAlt } from 'react-icons/io';
 import { socialIcons } from '../../utils/constants';
 import Link from 'next/link';
 import Image from 'next/image';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
 import { useRouter } from 'next/router';
@@ -17,6 +17,7 @@ import useFollow from '../../hooks/useFollow';
 import ShowFollowOrDelete from '../ShowFollowOrDelete';
 import useDeletePost from '../../hooks/useDeletePost';
 import DeleteModal from '../modal/DeleteModal';
+import useCopy from '../../hooks/useCopy';
 
 interface Props {
   post: Video;
@@ -31,16 +32,15 @@ export default memo(function Header({
   setShowLogin,
   setPost,
 }: Props) {
-  const [isCopied, setIsCopied] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
   //hooks
+  const { data: user }: any = useSession();
   const router = useRouter();
   const { liking, handleLike } = useLike();
   const { loadingFollow, handleFollow } = useFollow();
   const { deletingPost, handleDeletePost } = useDeletePost();
-
-  const { data: user }: any = useSession();
+  const { isCopied, copyToClipboard } = useCopy();
   const { isTouchDevice } = useCheckTouchDevice();
 
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
@@ -93,17 +93,6 @@ export default memo(function Header({
     }));
   }
 
-  function copyToClipboard() {
-    navigator.clipboard.writeText(POST_URL);
-    setIsCopied(true);
-  }
-
-  useEffect(() => {
-    const INTERVAL = setTimeout(() => setIsCopied(false), 1000);
-
-    return () => clearInterval(INTERVAL);
-  }, [isCopied]);
-
   return (
     <header className='p-4 lg:p-6 border-b dark:border-b-darkBorder'>
       {showDeletePostModal && (
@@ -147,6 +136,7 @@ export default memo(function Header({
 
       <div className='mt-6 flex items-center justify-between flex-wrap'>
         <div className='flex items-center'>
+          {/* like */}
           <div className='flex items-center mr-4 md:mr-6 text-sm'>
             <button
               onClick={likeHandler}
@@ -160,6 +150,8 @@ export default memo(function Header({
 
             {post.likes?.length || 0}
           </div>
+
+          {/* comment */}
           <div className='flex items-center text-sm'>
             <button className='reaction-btn mr-1 md:mr-2'>
               <RiMessage2Fill size={18} />
@@ -202,7 +194,7 @@ export default memo(function Header({
         </div>
 
         <button
-          onClick={copyToClipboard}
+          onClick={() => copyToClipboard(POST_URL)}
           className='h-full w-20 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
         >
           {isCopied ? 'Copied' : 'Copy link'}

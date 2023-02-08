@@ -74,7 +74,11 @@ export default function Upload() {
     };
 
     await axios.post(`${ROOT_URL}/api/post`, doc);
+
+    handleDiscard();
+
     router.push('/');
+
     setIsPosting(false);
   }
 
@@ -179,7 +183,7 @@ export default function Upload() {
               <div className='mt-12 hidden md:flex items-center justify-center gap-4'>
                 <button
                   onClick={handleDiscard}
-                  disabled={isPosting}
+                  disabled={isPosting || (!caption && !videoAsset)}
                   className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
                 >
                   Discard
@@ -188,7 +192,7 @@ export default function Upload() {
                 <button
                   onClick={handleUpload}
                   className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
-                  disabled={!caption || !selectedTopic || !videoAsset}
+                  disabled={!caption || !videoAsset || isPosting}
                 >
                   {isPosting ? 'Posting...' : 'Post'}
                 </button>
@@ -200,7 +204,7 @@ export default function Upload() {
           <div className='mt-10 xs:mt-12 flex md:hidden items-center justify-center gap-4'>
             <button
               onClick={handleDiscard}
-              disabled={isPosting}
+              disabled={isPosting || !caption || !videoAsset}
               className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
             >
               Discard
@@ -209,7 +213,7 @@ export default function Upload() {
             <button
               onClick={handleUpload}
               className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
-              disabled={!caption || !videoAsset}
+              disabled={!caption || !videoAsset || isPosting}
             >
               {isPosting ? 'Posting...' : 'Post'}
             </button>

@@ -105,23 +105,6 @@ export default function VideoItem({
     ]);
   }
 
-  // useEffect(() => {
-  //   if (loadingFollow) {
-  //     const allFollowingBtnForCurrentUser = document.querySelectorAll(
-  //       `.following-btn-${postedBy._id}`
-  //     ) as NodeListOf<HTMLButtonElement>;
-  //     const allFollowBtnForCurrentUser = document.querySelectorAll(
-  //       `.follow-btn-${postedBy._id}`
-  //     ) as NodeListOf<HTMLButtonElement>;
-
-  //     if (isAlreadyFollow) {
-  //       allFollowingBtnForCurrentUser.forEach((btn) => (btn.disabled = true));
-  //     } else {
-  //       allFollowBtnForCurrentUser.forEach((btn) => (btn.disabled = true));
-  //     }
-  //   }
-  // }, [loadingFollow, isAlreadyFollow, postedBy._id]);
-
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
       {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}

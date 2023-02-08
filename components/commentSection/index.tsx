@@ -122,7 +122,6 @@ export default function CommentSection({ videoDetail }: DetailProps) {
           post.comments?.map((cmt) => (
             <CommentItem
               key={cmt._key}
-              _key={cmt._key}
               src={cmt.postedBy?.image || user?.image}
               userName={cmt.postedBy?.userName || user?.userName}
               commentText={cmt.comment}
@@ -130,8 +129,9 @@ export default function CommentSection({ videoDetail }: DetailProps) {
               showDeleteModal={() =>
                 handleShowDeleteCmtModal(cmt.comment, cmt._key)
               }
-              deletingComment={deletingComment}
-              deletingCmtKey={showDeleteCmtModal.commentKey}
+              deletingComment={
+                deletingComment && cmt._key === showDeleteCmtModal.commentKey
+              }
               isCommentCreator={(cmt.postedBy._id || user?._id) === user?._id}
             />
           ))

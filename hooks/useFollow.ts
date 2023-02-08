@@ -3,7 +3,7 @@ import { User } from '../types';
 import { ROOT_URL } from '../utils';
 import axios from 'axios';
 
-interface ObjProps {
+export interface ObjProps {
   userId: string;
   creatorId: string;
   follow: boolean;

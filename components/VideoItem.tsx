@@ -10,7 +10,7 @@ import UserProfile from './UserProfile';
 import { generateFakeUsername } from '../utils/generateFakeUsername';
 import { useSession } from 'next-auth/react';
 import ShowFollowOrDelete from './ShowFollowOrDelete';
-import useFollow from '../hooks/useFollow';
+import { ObjProps } from '../hooks/useFollow';
 import useDeletePost from '../hooks/useDeletePost';
 import NotLoginModal from './modal/NotLoginModal';
 import DeleteModal from './modal/DeleteModal';
@@ -23,6 +23,9 @@ interface Props {
   handleMute(e: MouseEvent): void;
   postedBy: User;
   setAllPostedBy: Dispatch<SetStateAction<any>>;
+  loadingFollow: boolean;
+  handleFollow: (obj: ObjProps) => Promise<User[]>;
+  setCurrentUserId: Dispatch<SetStateAction<string>>;
 }
 
 export default function VideoItem({
@@ -32,9 +35,11 @@ export default function VideoItem({
   isMute,
   id,
   handleMute,
+  loadingFollow,
+  handleFollow,
+  setCurrentUserId,
 }: Props) {
   //states
-  // const [followers, setFollowers] = useState(postedBy.follower);
   const [showLogin, setShowLogin] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
@@ -44,7 +49,6 @@ export default function VideoItem({
   //hooks
   const router = useRouter();
   const { data: user }: any = useSession();
-  const { loadingFollow, handleFollow } = useFollow();
   const { deletingPost, handleDeletePost } = useDeletePost();
 
   const isAlreadyFollow = postedBy.follower?.some(
@@ -82,6 +86,8 @@ export default function VideoItem({
       return;
     }
 
+    setCurrentUserId(postedBy._id);
+
     const obj = {
       userId: user._id,
       creatorId: postedBy._id,
@@ -98,6 +104,23 @@ export default function VideoItem({
       ),
     ]);
   }
+
+  // useEffect(() => {
+  //   if (loadingFollow) {
+  //     const allFollowingBtnForCurrentUser = document.querySelectorAll(
+  //       `.following-btn-${postedBy._id}`
+  //     ) as NodeListOf<HTMLButtonElement>;
+  //     const allFollowBtnForCurrentUser = document.querySelectorAll(
+  //       `.follow-btn-${postedBy._id}`
+  //     ) as NodeListOf<HTMLButtonElement>;
+
+  //     if (isAlreadyFollow) {
+  //       allFollowingBtnForCurrentUser.forEach((btn) => (btn.disabled = true));
+  //     } else {
+  //       allFollowBtnForCurrentUser.forEach((btn) => (btn.disabled = true));
+  //     }
+  //   }
+  // }, [loadingFollow, isAlreadyFollow, postedBy._id]);
 
   return (
     <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
@@ -139,6 +162,7 @@ export default function VideoItem({
           isAlreadyFollow={isAlreadyFollow}
           followHandler={followHandler}
           loadingFollow={loadingFollow}
+          userId={postedBy._id}
         />
       </header>
 

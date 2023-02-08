@@ -3,26 +3,22 @@ import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
 interface Props {
-  _key: string;
   src: string;
   userName: string;
   commentText: string;
   isCreator: boolean;
   showDeleteModal(): void;
   deletingComment: boolean;
-  deletingCmtKey: string;
   isCommentCreator: boolean;
 }
 
 export default function CommentItem({
-  _key,
   src,
   userName,
   commentText,
   isCreator,
   showDeleteModal,
   deletingComment,
-  deletingCmtKey,
   isCommentCreator,
 }: Props) {
   const { isTouchDevice } = useCheckTouchDevice();
@@ -49,7 +45,7 @@ export default function CommentItem({
         </div>
 
         <div className='w-9'>
-          {deletingComment && _key === deletingCmtKey ? (
+          {deletingComment ? (
             <div className='w-9 h-9 rounded-full flex items-center justify-center'>
               <div className='spinner' />
             </div>

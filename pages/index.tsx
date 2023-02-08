@@ -7,6 +7,7 @@ import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
 import { ROOT_URL } from '../utils';
 import Layout from '../components/Layout';
+import useFollow from '../hooks/useFollow';
 
 interface Props {
   videos: Video[];
@@ -15,6 +16,10 @@ interface Props {
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
   const [allPostedBy, setAllPostedBy] = useState(videos.map((u) => u.postedBy));
+  const [currentUserId, setCurrentUserId] = useState('');
+
+  //hooks
+  const { loadingFollow, handleFollow } = useFollow();
 
   const handleMute = (e: MouseEvent) => {
     e.preventDefault();
@@ -23,6 +28,7 @@ export default function Home({ videos }: Props) {
     setIsMute((prev) => !prev);
   };
 
+  // effects
   useEffect(() => {
     setAllPostedBy(videos.map((u) => u.postedBy));
   }, [videos]);
@@ -123,6 +129,11 @@ export default function Home({ videos }: Props) {
             setAllPostedBy={setAllPostedBy}
             isMute={isMute}
             handleMute={handleMute}
+            handleFollow={handleFollow}
+            setCurrentUserId={setCurrentUserId}
+            loadingFollow={
+              loadingFollow && allPostedBy[idx]._id === currentUserId
+            }
           />
         ))}
       </div>

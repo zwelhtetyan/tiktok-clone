@@ -6,6 +6,7 @@ interface Props {
   followHandler(): Promise<void>;
   loadingFollow: boolean;
   showDeleteModal(): void;
+  userId?: string;
 }
 
 export default function ShowFollowOrDelete({
@@ -14,6 +15,7 @@ export default function ShowFollowOrDelete({
   followHandler,
   loadingFollow,
   showDeleteModal,
+  userId,
 }: Props) {
   return (
     <>

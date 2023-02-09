@@ -31,9 +31,9 @@ export default function App({
     <SessionProvider session={session}>
       <NextNProgress
         color='rgb(254 44 85)'
-        startPosition={0.3}
+        startPosition={0.1}
         stopDelayMs={100}
-        height={2}
+        height={3}
         options={{ showSpinner: false }}
       />
       <Component {...pageProps} />

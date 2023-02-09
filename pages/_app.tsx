@@ -2,6 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import useThemeStore from '../store/theme';
+import NextNProgress from 'nextjs-progressbar';
 import '../styles/globals.css';
 
 export default function App({
@@ -28,6 +29,13 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
+      <NextNProgress
+        color='rgb(254 44 85)'
+        startPosition={0.3}
+        stopDelayMs={100}
+        height={2}
+        options={{ showSpinner: false }}
+      />
       <Component {...pageProps} />
     </SessionProvider>
   );

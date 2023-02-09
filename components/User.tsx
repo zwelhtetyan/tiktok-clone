@@ -7,17 +7,19 @@ import { MdWbSunny } from 'react-icons/md';
 import useThemeStore from '../store/theme';
 import themeToggler from '../utils/themeToggler';
 import { FaUserCircle } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 export default function User() {
   const { data: user }: any = useSession();
   const { theme, setTheme } = useThemeStore();
+  const router = useRouter();
 
   return (
     <Menu as='div' className='relative inline-block w-11 xs:w-12 h-11 xs:h-12'>
       <div className='flex items-center'>
         <Menu.Button className='inline-flex w-full justify-center items-center rounded-md'>
           <Image
-            src={user?.image}
+            src={user.image}
             width={100}
             height={100}
             alt='user_img'
@@ -44,7 +46,7 @@ export default function User() {
                   className={`${
                     active && 'bg-gray-200 dark:bg-darkSecondary'
                   } text-gray-800 dark:text-gray-200 group flex justify-between w-full items-center rounded-md px-2 py-2`}
-                  onClick={() => {}}
+                  onClick={() => router.push(`/profile/${user._id}`)}
                 >
                   <p>View profile</p>
                   <FaUserCircle size={20} />

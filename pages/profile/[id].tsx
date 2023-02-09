@@ -7,10 +7,14 @@ import { ROOT_URL } from '../../utils';
 import { User, Video } from '../../types';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
 import useCopy from '../../hooks/useCopy';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BsHeartFill } from 'react-icons/bs';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
+import { useSession } from 'next-auth/react';
+import useFollow from '../../hooks/useFollow';
+import NotLoginModal from '../../components/modal/NotLoginModal';
+import { useRouter } from 'next/router';
 
 interface Props {
   data: {
@@ -49,7 +53,7 @@ function TabItem({ name, tabIdx, tab, setTab }: TabItemProps) {
   return (
     <button
       onClick={() => setTab(tabIdx)}
-      className={`font-semibold cursor-pointer p-2 w-full max-w-[128px] text-center border-b-2 ${
+      className={`font-semibold cursor-pointer p-2 w-full max-w-[128px] text-center border-b-[3px] ${
         tab === tabIdx
           ? 'border-b-gray-600 dark:border-b-gray-300'
           : 'border-transparent'
@@ -73,7 +77,7 @@ function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
           <BsHeartFill size={18} className='mr-1' /> {likes}
         </div>
       </div>
-      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-600 dark:text-gray-300'>
+      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-800 dark:text-gray-300'>
         {caption}
       </p>
     </Link>
@@ -81,14 +85,19 @@ function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
 }
 
 export default function Profile({ data }: Props) {
-  // states
-  const [tab, setTab] = useState(0);
-
   // destructure
-  const { user, userCreatedPosts, userLikedPosts } = data;
+  const { user: userInfo, userCreatedPosts, userLikedPosts } = data;
+
+  // states
+  const [user, setUser] = useState(userInfo);
+  const [tab, setTab] = useState(0);
+  const [showLogin, setShowLogin] = useState(false);
 
   //hooks
+  const { data: currentUser }: any = useSession();
   const { isCopied, copyToClipboard } = useCopy();
+  const { loadingFollow, handleFollow } = useFollow();
+  const router = useRouter();
 
   const totalLikes = userCreatedPosts.reduce(
     (like: number, item: Video) => like + (item.likes?.length || 0),
@@ -100,6 +109,34 @@ export default function Profile({ data }: Props) {
 
   const profileURL = `${ROOT_URL}/profile/${user._id}`;
 
+  const isAlreadyFollow = user.follower?.some(
+    (u) => u._ref === currentUser?._id
+  );
+
+  async function followHandler() {
+    if (!currentUser) {
+      setShowLogin(true);
+      return;
+    }
+
+    const obj = {
+      userId: currentUser._id,
+      creatorId: user._id,
+      follow: isAlreadyFollow ? false : true,
+    };
+
+    const updatedUsers = await handleFollow(obj);
+
+    const creator = updatedUsers.find((u) => u._id === user._id)!;
+
+    setUser((prev) => ({ ...prev, follower: creator.follower }));
+  }
+
+  useEffect(() => {
+    setTab(0);
+    setUser(userInfo);
+  }, [router.query.id, userInfo]);
+
   return (
     <Layout>
       <Head>
@@ -107,6 +144,7 @@ export default function Profile({ data }: Props) {
       </Head>
 
       <div className='pl-2 lg:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
+        {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
         <header className='w-full max-w-2xl'>
           <div className='flex items-start justify-between w-full'>
             <div className='flex items-center'>
@@ -125,9 +163,28 @@ export default function Profile({ data }: Props) {
                 <p className='text-sm xs:text-base sm:text-lg text-gray-600 dark:text-gray-200'>
                   @{generateFakeUsername(user.userName)}
                 </p>
-                <button className='btn-primary w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'>
-                  Follow
-                </button>
+
+                {user._id === currentUser?._id ? (
+                  <button className='btn-secondary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'>
+                    Edit profile
+                  </button>
+                ) : isAlreadyFollow ? (
+                  <button
+                    onClick={followHandler}
+                    disabled={loadingFollow}
+                    className='btn-secondary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'
+                  >
+                    Following
+                  </button>
+                ) : (
+                  <button
+                    onClick={followHandler}
+                    disabled={loadingFollow}
+                    className='btn-primary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'
+                  >
+                    Follow
+                  </button>
+                )}
               </div>
             </div>
 
@@ -137,7 +194,7 @@ export default function Profile({ data }: Props) {
               className='reaction-btn w-10 h-10'
             >
               {isCopied ? (
-                <IoCheckmarkDoneSharp size={20} />
+                <IoCheckmarkDoneSharp size={18} />
               ) : (
                 <IoIosCopy size={20} />
               )}
@@ -165,7 +222,8 @@ export default function Profile({ data }: Props) {
             <TabItem name='Liked' tabIdx={1} tab={tab} setTab={setTab} />
           </div>
 
-          <div className='mt-2 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
+          {/* videos */}
+          <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
             {tab === 0 ? (
               <>
                 {userCreatedPosts.map((post) => (

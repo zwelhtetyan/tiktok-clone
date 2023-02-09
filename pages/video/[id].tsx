@@ -11,7 +11,7 @@ interface DetailProps {
   videoDetail: Video;
 }
 
-export default function Detail({ videoDetail }: DetailProps) {
+export default function VideoDetail({ videoDetail }: DetailProps) {
   const router = useRouter();
 
   // scroll top

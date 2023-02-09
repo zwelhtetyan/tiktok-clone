@@ -22,7 +22,7 @@ export default function ShowFollowOrDelete({
       {isCreator ? (
         <div
           onClick={showDeleteModal}
-          className='reaction-btn text-red-600 cursor-pointer'
+          className='reaction-btn text-red-600 dark:text-red-600 cursor-pointer'
         >
           <AiTwotoneDelete size={20} />
         </div>

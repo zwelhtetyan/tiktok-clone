@@ -8,28 +8,20 @@ import { CgGirl } from 'react-icons/cg';
 
 export const topics = [
   {
-    name: 'development',
-    icon: <BsCodeSlash size={20} />,
-  },
-  {
-    name: 'comedy',
-    icon: <FaRegLaughSquint size={20} />,
-  },
-  {
-    name: 'gaming',
-    icon: <IoGameControllerOutline size={20} />,
-  },
-  {
-    name: 'food',
-    icon: <CiPizza size={20} />,
+    name: 'beauty',
+    icon: <CgGirl size={20} />,
   },
   {
     name: 'dance',
     icon: <GiSoundOn size={20} />,
   },
   {
-    name: 'beauty',
-    icon: <CgGirl size={20} />,
+    name: 'food',
+    icon: <CiPizza size={20} />,
+  },
+  {
+    name: 'gaming',
+    icon: <IoGameControllerOutline size={20} />,
   },
   {
     name: 'animals',
@@ -38,6 +30,14 @@ export const topics = [
   {
     name: 'sports',
     icon: <BiFootball size={20} />,
+  },
+  {
+    name: 'development',
+    icon: <BsCodeSlash size={20} />,
+  },
+  {
+    name: 'comedy',
+    icon: <FaRegLaughSquint size={20} />,
   },
 ];
 

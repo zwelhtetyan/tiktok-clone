@@ -11,16 +11,17 @@ export default function Layout({ children }: Props) {
   const { pathname } = useRouter();
 
   const homeRoute = pathname === '/';
+  const profileRoute = pathname === '/profile/[id]';
 
   return (
-    <>
+    <div className='dark:bg-dark'>
       <Navbar />
 
       <main className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-64px)] overflow-y-auto overflow-hidden'>
-        {homeRoute && <Sidebar />}
+        {(homeRoute || profileRoute) && <Sidebar />}
 
         <div className='w-full flex-1'>{children}</div>
       </main>
-    </>
+    </div>
   );
 }

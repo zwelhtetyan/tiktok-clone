@@ -21,7 +21,7 @@ function Topic({ topic }: TopicProp) {
         topic.name === activeTopic
           ? 'active-topic'
           : 'border-gray-200 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
-      } rounded-full flex items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
+      } rounded-full flex items-center justify-center text-sm w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
       `}
     >
       {topic.icon} <p className='ml-2 hidden lg:block'>{topic.name}</p>
@@ -31,7 +31,7 @@ function Topic({ topic }: TopicProp) {
 
 export default function PopularTopics() {
   return (
-    <div className='mb-4'>
+    <div className='mb-2'>
       <h2 className='font-semibold mb-3 text-gray-500 hidden lg:block'>
         Popular Topic
       </h2>

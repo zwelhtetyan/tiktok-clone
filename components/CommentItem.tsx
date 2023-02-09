@@ -54,7 +54,7 @@ export default function CommentItem({
               onClick={showDeleteModal}
               className={`${
                 isTouchDevice ? 'flex' : 'hidden'
-              } reaction-btn text-red-600 cursor-pointer group-hover:flex`}
+              } reaction-btn text-red-600 dark:text-red-600 cursor-pointer group-hover:flex`}
             >
               <AiTwotoneDelete size={20} />
             </div>

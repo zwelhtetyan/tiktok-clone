@@ -119,7 +119,7 @@ export default function Home({ videos }: Props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='video-container max-w-[720px] h-[calc(100vh-97px)] overflow-hidden overflow-y-auto pt-2'>
+      <div className='video-container pl-2 sm:pl-4 max-w-2xl h-[calc(100vh-97px)] overflow-hidden overflow-y-auto pt-2'>
         {videos?.map((video, idx) => (
           <VideoItem
             key={video._id}

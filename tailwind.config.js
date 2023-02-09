@@ -29,6 +29,10 @@ module.exports = {
         'img-blur-light': 'url(/blur-img-light.jpg)',
         'img-blur-dark': 'url(/blur-img-dark.jpeg)',
       },
+
+      gridTemplateColumns: {
+        'auto-fill-180': 'repeat(auto-fill, minmax(180px, 1fr))',
+      },
     },
   },
   plugins: [require('@tailwindcss/line-clamp')],

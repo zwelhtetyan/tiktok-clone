@@ -4,6 +4,7 @@ import { ROOT_URL } from '../utils';
 import { User } from '../types';
 import UserProfile from './UserProfile';
 import { generateFakeUsername } from '../utils/generateFakeUsername';
+import Link from 'next/link';
 
 interface DataProps {
   data: User[];
@@ -16,9 +17,20 @@ async function getAllUsers() {
   return allUsers;
 }
 
-function UserAccount({ src, userName }: { src: string; userName: string }) {
+function UserAccount({
+  src,
+  userName,
+  userId,
+}: {
+  src: string;
+  userName: string;
+  userId: string;
+}) {
   return (
-    <div className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'>
+    <Link
+      href={`/profile/${userId}`}
+      className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'
+    >
       <UserProfile src={src} className=' mr-2' />
       <div>
         <h2 className='font-semibold leading-5'>{userName}</h2>
@@ -26,7 +38,7 @@ function UserAccount({ src, userName }: { src: string; userName: string }) {
           {generateFakeUsername(userName)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -64,6 +76,7 @@ export default function SuggestedAccounts() {
             key={user._id}
             src={user.image}
             userName={user.userName}
+            userId={user._id}
           />
         ))}
       </div>

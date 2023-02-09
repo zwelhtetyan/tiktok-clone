@@ -17,7 +17,7 @@
 
 @layer base {
   body {
-    @apply lg:overflow-hidden;
+    @apply lg:overflow-hidden text-black dark:text-white;
   }
 }
 
@@ -35,7 +35,7 @@
   }
 
   .reaction-btn {
-    @apply w-9 h-9 bg-gray-200 dark:bg-[#7e7b7b5e] flex items-center justify-center rounded-full hover:bg-gray-300  dark:hover:bg-[#5c59595e];
+    @apply w-9 h-9 bg-gray-200 dark:bg-[#7e7b7b5e] text-gray-700 dark:text-gray-200 flex items-center justify-center rounded-full hover:bg-gray-300  dark:hover:bg-[#5c59595e];
   }
 
   .spinner {

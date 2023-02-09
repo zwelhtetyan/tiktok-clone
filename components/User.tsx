@@ -6,6 +6,7 @@ import { IoIosLogOut, IoMdMoon } from 'react-icons/io';
 import { MdWbSunny } from 'react-icons/md';
 import useThemeStore from '../store/theme';
 import themeToggler from '../utils/themeToggler';
+import { FaUserCircle } from 'react-icons/fa';
 
 export default function User() {
   const { data: user }: any = useSession();
@@ -40,12 +41,25 @@ export default function User() {
             <Menu.Item>
               {({ active }) => (
                 <button
+                  className={`${
+                    active && 'bg-gray-200 dark:bg-darkSecondary'
+                  } text-gray-800 dark:text-gray-200 group flex justify-between w-full items-center rounded-md px-2 py-2`}
+                  onClick={() => {}}
+                >
+                  <p>View profile</p>
+                  <FaUserCircle size={20} />
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
                   onClick={() => themeToggler(setTheme)}
                   className={`${
                     active && 'bg-gray-200 dark:bg-darkSecondary'
                   } text-gray-800 dark:text-gray-200 group flex justify-between w-full items-center rounded-md px-2 py-2`}
                 >
-                  <p>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>
+                  <p>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</p>
                   {theme === 'dark' ? (
                     <MdWbSunny size={20} />
                   ) : (

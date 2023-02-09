@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 export default function useCopy() {
   const [isCopied, setIsCopied] = useState(false);
 
-  function copyToClipboard(POST_URL: string) {
-    navigator.clipboard.writeText(POST_URL);
+  function copyToClipboard(TEXT: string) {
+    navigator.clipboard.writeText(TEXT);
     setIsCopied(true);
   }
 

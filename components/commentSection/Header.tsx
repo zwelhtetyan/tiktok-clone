@@ -107,15 +107,21 @@ export default memo(function Header({
 
       <div className='w-full flex items-start justify-between mb-2'>
         <div className='flex items-start'>
-          <UserProfile
-            src={post.postedBy.image}
-            className='mr-2 xs:mr-3 xs:w-14 xs:h-14'
-          />
+          <Link href={`/profile/${post.postedBy._id}`}>
+            <UserProfile
+              src={post.postedBy.image}
+              className='mr-2 xs:mr-3 xs:w-14 xs:h-14'
+            />
+          </Link>
 
           <div>
-            <h2 className='text-lg font-bold leading-6'>
+            <Link
+              href={`/profile/${post.postedBy._id}`}
+              className='text-lg font-bold leading-6 cursor-pointer hover:text-gray-800 dark:hover:text-gray-300'
+            >
               {post.postedBy.userName}
-            </h2>
+            </Link>
+
             <p className='text-gray-400 text-sm'>
               {formatDate(post._createdAt!)}
             </p>
@@ -142,7 +148,7 @@ export default memo(function Header({
               onClick={likeHandler}
               disabled={liking}
               className={`reaction-btn mr-1 md:mr-2 ${
-                isAlreadyLike ? 'text-primary' : ''
+                isAlreadyLike ? 'text-primary dark:text-primary' : ''
               }`}
             >
               <BsHeartFill size={18} />

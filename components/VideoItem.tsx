@@ -177,16 +177,21 @@ export default function VideoItem({
 
       <header className='w-full flex items-start mb-1 xs:mb-4'>
         <div className='flex-1 flex'>
-          <UserProfile
-            src={postedBy.image}
-            className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
-          />
+          <Link href={`/profile/${postedBy._id}`}>
+            <UserProfile
+              src={postedBy.image}
+              className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
+            />
+          </Link>
 
-          <div className='mt-1'>
-            <h2 className='font-bold text-base leading-[1.2rem]'>
+          <div className='flex-1'>
+            <Link
+              href={`/profile/${postedBy._id}`}
+              className='font-bold block xs:text-lg cursor-pointer hover:text-gray-800 dark:hover:text-gray-300'
+            >
               {postedBy.userName}
-            </h2>
-            <p className='text-gray-500 text-sm'>
+            </Link>
+            <p className='text-gray-500 dark:text-gray-400 text-sm leading-4 xs:leading-5'>
               {generateFakeUsername(postedBy.userName)}
             </p>
             <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block'>
@@ -214,7 +219,7 @@ export default function VideoItem({
       {/* video */}
       <div className='flex w-full xs:ml-[60px] h-[470px] xs:h-[480px]'>
         <Link
-          href={`detail/${videoId}`}
+          href={`video/${videoId}`}
           className='group relative rounded-lg h-full w-full max-w-[270px] bg-black flex items-center overflow-hidden cursor-pointer'
         >
           <video
@@ -261,7 +266,9 @@ export default function VideoItem({
             <button
               onClick={likeHandler}
               disabled={liking}
-              className={`reaction-btn ${isAlreadyLike ? 'text-primary' : ''}`}
+              className={`reaction-btn ${
+                isAlreadyLike ? 'text-primary dark:text-primary' : ''
+              }`}
             >
               <BsHeartFill size={18} />
             </button>
@@ -293,32 +300,37 @@ export default function VideoItem({
                 <IoMdShareAlt size={20} />
               </button>
 
-              <div className='w-[240px] absolute bottom-9 -left-3 hidden group-hover:block'>
-                <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
-                  {socialIcons.map((item) => (
-                    <ShareLink
-                      key={item.name}
-                      src={item.icon}
-                      name={item.name}
-                      POST_URL={POST_URL}
-                      caption={caption}
-                    />
-                  ))}
+              <div>
+                <div className='w-[240px] absolute bottom-14 -left-3 hidden group-hover:block'>
+                  <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
+                    {socialIcons.map((item) => (
+                      <ShareLink
+                        key={item.name}
+                        src={item.icon}
+                        name={item.name}
+                        POST_URL={POST_URL}
+                        caption={caption}
+                      />
+                    ))}
 
-                  <div
-                    onClick={() => copyToClipboard(POST_URL)}
-                    className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
-                  >
-                    <div className='mr-2 w-7 h-7 flex items-center justify-center'>
-                      <IoIosCopy size={20} />
+                    <div
+                      onClick={() => copyToClipboard(POST_URL)}
+                      className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
+                    >
+                      <div className='mr-2 w-7 h-7 flex items-center justify-center'>
+                        <IoIosCopy size={20} />
+                      </div>
+                      <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
+                        {isCopied ? 'Copied' : 'Copy link'}
+                      </p>
                     </div>
-                    <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
-                      {isCopied ? 'Copied' : 'Copy link'}
-                    </p>
                   </div>
-                </div>
 
-                <div className='mt-3' />
+                  <div className='mt-3' />
+                </div>
+                <p className='text-xs mt-1 text-gray-600 dark:text-gray-200'>
+                  Share
+                </p>
               </div>
             </div>
           )}

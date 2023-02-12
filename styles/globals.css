@@ -19,6 +19,11 @@
   body {
     @apply lg:overflow-hidden text-black dark:text-white;
   }
+
+  input,
+  textarea {
+    @apply caret-primary;
+  }
 }
 
 @layer components {

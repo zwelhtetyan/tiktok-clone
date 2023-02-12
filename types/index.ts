@@ -35,7 +35,8 @@ export interface User {
   _id: string;
   userName: string;
   image: string;
-  _type?: string;
+  _type: string;
+  bio?: string;
   follower?: { _key: string; _ref: string; _type: string }[];
   following?: { _key: string; _ref: string; _type: string }[];
 }

@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react';
 import useFollow from '../../hooks/useFollow';
 import NotLoginModal from '../../components/modal/NotLoginModal';
 import { useRouter } from 'next/router';
+import EditBioModal from '../../components/modal/EditBioModal';
 
 interface Props {
   data: {
@@ -92,6 +93,7 @@ export default function Profile({ data }: Props) {
   const [user, setUser] = useState(userInfo);
   const [tab, setTab] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
+  const [showEditBioModal, setShowEditBioModal] = useState(false);
 
   //hooks
   const { data: currentUser }: any = useSession();
@@ -132,6 +134,11 @@ export default function Profile({ data }: Props) {
     setUser((prev) => ({ ...prev, follower: creator.follower }));
   }
 
+  async function handleSaveBio() {
+    // push data to server and show in ui
+    console.log('hi');
+  }
+
   useEffect(() => {
     setTab(0);
     setUser(userInfo);
@@ -145,6 +152,13 @@ export default function Profile({ data }: Props) {
 
       <div className='pl-2 lg:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
         {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
+        {showEditBioModal && (
+          <EditBioModal
+            onClose={() => setShowEditBioModal(false)}
+            handleSaveBio={handleSaveBio}
+          />
+        )}
+
         <header className='w-full max-w-2xl'>
           <div className='flex items-start justify-between w-full'>
             <div className='flex items-center'>
@@ -160,12 +174,16 @@ export default function Profile({ data }: Props) {
                 <h2 className='text-base xs:text-xl sm:text-2xl font-extrabold leading-4 xs:leading-5 sm:leading-6'>
                   {user.userName}
                 </h2>
+
                 <p className='text-sm xs:text-base sm:text-lg text-gray-600 dark:text-gray-200'>
                   @{generateFakeUsername(user.userName)}
                 </p>
 
                 {user._id === currentUser?._id ? (
-                  <button className='btn-secondary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'>
+                  <button
+                    onClick={() => setShowEditBioModal(true)}
+                    className='btn-secondary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'
+                  >
                     Edit profile
                   </button>
                 ) : isAlreadyFollow ? (
@@ -213,6 +231,9 @@ export default function Profile({ data }: Props) {
               name={totalLikes > 1 ? 'Likes' : 'Like'}
             />
           </div>
+
+          {/* bio */}
+          <p className='mt-3 text-gray-900 dark:text-gray-100'>No bio yet.</p>
         </header>
 
         <div className='mt-5'>

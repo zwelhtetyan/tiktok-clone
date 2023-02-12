@@ -18,6 +18,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   const [post, setPost] = useState(videoDetail);
   const [commentVal, setCommentVal] = useState('');
   const [showLogin, setShowLogin] = useState(false);
+  const [scrollDown, setScrollDown] = useState(false);
   const [showDeleteCmtModal, setShowDeleteCmtModal] = useState({
     show: false,
     commentText: '',
@@ -61,6 +62,8 @@ export default function CommentSection({ videoDetail }: DetailProps) {
           ]
         : [updatedPost.comments[updatedPost.comments.length - 1]],
     }));
+
+    setScrollDown(true);
   }
 
   async function deleteCommentHandler(commentKey: string) {
@@ -91,8 +94,11 @@ export default function CommentSection({ videoDetail }: DetailProps) {
 
   // scroll bottom to show last comment
   useEffect(() => {
-    showNewCmt.current?.scrollIntoView();
-  }, [post.comments?.length]);
+    if (scrollDown) {
+      showNewCmt.current?.scrollIntoView();
+      setScrollDown(false);
+    }
+  }, [scrollDown]);
 
   return (
     <div className='flex flex-col w-full max-w-3xl mx-auto pt-2 lg:pt-0 lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>
@@ -122,6 +128,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
           post.comments?.map((cmt) => (
             <CommentItem
               key={cmt._key}
+              userId={cmt.postedBy._id!}
               src={cmt.postedBy?.image || user?.image}
               userName={cmt.postedBy?.userName || user?.userName}
               commentText={cmt.comment}

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import useCheckTouchDevice from '../hooks/useCheckTouchDevice';
 import UserProfile from './UserProfile';
 import { AiTwotoneDelete } from 'react-icons/ai';
@@ -5,6 +6,7 @@ import { AiTwotoneDelete } from 'react-icons/ai';
 interface Props {
   src: string;
   userName: string;
+  userId: string;
   commentText: string;
   isCreator: boolean;
   showDeleteModal(): void;
@@ -15,6 +17,7 @@ interface Props {
 export default function CommentItem({
   src,
   userName,
+  userId,
   commentText,
   isCreator,
   showDeleteModal,
@@ -25,7 +28,10 @@ export default function CommentItem({
 
   return (
     <div className='group flex items-start mb-4'>
-      <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
+      <Link href={`/profile/${userId}`}>
+        <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
+      </Link>
+
       <div className='flex-1 flex items-start justify-between'>
         <div className='flex-1'>
           <h2 className='font-semibold leading-6'>

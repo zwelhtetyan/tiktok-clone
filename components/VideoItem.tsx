@@ -191,7 +191,7 @@ export default function VideoItem({
             >
               {postedBy.userName}
             </Link>
-            <p className='text-gray-500 dark:text-gray-400 text-sm leading-4 xs:leading-5'>
+            <p className='text-gray-500 dark:text-gray-400 text-sm leading-4'>
               {generateFakeUsername(postedBy.userName)}
             </p>
             <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block'>
@@ -219,7 +219,7 @@ export default function VideoItem({
       {/* video */}
       <div className='flex w-full xs:ml-[60px] h-[470px] xs:h-[480px]'>
         <Link
-          href={`video/${videoId}`}
+          href={`/video/${videoId}`}
           className='group relative rounded-lg h-full w-full max-w-[270px] bg-black flex items-center overflow-hidden cursor-pointer'
         >
           <video
@@ -278,7 +278,7 @@ export default function VideoItem({
           {/* comment */}
           <div className='flex flex-col items-center'>
             <button
-              onClick={() => router.push(`detail/${videoId}`)}
+              onClick={() => router.push(`/video/${videoId}`)}
               className='reaction-btn'
             >
               <RiMessage2Fill size={18} />

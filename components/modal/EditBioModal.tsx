@@ -1,12 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, memo } from 'react';
+import { Fragment, RefObject, memo } from 'react';
 
 interface Props {
   onClose(): void;
   handleSaveBio(): Promise<void>;
+  bioRef: RefObject<HTMLTextAreaElement>;
+  savingBio: boolean;
+  bio: string;
 }
 
-export default function EditBioModal({ onClose, handleSaveBio }: Props) {
+export default function EditBioModal({
+  onClose,
+  bioRef,
+  handleSaveBio,
+  savingBio,
+  bio,
+}: Props) {
   return (
     <>
       <Transition appear show={true} as={Fragment}>
@@ -43,6 +52,8 @@ export default function EditBioModal({ onClose, handleSaveBio }: Props) {
                   </Dialog.Title>
                   <div className='mt-4 flex-col items-center flex justify-center'>
                     <textarea
+                      ref={bioRef}
+                      defaultValue={bio}
                       placeholder='Bio'
                       className='w-full h-28 border outline-none rounded-lg py-2 px-3 dark:bg-transparent border-gray-200 dark:border-darkBorder'
                     />
@@ -50,16 +61,17 @@ export default function EditBioModal({ onClose, handleSaveBio }: Props) {
                     <div className='w-full mt-4 flex items-center justify-end gap-3'>
                       <button
                         onClick={onClose}
+                        disabled={savingBio}
                         className='btn-secondary py-2 px-6 disabled:cursor-not-allowed'
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleSaveBio}
-                        // disabled={saving}
+                        disabled={savingBio}
                         className='btn-primary py-2 px-6 disabled:cursor-not-allowed'
                       >
-                        Save
+                        {savingBio ? 'Saving...' : 'Save'}
                       </button>
                     </div>
                   </div>

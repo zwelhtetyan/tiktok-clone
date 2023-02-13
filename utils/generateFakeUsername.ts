@@ -1,3 +1,3 @@
 export function generateFakeUsername(userName: string) {
-  return userName.replaceAll(' ', '').toLocaleLowerCase();
+  return userName?.replaceAll(' ', '').toLocaleLowerCase();
 }

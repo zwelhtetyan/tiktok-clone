@@ -17,10 +17,12 @@ export default function VideoDetail({ videoDetail }: DetailProps) {
   // scroll top
   useEffect(() => window.scrollTo(0, 0), []);
 
+  const TITLE = `${videoDetail.caption} | TikTok`;
+
   return (
     <>
       <Head>
-        <title>{videoDetail.caption} | Tik Tok</title>
+        <title>{TITLE}</title>
       </Head>
 
       <div className='lg:min-h-screen w-full flex flex-col lg:flex-row dark:bg-dark dark:text-white'>

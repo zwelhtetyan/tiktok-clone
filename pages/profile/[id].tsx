@@ -7,7 +7,7 @@ import { ROOT_URL } from '../../utils';
 import { User, Video } from '../../types';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
 import useCopy from '../../hooks/useCopy';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BsHeartFill } from 'react-icons/bs';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
@@ -94,8 +94,12 @@ export default function Profile({ data }: Props) {
   const [tab, setTab] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
   const [showEditBioModal, setShowEditBioModal] = useState(false);
+  const [savingBio, setSavingBio] = useState(false);
 
-  //hooks
+  // refs
+  const bioRef = useRef<HTMLTextAreaElement>(null);
+
+  // hooks
   const { data: currentUser }: any = useSession();
   const { isCopied, copyToClipboard } = useCopy();
   const { loadingFollow, handleFollow } = useFollow();
@@ -106,12 +110,12 @@ export default function Profile({ data }: Props) {
     0
   );
 
-  const following = user.following?.length;
-  const followers = user.follower?.length;
+  const following = user?.following?.length;
+  const followers = user?.follower?.length;
 
-  const profileURL = `${ROOT_URL}/profile/${user._id}`;
+  const profileURL = `${ROOT_URL}/profile/${user?._id}`;
 
-  const isAlreadyFollow = user.follower?.some(
+  const isAlreadyFollow = user?.follower?.some(
     (u) => u._ref === currentUser?._id
   );
 
@@ -122,40 +126,63 @@ export default function Profile({ data }: Props) {
     }
 
     const obj = {
-      userId: currentUser._id,
-      creatorId: user._id,
+      userId: currentUser?._id,
+      creatorId: user?._id,
       follow: isAlreadyFollow ? false : true,
     };
 
     const updatedUsers = await handleFollow(obj);
 
-    const creator = updatedUsers.find((u) => u._id === user._id)!;
+    const creator = updatedUsers.find((u) => u._id === user?._id)!;
 
     setUser((prev) => ({ ...prev, follower: creator.follower }));
   }
 
   async function handleSaveBio() {
-    // push data to server and show in ui
-    console.log('hi');
+    const bio = bioRef.current?.value!;
+
+    const obj = { userId: user?._id, bio };
+
+    setSavingBio(true);
+    const { data: updatedUser } = await axios.put(
+      `${ROOT_URL}/api/user/bio`,
+      obj
+    );
+
+    setSavingBio(false);
+    setUser(updatedUser);
+    setShowEditBioModal(false);
   }
+
+  useEffect(() => {
+    if (showEditBioModal) {
+      const bioLength = user?.bio?.length || null;
+      bioRef.current?.setSelectionRange(bioLength, bioLength);
+    }
+  }, [showEditBioModal, user?.bio?.length]);
 
   useEffect(() => {
     setTab(0);
     setUser(userInfo);
   }, [router.query.id, userInfo]);
 
+  const TITLE = `${user?.userName} | TikTok`;
+
   return (
     <Layout>
       <Head>
-        <title>{user.userName} - TikTok</title>
+        <title>{TITLE}</title>
       </Head>
 
       <div className='pl-2 lg:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
         {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
         {showEditBioModal && (
           <EditBioModal
+            bioRef={bioRef}
             onClose={() => setShowEditBioModal(false)}
             handleSaveBio={handleSaveBio}
+            savingBio={savingBio}
+            bio={user?.bio || ''}
           />
         )}
 
@@ -163,28 +190,29 @@ export default function Profile({ data }: Props) {
           <div className='flex items-start justify-between w-full'>
             <div className='flex items-center'>
               <Image
-                src={user.image}
+                src={user?.image}
                 alt='user_profile'
                 width={200}
                 height={200}
+                priority
                 className='w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 rounded-full'
               />
 
               <div className='ml-2 xs:ml-4'>
                 <h2 className='text-base xs:text-xl sm:text-2xl font-extrabold leading-4 xs:leading-5 sm:leading-6'>
-                  {user.userName}
+                  {user?.userName}
                 </h2>
 
                 <p className='text-sm xs:text-base sm:text-lg text-gray-600 dark:text-gray-200'>
-                  @{generateFakeUsername(user.userName)}
+                  @{generateFakeUsername(user?.userName)}
                 </p>
 
-                {user._id === currentUser?._id ? (
+                {user?._id === currentUser?._id ? (
                   <button
                     onClick={() => setShowEditBioModal(true)}
                     className='btn-secondary text-sm xs:text-base font-semibold w-28 xs:w-40 mt-1 xs:mt-2 sm:mt-3'
                   >
-                    Edit profile
+                    Edit bio
                   </button>
                 ) : isAlreadyFollow ? (
                   <button
@@ -233,10 +261,12 @@ export default function Profile({ data }: Props) {
           </div>
 
           {/* bio */}
-          <p className='mt-3 text-gray-900 dark:text-gray-100'>No bio yet.</p>
+          <p className='mt-3 p-2 text-sm border-l-[3px] border-l-gray-200 dark:border-l-darkBorder text-gray-700 dark:text-gray-300'>
+            {user?.bio ? user?.bio : 'No bio yet.'}
+          </p>
         </header>
 
-        <div className='mt-5'>
+        <div className='mt-4'>
           {/* tab menu */}
           <div className='flex items-center'>
             <TabItem name='Videos' tabIdx={0} tab={tab} setTab={setTab} />

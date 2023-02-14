@@ -16,6 +16,7 @@ import useFollow from '../../hooks/useFollow';
 import NotLoginModal from '../../components/modal/NotLoginModal';
 import { useRouter } from 'next/router';
 import EditBioModal from '../../components/modal/EditBioModal';
+import NoVideo from '../../components/NoVideo';
 
 interface Props {
   data: {
@@ -112,6 +113,7 @@ export default function Profile({ data }: Props) {
 
   const following = user?.following?.length;
   const followers = user?.follower?.length;
+  const isCurrentUserProfile = user?._id === currentUser?._id;
 
   const profileURL = `${ROOT_URL}/profile/${user?._id}`;
 
@@ -273,34 +275,53 @@ export default function Profile({ data }: Props) {
             <TabItem name='Liked' tabIdx={1} tab={tab} setTab={setTab} />
           </div>
 
-          {/* videos */}
-          <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
-            {tab === 0 ? (
-              <>
-                {userCreatedPosts.map((post) => (
-                  <VideoItem
-                    key={post._id}
-                    videoURL={post.video.asset.url}
-                    likes={post.likes?.length || 0}
-                    caption={post.caption}
-                    videoId={post._id}
-                  />
-                ))}
-              </>
-            ) : (
-              <>
-                {userLikedPosts.map((post) => (
-                  <VideoItem
-                    key={post._id}
-                    videoURL={post.video.asset.url}
-                    likes={post.likes?.length || 0}
-                    caption={post.caption}
-                    videoId={post._id}
-                  />
-                ))}
-              </>
-            )}
-          </div>
+          {/* no result */}
+          {tab === 0 && userCreatedPosts.length < 1 ? (
+            <NoVideo
+              title={
+                isCurrentUserProfile
+                  ? 'Upload your first video'
+                  : 'No uploaded video yet!'
+              }
+              desc={isCurrentUserProfile ? 'Your videos will appear here.' : ''}
+            />
+          ) : tab === 1 && userLikedPosts.length < 1 ? (
+            <NoVideo
+              title='No liked videos yet!'
+              desc={
+                isCurrentUserProfile ? 'Videos you liked will appear here' : ''
+              }
+            />
+          ) : (
+            // videos
+            <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
+              {tab === 0 ? (
+                <>
+                  {userCreatedPosts.map((post) => (
+                    <VideoItem
+                      key={post._id}
+                      videoURL={post.video.asset.url}
+                      likes={post.likes?.length || 0}
+                      caption={post.caption}
+                      videoId={post._id}
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {userLikedPosts.map((post) => (
+                    <VideoItem
+                      key={post._id}
+                      videoURL={post.video.asset.url}
+                      likes={post.likes?.length || 0}
+                      caption={post.caption}
+                      videoId={post._id}
+                    />
+                  ))}
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Layout>

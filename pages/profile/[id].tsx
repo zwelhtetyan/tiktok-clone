@@ -7,7 +7,7 @@ import { ROOT_URL } from '../../utils';
 import { User, Video } from '../../types';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
 import useCopy from '../../hooks/useCopy';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BsHeartFill } from 'react-icons/bs';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
@@ -17,6 +17,7 @@ import NotLoginModal from '../../components/modal/NotLoginModal';
 import { useRouter } from 'next/router';
 import EditBioModal from '../../components/modal/EditBioModal';
 import NoVideo from '../../components/NoVideo';
+import { TabItem } from '../../components/TabItem';
 
 interface Props {
   data: {
@@ -24,13 +25,6 @@ interface Props {
     userCreatedPosts: Video[];
     userLikedPosts: Video[];
   };
-}
-
-interface TabItemProps {
-  name: string;
-  tabIdx: number;
-  tab: number;
-  setTab: Dispatch<SetStateAction<number>>;
 }
 
 interface VideoItemProps {
@@ -48,21 +42,6 @@ function Status({ count, name }: { count: number; name: string }) {
       </span>
       {name}
     </p>
-  );
-}
-
-function TabItem({ name, tabIdx, tab, setTab }: TabItemProps) {
-  return (
-    <button
-      onClick={() => setTab(tabIdx)}
-      className={`font-semibold cursor-pointer p-2 w-full max-w-[128px] text-center border-b-[3px] ${
-        tab === tabIdx
-          ? 'border-b-gray-600 dark:border-b-gray-300'
-          : 'border-transparent'
-      }`}
-    >
-      {name}
-    </button>
   );
 }
 
@@ -176,7 +155,7 @@ export default function Profile({ data }: Props) {
         <title>{TITLE}</title>
       </Head>
 
-      <div className='pl-2 lg:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
+      <div className='pl-2 sm:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
         {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
         {showEditBioModal && (
           <EditBioModal
@@ -190,7 +169,7 @@ export default function Profile({ data }: Props) {
 
         <header className='w-full max-w-2xl'>
           <div className='flex items-start justify-between w-full'>
-            <div className='flex items-center'>
+            <div className='flex items-center flex-1'>
               <Image
                 src={user?.image}
                 alt='user_profile'
@@ -242,7 +221,7 @@ export default function Profile({ data }: Props) {
               className='reaction-btn w-10 h-10'
             >
               {isCopied ? (
-                <IoCheckmarkDoneSharp size={18} />
+                <p className='text-xl'>🥳</p>
               ) : (
                 <IoIosCopy size={20} />
               )}
@@ -281,7 +260,7 @@ export default function Profile({ data }: Props) {
               title={
                 isCurrentUserProfile
                   ? 'Upload your first video'
-                  : 'No uploaded video yet!'
+                  : 'No uploaded videos yet!'
               }
               desc={isCurrentUserProfile ? 'Your videos will appear here.' : ''}
             />

@@ -7,6 +7,12 @@ interface Props {
 
 export default function UserProfile({ src, className }: Props) {
   return (
+    // <img
+    //   src={src}
+    //   alt='profile_img'
+    //   className={`${className} w-12 h-12 rounded-full p-[4px] duration-200 hover:bg-gray-200 dark:hover:bg-darkSecondary cursor-pointer`}
+    // />
+
     <Image
       src={src}
       width={100}

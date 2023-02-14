@@ -14,7 +14,7 @@ export default NextAuth({
   secret: 'zwel',
   callbacks: {
     async session({ session, user, token }): Promise<any> {
-      const userInfo: User = {
+      const userInfo = {
         _id: token?.sub!,
         _type: 'user',
         userName: token?.name!,

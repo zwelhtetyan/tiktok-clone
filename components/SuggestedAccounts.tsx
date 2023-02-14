@@ -32,6 +32,7 @@ function UserAccount({
       className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'
     >
       <UserProfile src={src} className=' mr-2' />
+
       <div>
         <h2 className='font-semibold leading-5'>{userName}</h2>
         <p className='text-gray-500 text-sm'>

@@ -65,6 +65,12 @@ export const postDetailQuery = (postId: string | string[]) => {
   return query;
 };
 
+export const searchUsersQuery = (searchTerm: string | string[]) => {
+  const query = `*[_type == "user" && userName match '${searchTerm}*']`;
+
+  return query;
+};
+
 export const searchPostsQuery = (searchTerm: string | string[]) => {
   const query = `*[_type == "post" && caption match '${searchTerm}*' || topic match '${searchTerm}*'] {
     _id,
@@ -75,23 +81,15 @@ export const searchPostsQuery = (searchTerm: string | string[]) => {
           url
         }
       },
-      userId,
+    userId,
     postedBy->{
       _id,
       userName,
       image
     },
     likes,
-    comments[]{
-      comment,
-      _key,
-      postedBy->{
-      _id,
-      userName,
-      image
-    },
-    }
   }`;
+
   return query;
 };
 

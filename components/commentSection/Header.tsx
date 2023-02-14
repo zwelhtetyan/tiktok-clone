@@ -203,7 +203,7 @@ export default memo(function Header({
           onClick={() => copyToClipboard(POST_URL)}
           className='h-full w-20 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
         >
-          {isCopied ? 'Copied' : 'Copy link'}
+          {isCopied ? 'Copied!' : 'Copy link'}
         </button>
       </div>
     </header>

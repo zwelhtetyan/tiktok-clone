@@ -12,13 +12,16 @@ export default function Layout({ children }: Props) {
 
   const homeRoute = pathname === '/';
   const profileRoute = pathname === '/profile/[id]';
+  const searchRoute = pathname === '/search';
+
+  const showSideBar = homeRoute || profileRoute || searchRoute;
 
   return (
     <div className='dark:bg-dark'>
       <Navbar />
 
       <main className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-64px)] overflow-y-auto overflow-hidden'>
-        {(homeRoute || profileRoute) && <Sidebar />}
+        {showSideBar && <Sidebar />}
 
         <div className='w-full flex-1'>{children}</div>
       </main>

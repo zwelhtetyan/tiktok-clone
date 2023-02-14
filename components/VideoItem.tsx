@@ -93,7 +93,7 @@ export default function VideoItem({
 
   const isAlreadyFollow = postedBy.follower?.some((u) => u._ref === user?._id)!;
   const isAlreadyLike = totalLikes?.find((u) => u._ref === user?._id);
-  const POST_URL = `${ROOT_URL}/detail/${videoId}`;
+  const POST_URL = `${ROOT_URL}/video/${videoId}`;
 
   const handlePlayPause = (e: MouseEvent) => {
     e.preventDefault();

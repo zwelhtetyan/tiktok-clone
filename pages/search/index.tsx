@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ROOT_URL } from '../../utils';
 import { User, Video } from '../../types';
 import Layout from '../../components/Layout';
@@ -30,6 +30,10 @@ export default function Search({
   const hasSearchedPosts = searchedPosts?.length > 0;
 
   const TITLE = `Find '${searchQuery}' on TikTok | TikTok Search`;
+
+  useEffect(() => {
+    setTab(0);
+  }, [router.query.q]);
 
   return (
     <Layout>

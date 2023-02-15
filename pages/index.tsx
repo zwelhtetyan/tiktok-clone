@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Head from 'next/head';
 import { Video } from '../types';
-import VideoItem from '../components/VideoItem';
+import VideoItem from '../components/videoItem';
 import { MouseEvent, useEffect, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
@@ -124,7 +124,7 @@ export default function Home({ videos }: Props) {
           <VideoItem
             key={video._id}
             id={idx + 1}
-            video={video}
+            post={video}
             postedBy={allPostedBy[idx]}
             setAllPostedBy={setAllPostedBy}
             isMute={isMute}

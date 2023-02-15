@@ -1,32 +1,24 @@
-import { User, Video } from '../types';
-import { IoIosCopy, IoMdPause, IoMdShareAlt } from 'react-icons/io';
+import { User, Video } from '../../types';
+import { IoMdPause } from 'react-icons/io';
 import { IoPlay } from 'react-icons/io5';
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
 import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
-import { pauseAllVideo } from '../utils/pauseAllVideo';
-import { updateActionBtn } from '../utils/updateActionBtn';
+import { pauseAllVideo } from '../../utils/pauseAllVideo';
+import { updateActionBtn } from '../../utils/updateActionBtn';
 import Link from 'next/link';
-import UserProfile from './UserProfile';
-import { generateFakeUsername } from '../utils/generateFakeUsername';
+import UserProfile from '../UserProfile';
+import { generateFakeUsername } from '../../utils/generateFakeUsername';
 import { useSession } from 'next-auth/react';
-import ShowFollowOrDelete from './ShowFollowOrDelete';
-import { ObjProps } from '../hooks/useFollow';
-import useDeletePost from '../hooks/useDeletePost';
-import NotLoginModal from './modal/NotLoginModal';
-import DeleteModal from './modal/DeleteModal';
+import ShowFollowOrDelete from '../ShowFollowOrDelete';
+import { ObjProps } from '../../hooks/useFollow';
+import useDeletePost from '../../hooks/useDeletePost';
+import NotLoginModal from '../modal/NotLoginModal';
+import DeleteModal from '../modal/DeleteModal';
 import { useRouter } from 'next/router';
-import { BsHeartFill } from 'react-icons/bs';
-import { RiMessage2Fill } from 'react-icons/ri';
-import useLike from '../hooks/useLike';
-import Image from 'next/image';
-import { socialIcons } from '../utils/constants';
-import { nativeShareVia, shareVia } from '../utils/shareVia';
-import { ROOT_URL } from '../utils';
-import useCopy from '../hooks/useCopy';
-import useCheckTouchDevice from '../hooks/useCheckTouchDevice';
+import Reaction from './Reaction';
 
 interface Props {
-  video: Video;
+  post: Video;
   isMute: boolean;
   id: number;
   handleMute(e: MouseEvent): void;
@@ -36,36 +28,9 @@ interface Props {
   handleFollow: (obj: ObjProps) => Promise<User[]>;
   setCurrentUserId: Dispatch<SetStateAction<string>>;
 }
-interface ShareLinkProps {
-  src: string;
-  name: string;
-  POST_URL: string;
-  caption: string;
-}
-
-function ShareLink({ src, name, POST_URL, caption }: ShareLinkProps) {
-  return (
-    <Link
-      target='_blank'
-      href={shareVia(name, POST_URL, caption)!}
-      className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
-    >
-      <Image
-        src={src}
-        alt='social_icon'
-        width={30}
-        height={30}
-        className='w-7 h-7 cursor-pointer mr-2'
-      />
-      <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
-        Share to {name}
-      </p>
-    </Link>
-  );
-}
 
 export default function VideoItem({
-  video: { _id: videoId, caption, video, likes, comments },
+  post,
   postedBy,
   setAllPostedBy,
   isMute,
@@ -75,10 +40,12 @@ export default function VideoItem({
   handleFollow,
   setCurrentUserId,
 }: Props) {
+  // destructure
+  const { _id: videoId, caption, video, likes } = post;
+
   //states
   const [showLogin, setShowLogin] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
-  const [totalLikes, setTotalLikes] = useState(likes);
 
   // refs
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -87,13 +54,8 @@ export default function VideoItem({
   const router = useRouter();
   const { data: user }: any = useSession();
   const { deletingPost, handleDeletePost } = useDeletePost();
-  const { liking, handleLike } = useLike();
-  const { isCopied, copyToClipboard } = useCopy();
-  const { isTouchDevice } = useCheckTouchDevice();
 
   const isAlreadyFollow = postedBy.follower?.some((u) => u._ref === user?._id)!;
-  const isAlreadyLike = totalLikes?.find((u) => u._ref === user?._id);
-  const POST_URL = `${ROOT_URL}/video/${videoId}`;
 
   const handlePlayPause = (e: MouseEvent) => {
     e.preventDefault();
@@ -143,23 +105,6 @@ export default function VideoItem({
         u._id === postedBy._id ? { ...u, follower: creator.follower } : u
       ),
     ]);
-  }
-
-  async function likeHandler() {
-    if (!user) {
-      setShowLogin(true);
-      return;
-    }
-
-    const obj = {
-      userId: user._id,
-      postId: videoId,
-      like: isAlreadyLike ? false : true,
-    };
-
-    const updatedPost = await handleLike(obj);
-
-    setTotalLikes(updatedPost.likes);
   }
 
   return (
@@ -261,81 +206,7 @@ export default function VideoItem({
         </Link>
 
         {/* like | share | comment */}
-        <div className='hidden sm:flex w-12 h-full flex-col items-center justify-end space-y-3 ml-4'>
-          {/* like */}
-          <div className='flex flex-col items-center'>
-            <button
-              onClick={likeHandler}
-              disabled={liking}
-              className={`reaction-btn ${
-                isAlreadyLike ? 'text-primary dark:text-primary' : ''
-              }`}
-            >
-              <BsHeartFill size={18} />
-            </button>
-            <p className='text-sm mt-1'>{totalLikes?.length || 0}</p>
-          </div>
-
-          {/* comment */}
-          <div className='flex flex-col items-center'>
-            <button
-              onClick={() => router.push(`/video/${videoId}`)}
-              className='reaction-btn'
-            >
-              <RiMessage2Fill size={18} />
-            </button>
-            <p className='text-sm mt-1'>{comments?.length || 0}</p>
-          </div>
-
-          {/* share */}
-          {isTouchDevice ? (
-            <button
-              className='reaction-btn'
-              onClick={() => nativeShareVia(caption, POST_URL)}
-            >
-              <IoMdShareAlt size={22} />
-            </button>
-          ) : (
-            <div className='relative group'>
-              <button className='reaction-btn'>
-                <IoMdShareAlt size={20} />
-              </button>
-
-              <div>
-                <div className='w-[240px] absolute bottom-14 -left-3 hidden group-hover:block'>
-                  <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
-                    {socialIcons.map((item) => (
-                      <ShareLink
-                        key={item.name}
-                        src={item.icon}
-                        name={item.name}
-                        POST_URL={POST_URL}
-                        caption={caption}
-                      />
-                    ))}
-
-                    <div
-                      onClick={() => copyToClipboard(POST_URL)}
-                      className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
-                    >
-                      <div className='mr-2 w-7 h-7 flex items-center justify-center'>
-                        <IoIosCopy size={20} />
-                      </div>
-                      <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
-                        {isCopied ? 'Copied' : 'Copy link'}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className='mt-3' />
-                </div>
-                <p className='text-xs mt-1 text-gray-600 dark:text-gray-200'>
-                  Share
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
+        <Reaction likes={likes} setShowLogin={setShowLogin} video={post} />
       </div>
     </div>
   );

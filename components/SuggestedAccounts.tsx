@@ -29,7 +29,7 @@ function UserAccount({
   return (
     <Link
       href={`/profile/${userId}`}
-      className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-200 dark:hover:bg-darkBtnHover cursor-pointer'
+      className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-100 dark:hover:bg-darkBtnHover cursor-pointer'
     >
       <UserProfile src={src} className=' mr-2' />
 

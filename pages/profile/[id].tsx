@@ -10,14 +10,13 @@ import useCopy from '../../hooks/useCopy';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BsHeartFill } from 'react-icons/bs';
-import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { useSession } from 'next-auth/react';
 import useFollow from '../../hooks/useFollow';
 import NotLoginModal from '../../components/modal/NotLoginModal';
 import { useRouter } from 'next/router';
 import EditBioModal from '../../components/modal/EditBioModal';
-import NoVideo from '../../components/NoVideo';
-import { TabItem } from '../../components/TabItem';
+import NoResult from '../../components/NoResult';
+import TabItem from '../../components/TabItem';
 
 interface Props {
   data: {
@@ -85,7 +84,7 @@ export default function Profile({ data }: Props) {
   const { loadingFollow, handleFollow } = useFollow();
   const router = useRouter();
 
-  const totalLikes = userCreatedPosts.reduce(
+  const totalLikes = userCreatedPosts?.reduce(
     (like: number, item: Video) => like + (item.likes?.length || 0),
     0
   );
@@ -255,8 +254,8 @@ export default function Profile({ data }: Props) {
           </div>
 
           {/* no result */}
-          {tab === 0 && userCreatedPosts.length < 1 ? (
-            <NoVideo
+          {tab === 0 && userCreatedPosts?.length < 1 ? (
+            <NoResult
               title={
                 isCurrentUserProfile
                   ? 'Upload your first video'
@@ -264,8 +263,8 @@ export default function Profile({ data }: Props) {
               }
               desc={isCurrentUserProfile ? 'Your videos will appear here.' : ''}
             />
-          ) : tab === 1 && userLikedPosts.length < 1 ? (
-            <NoVideo
+          ) : tab === 1 && userLikedPosts?.length < 1 ? (
+            <NoResult
               title='No liked videos yet!'
               desc={
                 isCurrentUserProfile ? 'Videos you liked will appear here' : ''
@@ -276,7 +275,7 @@ export default function Profile({ data }: Props) {
             <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
               {tab === 0 ? (
                 <>
-                  {userCreatedPosts.map((post) => (
+                  {userCreatedPosts?.map((post) => (
                     <VideoItem
                       key={post._id}
                       videoURL={post.video.asset.url}
@@ -288,7 +287,7 @@ export default function Profile({ data }: Props) {
                 </>
               ) : (
                 <>
-                  {userLikedPosts.map((post) => (
+                  {userLikedPosts?.map((post) => (
                     <VideoItem
                       key={post._id}
                       videoURL={post.video.asset.url}

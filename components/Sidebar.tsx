@@ -4,12 +4,20 @@ import SuggestedAccounts from './SuggestedAccounts';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IoSearchOutline } from 'react-icons/io5';
+import { useState } from 'react';
+import MobileSearchBarModal from './modal/MobileSearchBarModal';
 
 export default function Sidebar() {
+  const [showMobileSearchBar, setShowMobileSearchBar] = useState(false);
+
   const router = useRouter();
 
   return (
     <aside className='lg:flex lg:flex-col min-w-[3.5rem] w-14 lg:w-full lg:max-w-[21rem] border-r lg:border-none border-r-gray-100 dark:border-r-darkBorder lg:pr-4 h-[calc(100vh-97px)] overflow-hidden overflow-y-auto'>
+      {showMobileSearchBar && (
+        <MobileSearchBarModal onClose={() => setShowMobileSearchBar(false)} />
+      )}
+
       <Link
         href='/'
         className={`${
@@ -24,11 +32,12 @@ export default function Sidebar() {
       </Link>
 
       <button
+        onClick={() => setShowMobileSearchBar(true)}
         className={`${
           false
             ? 'active-topic'
             : 'border-gray-200 dark:text-white bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
-        } mt-2 rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
+        } mt-2 rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary focus-visible:outline-none
         `}
       >
         <IoSearchOutline size={23} />

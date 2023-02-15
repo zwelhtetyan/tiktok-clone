@@ -1,17 +1,28 @@
 import React from 'react';
 import UserProfile from '../../components/UserProfile';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
+import Link from 'next/link';
 
 interface Prop {
   src: string;
   userName: string;
+  userId: string;
   follower: number;
   bio: string;
 }
 
-export default function UserAccount({ src, userName, follower, bio }: Prop) {
+export default function UserAccount({
+  src,
+  userName,
+  userId,
+  follower,
+  bio,
+}: Prop) {
   return (
-    <div className='mb-4 flex'>
+    <Link
+      href={`/profile/${userId}`}
+      className='mb-4 flex cursor-pointer rounded-md hover:bg-gray-100 dark:hover:bg-darkBtnHover'
+    >
       <UserProfile src={src} className='w-16 h-16' />
 
       <div className='flex-1 ml-3 mt-[2px]'>
@@ -21,8 +32,10 @@ export default function UserAccount({ src, userName, follower, bio }: Prop) {
           <span className='text-dark dark:text-white'>{follower}</span>{' '}
           {follower > 1 ? 'Followers' : 'Follower'}
         </p>
-        <p className='text-[15px] text-gray-700 dark:text-gray-300'>{bio}</p>
+        <p className='text-[15px] text-gray-700 dark:text-gray-300 line-clamp-2'>
+          {bio}
+        </p>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -9,7 +9,7 @@ interface Props {
   text: string;
 }
 
-export default memo(function DeleteModal({
+export default function DeleteModal({
   onClose,
   deleteHandler,
   deleting,
@@ -46,7 +46,7 @@ export default memo(function DeleteModal({
                 <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-bold leading-5 border-b border-b-gray-100 dark:border-b-darkBorder pb-4'
+                    className='text-lg font-bold leading-5 border-b border-b-gray-200 dark:border-b-darkBorder pb-4'
                   >
                     Delete {type}
                   </Dialog.Title>
@@ -85,4 +85,4 @@ export default memo(function DeleteModal({
       </Transition>
     </>
   );
-});
+}

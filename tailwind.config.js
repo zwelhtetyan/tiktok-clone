@@ -32,6 +32,7 @@ module.exports = {
 
       gridTemplateColumns: {
         'auto-fill-180': 'repeat(auto-fill, minmax(180px, 1fr))',
+        'auto-fill-200': 'repeat(auto-fill, minmax(200px, 1fr))',
       },
     },
   },

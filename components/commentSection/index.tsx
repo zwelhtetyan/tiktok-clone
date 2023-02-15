@@ -143,7 +143,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             />
           ))
         ) : (
-          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center tracking-wide justify-center text-gray-400 dark:text-gray-500'>
+          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center tracking-wide justify-center text-gray-500 dark:text-gray-400'>
             Be the first to comment!
           </div>
         )}

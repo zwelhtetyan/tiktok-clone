@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 interface Props {
-  title: string;
+  title?: string;
   desc?: string;
 }
 
-export default function NoVideo({ title, desc }: Props) {
+export default function NoResult({ title, desc }: Props) {
   return (
     <div className='mt-16 flex flex-col items-center'>
       <Image
@@ -13,11 +13,15 @@ export default function NoVideo({ title, desc }: Props) {
         width={300}
         height={300}
         alt='notfound'
+        priority
         className='w-52'
       />
 
-      <h4 className='mt-5 font-extrabold text-2xl'>{title}</h4>
-      <p className='mt-2 text-gray-700 dark:text-gray-300'>{desc}</p>
+      <h4 className='mt-5 text-center font-extrabold text-2xl'>{title}</h4>
+
+      <p className='mt-2 text-center text-gray-700 dark:text-gray-300'>
+        {desc}
+      </p>
     </div>
   );
 }

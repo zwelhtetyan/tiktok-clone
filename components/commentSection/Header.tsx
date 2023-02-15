@@ -122,7 +122,7 @@ export default memo(function Header({
               {post.postedBy.userName}
             </Link>
 
-            <p className='text-gray-400 text-sm'>
+            <p className='text-gray-500 dark:text-gray-400 text-sm'>
               {formatDate(post._createdAt!)}
             </p>
           </div>

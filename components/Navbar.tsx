@@ -34,13 +34,14 @@ export default function Navbar() {
 
         <form
           onSubmit={handleSearch}
-          className='hidden md:flex items-center dark:text-white bg-gray-100 dark:bg-darkSecondary rounded-full overflow-hidden border dark:border-transparent focus-within:border-gray-300 dark:focus-within:border-gray-500 focus-within:bg-gray-200 dark:focus-within:bg-darkSecondary'
+          className='hidden md:flex justify-between items-center dark:text-white bg-gray-100 dark:bg-darkSecondary rounded-full overflow-hidden border dark:border-transparent focus-within:border-gray-300 dark:focus-within:border-gray-500 focus-within:bg-gray-200 dark:focus-within:bg-darkSecondary'
         >
           <input
             ref={searchInputRef}
+            defaultValue={router.query.q || ''}
             type='text'
             placeholder='Search accounts and videos'
-            className='peer p-2 pl-4 border-none outline-none bg-transparent dark:placeholder-gray-500'
+            className='peer flex-1 w-full p-2 pl-4 border-none outline-none bg-transparent dark:placeholder-gray-500'
           />
 
           <button

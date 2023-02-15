@@ -17,7 +17,7 @@
 
 @layer base {
   body {
-    @apply lg:overflow-hidden text-black dark:text-white;
+    @apply lg:overflow-hidden text-black dark:text-white selection:bg-primary selection:text-white;
   }
 
   input,

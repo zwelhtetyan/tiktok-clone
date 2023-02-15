@@ -6,8 +6,10 @@ import { User, Video } from '../../types';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { TabItem } from '../../components/TabItem';
+import TabItem from '../../components/TabItem';
 import UserAccount from './UserAccount';
+import { VideoItem } from './VideoItem';
+import NoResult from '../../components/NoResult';
 
 interface Props {
   data: {
@@ -24,7 +26,8 @@ export default function Search({
   const router = useRouter();
   const searchQuery = router.query.q;
 
-  console.log(searchedUsers, searchedPosts);
+  const hasSearchedUsers = searchedUsers?.length > 0;
+  const hasSearchedPosts = searchedPosts?.length > 0;
 
   const TITLE = `Find '${searchQuery}' on TikTok | TikTok Search`;
 
@@ -35,42 +38,85 @@ export default function Search({
       </Head>
 
       <div className='pl-2 sm:pl-4 lg:pl-10 h-[calc(100vh-97px)] overflow-y-auto'>
+        {/* no videos */}
+        {!hasSearchedPosts && !hasSearchedUsers && (
+          <NoResult desc={`Couldn't find any matches for "${searchQuery}"`} />
+        )}
+
+        {/* tabmenu */}
         <div className='flex items-center'>
-          <TabItem name='Top' tabIdx={0} tab={tab} setTab={setTab} />
-          <TabItem name='Account' tabIdx={1} tab={tab} setTab={setTab} />
-          <TabItem name='Video' tabIdx={2} tab={tab} setTab={setTab} />
+          {(hasSearchedUsers || hasSearchedPosts) && (
+            <TabItem name='Top' tabIdx={0} tab={tab} setTab={setTab} />
+          )}
+          {hasSearchedUsers && (
+            <TabItem name='Account' tabIdx={1} tab={tab} setTab={setTab} />
+          )}
+          {hasSearchedPosts && (
+            <TabItem name='Video' tabIdx={2} tab={tab} setTab={setTab} />
+          )}
         </div>
 
         {/* Accounts */}
-        <div className='mt-4'>
-          <div className='flex justify-between mb-2'>
-            <h4 className='font-bold'>Accounts</h4>
-            <button className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'>
-              See more
-            </button>
-          </div>
+        {hasSearchedUsers && tab !== 2 && (
+          <div className='mt-5'>
+            {tab !== 1 && (
+              <div className='flex justify-between mb-3'>
+                <h4 className='font-bold'>Accounts</h4>
+                <button
+                  onClick={() => setTab(1)}
+                  className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'
+                >
+                  See more
+                </button>
+              </div>
+            )}
 
-          {searchedUsers.map((user) => (
-            <UserAccount
-              key={user._id}
-              userName={user.userName}
-              src={user.image}
-              follower={user.follower?.length || 0}
-              bio={user.bio || ''}
-            />
-          ))}
-        </div>
+            {searchedUsers.slice(0, 3).map((user) => (
+              <UserAccount
+                key={user._id}
+                userName={user.userName}
+                userId={user._id}
+                src={user.image}
+                follower={user.follower?.length || 0}
+                bio={user.bio || ''}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Videos */}
-        <div className='mt-10'>
-          <div className='flex justify-between mb-2'>
-            <h4 className='font-bold'>Videos</h4>
-            <button className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'>
-              See more
-            </button>
+        {hasSearchedPosts && tab !== 1 && (
+          <div
+            className={`${tab !== 2 && hasSearchedUsers ? 'mt-10' : 'mt-5'}`}
+          >
+            {tab !== 2 && (
+              <div className='flex justify-between mb-3'>
+                <h4 className='font-bold'>Videos</h4>
+                <button
+                  onClick={() => setTab(2)}
+                  className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'
+                >
+                  See more
+                </button>
+              </div>
+            )}
+
+            <div className='grid place-items-center sm:place-items-stretch grid-cols-auto-fill-200 gap-x-3 gap-y-5 text-gray-700 dark:text-gray-300'>
+              {searchedPosts.slice(0, 9).map((post) => (
+                <VideoItem
+                  key={post._id}
+                  videoId={post._id}
+                  caption={post.caption}
+                  creatorImg={post.postedBy.image}
+                  creatorName={post.postedBy.userName}
+                  creatorId={post.postedBy._id}
+                  follower={post.postedBy.follower?.length || 0}
+                  src={post.video.asset.url}
+                />
+              ))}
+            </div>
           </div>
-          Show Videos
-        </div>
+        )}
       </div>
     </Layout>
   );

@@ -187,14 +187,14 @@ export default function VideoItem({
           <div className='flex-1'>
             <Link
               href={`/profile/${postedBy._id}`}
-              className='font-bold block xs:text-lg cursor-pointer hover:text-gray-800 dark:hover:text-gray-300'
+              className='font-bold inline-block xs:text-lg cursor-pointer hover:text-gray-700 dark:hover:text-gray-300'
             >
               {postedBy.userName}
             </Link>
             <p className='text-gray-500 dark:text-gray-400 text-sm leading-4'>
               {generateFakeUsername(postedBy.userName)}
             </p>
-            <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block'>
+            <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block xs:line-clamp-2'>
               {caption}
             </p>
           </div>
@@ -212,7 +212,7 @@ export default function VideoItem({
       </header>
 
       {/* caption */}
-      <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
+      <p className='max-w-md line-clamp-2 text-gray-600 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
         {caption}
       </p>
 
@@ -260,6 +260,7 @@ export default function VideoItem({
           </div>
         </Link>
 
+        {/* like | share | comment */}
         <div className='hidden sm:flex w-12 h-full flex-col items-center justify-end space-y-3 ml-4'>
           {/* like */}
           <div className='flex flex-col items-center'>

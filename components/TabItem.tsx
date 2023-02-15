@@ -7,7 +7,7 @@ interface TabItemProps {
   setTab: Dispatch<SetStateAction<number>>;
 }
 
-export function TabItem({ name, tabIdx, tab, setTab }: TabItemProps) {
+export default function TabItem({ name, tabIdx, tab, setTab }: TabItemProps) {
   return (
     <button
       onClick={() => setTab(tabIdx)}

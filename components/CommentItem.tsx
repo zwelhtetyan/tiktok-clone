@@ -34,17 +34,21 @@ export default function CommentItem({
 
       <div className='flex-1 flex items-start justify-between'>
         <div className='flex-1'>
-          <h2 className='font-semibold leading-6'>
+          <Link
+            href={`/profile/${userId}`}
+            className='font-semibold leading-6 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300'
+          >
             {userName}
             {isCreator && (
-              <span className='font-bold text-sm text-primary'>
+              <span className='font-bold text-sm text-primary cursor-default'>
                 <span className='ml-[4px] text-gray-800 dark:text-gray-200 text-sm'>
                   •
                 </span>{' '}
                 Creator
               </span>
             )}
-          </h2>
+          </Link>
+
           <p className='text-sm leading-5 text-gray-600 dark:text-gray-200'>
             {commentText}
           </p>

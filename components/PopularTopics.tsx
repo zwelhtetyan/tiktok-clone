@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { topics } from '../utils/constants';
 import { useRouter } from 'next/router';
-import { ROOT_URL } from '../utils';
 
 interface TopicProp {
   topic: { name: string; icon: ReactNode };
@@ -12,7 +11,7 @@ function Topic({ topic }: TopicProp) {
   const activeTopic = router.query.topic;
 
   const clickTopicHandler = (topicName: string) =>
-    router.push(`${ROOT_URL}/?topic=${topicName}`);
+    router.push(`/?topic=${topicName}`);
 
   return (
     <button

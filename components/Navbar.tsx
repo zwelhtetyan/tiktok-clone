@@ -30,7 +30,9 @@ export default function Navbar() {
   return (
     <nav className='border-b border-b-[rgba(34,90,89,0.2)] dark:border-b-darkBorder dark:bg-dark'>
       <div className='flex justify-between items-center max-w-6xl mx-auto px-2 lg:px-4 py-2'>
-        <Link href='/'>{theme === 'dark' ? <LogoDark /> : <LogoLight />}</Link>
+        <Link href='/' aria-label='TikTok_logo'>
+          {theme === 'dark' ? <LogoDark /> : <LogoLight />}
+        </Link>
 
         <form
           onSubmit={handleSearch}

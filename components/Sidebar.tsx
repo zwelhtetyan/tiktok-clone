@@ -20,6 +20,7 @@ export default function Sidebar() {
 
       <Link
         href='/'
+        aria-label='Home'
         className={`${
           router.asPath === '/'
             ? 'lg:border-primary text-primary bg-gray-200 dark:bg-black'

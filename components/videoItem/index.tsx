@@ -167,6 +167,7 @@ export default function VideoItem({
       <div className='flex w-full xs:ml-[60px] h-[470px] xs:h-[480px]'>
         <Link
           href={`/video/${videoId}`}
+          aria-label='video'
           className='group relative rounded-lg h-full w-full max-w-[270px] bg-black flex items-center overflow-hidden cursor-pointer'
         >
           <video

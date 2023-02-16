@@ -17,11 +17,11 @@ export default function NoResult({ title, desc }: Props) {
         className='w-52'
       />
 
-      <h4 className='mt-5 text-center font-extrabold text-2xl'>{title}</h4>
+      <h4 className='mt-5 text-center font-extrabold text-xl sm:text-2xl'>
+        {title}
+      </h4>
 
-      <p className='mt-2 text-center text-gray-700 dark:text-gray-300'>
-        {desc}
-      </p>
+      <p className='text-center text-gray-700 dark:text-gray-300'>{desc}</p>
     </div>
   );
 }

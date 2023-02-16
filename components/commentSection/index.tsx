@@ -128,7 +128,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
           post.comments?.map((cmt) => (
             <CommentItem
               key={cmt._key}
-              userId={cmt.postedBy._id!}
+              userId={cmt.postedBy._id || user?._id}
               src={cmt.postedBy?.image || user?.image}
               userName={cmt.postedBy?.userName || user?.userName}
               commentText={cmt.comment}

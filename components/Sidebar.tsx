@@ -23,7 +23,7 @@ export default function Sidebar() {
         className={`${
           router.asPath === '/'
             ? 'lg:border-primary text-primary bg-gray-200 dark:bg-black'
-            : 'border-gray-200 dark:text-white bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300 lg:bg-transparent dark:lg:bg-transparent'
+            : 'border-gray-200 dark:text-white bg-gray-100 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300 lg:bg-transparent dark:lg:bg-transparent'
         } font-bold text-lg lg:border-none rounded-full lg:rounded-sm flex items-center justify-center lg:justify-start w-12 h-12 lg:w-auto lg:p-2 border dark:border-darkSecondary
         `}
       >
@@ -36,7 +36,7 @@ export default function Sidebar() {
         className={`${
           false
             ? 'active-topic'
-            : 'border-gray-200 dark:text-white bg-gray-50 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
+            : 'border-gray-200 dark:text-white bg-gray-100 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
         } mt-2 rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary focus-visible:outline-none
         `}
       >

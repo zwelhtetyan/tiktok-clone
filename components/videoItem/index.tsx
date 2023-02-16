@@ -55,7 +55,9 @@ export default function VideoItem({
   const { data: user }: any = useSession();
   const { deletingPost, handleDeletePost } = useDeletePost();
 
-  const isAlreadyFollow = postedBy.follower?.some((u) => u._ref === user?._id)!;
+  const isAlreadyFollow = postedBy?.follower?.some(
+    (u) => u._ref === user?._id
+  )!;
 
   const handlePlayPause = (e: MouseEvent) => {
     e.preventDefault();
@@ -88,21 +90,21 @@ export default function VideoItem({
       return;
     }
 
-    setCurrentUserId(postedBy._id);
+    setCurrentUserId(postedBy?._id);
 
     const obj = {
       userId: user._id,
-      creatorId: postedBy._id,
+      creatorId: postedBy?._id,
       follow: isAlreadyFollow ? false : true,
     };
 
     const updatedUsers = await handleFollow(obj);
 
-    const creator = updatedUsers.find((u) => u._id === postedBy._id)!;
+    const creator = updatedUsers.find((u) => u._id === postedBy?._id)!;
 
     setAllPostedBy((prev: User[]) => [
       ...prev.map((u: User) =>
-        u._id === postedBy._id ? { ...u, follower: creator.follower } : u
+        u._id === postedBy?._id ? { ...u, follower: creator.follower } : u
       ),
     ]);
   }
@@ -122,24 +124,24 @@ export default function VideoItem({
 
       <header className='w-full flex items-start mb-1 xs:mb-4'>
         <div className='flex-1 flex'>
-          <Link href={`/profile/${postedBy._id}`}>
+          <Link href={`/profile/${postedBy?._id}`}>
             <UserProfile
-              src={postedBy.image}
+              src={postedBy?.image}
               className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
             />
           </Link>
 
           <div className='flex-1'>
             <Link
-              href={`/profile/${postedBy._id}`}
+              href={`/profile/${postedBy?._id}`}
               className='font-bold inline-block xs:text-lg cursor-pointer hover:text-gray-700 dark:hover:text-gray-300'
             >
-              {postedBy.userName}
+              {postedBy?.userName}
             </Link>
             <p className='text-gray-500 dark:text-gray-400 text-sm leading-4'>
-              {generateFakeUsername(postedBy.userName)}
+              {generateFakeUsername(postedBy?.userName)}
             </p>
-            <p className='max-w-md text-gray-600 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block xs:line-clamp-2'>
+            <p className='max-w-md text-gray-700 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block xs:line-clamp-2'>
               {caption}
             </p>
           </div>
@@ -148,16 +150,16 @@ export default function VideoItem({
         {/* follow | unfollow */}
         <ShowFollowOrDelete
           showDeleteModal={() => setShowDeletePostModal(true)}
-          isCreator={postedBy._id === user?._id}
+          isCreator={postedBy?._id === user?._id}
           isAlreadyFollow={isAlreadyFollow}
           followHandler={followHandler}
           loadingFollow={loadingFollow}
-          userId={postedBy._id}
+          userId={postedBy?._id}
         />
       </header>
 
       {/* caption */}
-      <p className='max-w-md line-clamp-2 text-gray-600 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
+      <p className='max-w-md line-clamp-2 text-gray-700 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
         {caption}
       </p>
 

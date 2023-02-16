@@ -21,7 +21,7 @@ export default function VideoDetail({ videoDetail }: DetailProps) {
 
   const TITLE = !videoDetail
     ? 'No video found'
-    : `${videoDetail.caption} | TikTok`;
+    : `${videoDetail.caption} | TikTok Video`;
 
   return (
     <>

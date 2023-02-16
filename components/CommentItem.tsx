@@ -49,7 +49,7 @@ export default function CommentItem({
             )}
           </Link>
 
-          <p className='text-sm leading-5 text-gray-600 dark:text-gray-200'>
+          <p className='text-sm leading-5 text-gray-700 dark:text-gray-200'>
             {commentText}
           </p>
         </div>

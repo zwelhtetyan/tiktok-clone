@@ -33,7 +33,7 @@ export default function UserAccount({
           <span className='text-dark dark:text-white'>{millify(follower)}</span>{' '}
           {follower > 1 ? 'Followers' : 'Follower'}
         </p>
-        <p className='text-[15px] text-gray-700 dark:text-gray-300 line-clamp-2'>
+        <p className='text-[15px] text-gray-800 dark:text-gray-300 line-clamp-2'>
           {bio}
         </p>
       </div>

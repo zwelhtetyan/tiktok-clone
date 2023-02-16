@@ -41,7 +41,7 @@ function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
           <BsHeartFill size={18} className='mr-1' /> {millify(likes)}
         </div>
       </div>
-      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-800 dark:text-gray-300'>
+      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-900 dark:text-gray-300'>
         {caption}
       </p>
     </Link>

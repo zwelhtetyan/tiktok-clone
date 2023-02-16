@@ -123,6 +123,7 @@ export default function Upload() {
               {videoAsset ? (
                 <video
                   src={videoAsset.url}
+                  autoPlay
                   controls
                   loop
                   muted

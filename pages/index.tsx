@@ -2,23 +2,33 @@ import axios from 'axios';
 import Head from 'next/head';
 import { Video } from '../types';
 import VideoItem from '../components/videoItem';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { pauseAllVideo } from '../utils/pauseAllVideo';
 import { updateActionBtn } from '../utils/updateActionBtn';
 import { ROOT_URL } from '../utils';
 import Layout from '../components/Layout';
 import useFollow from '../hooks/useFollow';
+import { GetServerSidePropsContext } from 'next';
+import NoResult from '../components/NoResult';
+import { useRouter } from 'next/router';
 
 interface Props {
   videos: Video[];
 }
 
+let initialRender = true;
+
 export default function Home({ videos }: Props) {
   const [isMute, setIsMute] = useState(true);
-  const [allPostedBy, setAllPostedBy] = useState(videos.map((u) => u.postedBy));
+  const [allPostedBy, setAllPostedBy] = useState(
+    videos.map((video) => video.postedBy)
+  );
   const [currentUserId, setCurrentUserId] = useState('');
 
+  const innerContainer = useRef<HTMLDivElement>(null);
+
   //hooks
+  const router = useRouter();
   const { loadingFollow, handleFollow } = useFollow();
 
   const handleMute = (e: MouseEvent) => {
@@ -28,11 +38,11 @@ export default function Home({ videos }: Props) {
     setIsMute((prev) => !prev);
   };
 
-  // effects
   useEffect(() => {
-    setAllPostedBy(videos.map((u) => u.postedBy));
+    setAllPostedBy(videos.map((video) => video.postedBy));
   }, [videos]);
 
+  // mute | unmute
   useEffect(() => {
     const videoElems = document.querySelectorAll('.video');
 
@@ -44,13 +54,20 @@ export default function Home({ videos }: Props) {
   }, [isMute]);
 
   useEffect(() => {
+    //scroll top
+    innerContainer.current?.scrollIntoView();
+
     const videoElems = document.querySelectorAll('.video');
     const elem = document.querySelector('.video-container')!;
+
+    // pause all the video first;
+    pauseAllVideo(videoElems);
 
     let CURRENT_ID = 1;
     let isScrollDown = true;
     let current = 0;
 
+    //check direction
     function checkDirection() {
       const scrollH = elem.scrollTop;
 
@@ -65,6 +82,7 @@ export default function Home({ videos }: Props) {
 
     elem.addEventListener('scroll', checkDirection);
 
+    //observer
     const observer = new IntersectionObserver(
       (entries) => {
         // console.log({ entry: entries[0], CURRENT_ID });
@@ -93,7 +111,7 @@ export default function Home({ videos }: Props) {
               ) as HTMLVideoElement;
 
               pauseAllVideo(videoElems);
-              videoToPlay.play();
+              videoToPlay?.play();
               updateActionBtn(id);
             }
           }
@@ -102,13 +120,27 @@ export default function Home({ videos }: Props) {
       { threshold: 0.5 }
     );
 
-    videoElems.forEach((video) => observer.observe(video));
+    videoElems.forEach((video) => {
+      if (!initialRender) {
+        (video as HTMLVideoElement).muted = false;
+        setIsMute(false);
+      }
+
+      observer.observe(video);
+    });
 
     return () => {
       videoElems.forEach((video) => observer.unobserve(video));
       elem.removeEventListener('scroll', checkDirection);
     };
-  }, []);
+  }, [videos]);
+
+  // set initial render if query.topic change -> to unmute all the video and autoPlay on;
+  useEffect(() => {
+    if (router.query.topic) {
+      initialRender = false;
+    }
+  }, [router.query.topic]);
 
   return (
     <Layout>
@@ -120,29 +152,44 @@ export default function Home({ videos }: Props) {
       </Head>
 
       <div className='video-container pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl h-[calc(100vh-97px)] overflow-hidden overflow-y-auto'>
-        {videos?.map((video, idx) => (
-          <VideoItem
-            key={video._id}
-            id={idx + 1}
-            post={video}
-            postedBy={allPostedBy[idx]}
-            setAllPostedBy={setAllPostedBy}
-            isMute={isMute}
-            handleMute={handleMute}
-            handleFollow={handleFollow}
-            setCurrentUserId={setCurrentUserId}
-            loadingFollow={
-              loadingFollow && allPostedBy[idx]._id === currentUserId
-            }
-          />
-        ))}
+        <div ref={innerContainer}>
+          {videos?.length > 0 ? (
+            videos.map((video, idx) => (
+              <VideoItem
+                key={video._id}
+                id={idx + 1}
+                post={video}
+                postedBy={allPostedBy[idx]}
+                setAllPostedBy={setAllPostedBy}
+                isMute={isMute}
+                handleMute={handleMute}
+                handleFollow={handleFollow}
+                setCurrentUserId={setCurrentUserId}
+                loadingFollow={
+                  loadingFollow && allPostedBy[idx]._id === currentUserId
+                }
+              />
+            ))
+          ) : (
+            <NoResult title='No video found!' />
+          )}
+        </div>
       </div>
     </Layout>
   );
 }
 
-export async function getServerSideProps() {
-  const { data: videos } = await axios.get(`${ROOT_URL}/api/post`);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const topic = context.query.topic;
+  let videos;
+
+  if (topic) {
+    const { data } = await axios.get(`${ROOT_URL}/api/post/discover/${topic}`);
+    videos = data;
+  } else {
+    const { data } = await axios.get(`${ROOT_URL}/api/post`);
+    videos = data;
+  }
 
   return { props: { videos } };
 }

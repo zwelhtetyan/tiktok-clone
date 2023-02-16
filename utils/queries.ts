@@ -26,7 +26,6 @@ export const allPostsQuery = () => {
       image
     },
     },
-    _createdAt
   }`;
 
   return query;
@@ -162,11 +161,13 @@ export const topicPostsQuery = (topic: string | string[]) => {
         }
       },
       userId,
-    postedBy->{
-      _id,
-      userName,
-      image
-    },
+      postedBy->{
+        _id,
+        userName,
+        image,
+        follower,
+        following,
+      },
     likes,
     comments[]{
       comment,
@@ -176,7 +177,7 @@ export const topicPostsQuery = (topic: string | string[]) => {
       userName,
       image
     },
-    }
+    },
   }`;
 
   return query;

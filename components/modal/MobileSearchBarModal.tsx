@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
-import { FormEvent, Fragment, ReactNode, memo, useRef, useState } from 'react';
+import { FormEvent, Fragment, useRef } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 
 interface Props {

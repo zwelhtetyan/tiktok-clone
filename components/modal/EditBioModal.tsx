@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, RefObject, memo } from 'react';
+import { Fragment, RefObject } from 'react';
 
 interface Props {
   onClose(): void;

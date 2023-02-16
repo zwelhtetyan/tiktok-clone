@@ -13,7 +13,7 @@ interface VideoItemProps {
   follower: number;
 }
 
-export function VideoItem({
+export default function VideoItem({
   src,
   videoId,
   caption,

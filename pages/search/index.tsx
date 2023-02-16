@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import TabItem from '../../components/TabItem';
 import UserAccount from './UserAccount';
-import { VideoItem } from './VideoItem';
+import VideoItem from './VideoItem';
 import NoResult from '../../components/NoResult';
 
 interface Props {

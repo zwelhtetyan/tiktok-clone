@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import NoResult from '../../components/NoResult';
 import TabItem from '../../components/TabItem';
 import Header from './Header';
+import millify from 'millify';
 
 interface Props {
   data: {
@@ -37,7 +38,7 @@ function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
         <video src={videoURL} className='object-cover' />
 
         <div className='text-white absolute bottom-0 left-0 text-sm backdrop-blur-sm w-full flex items-center p-2 py-3'>
-          <BsHeartFill size={18} className='mr-1' /> {likes}
+          <BsHeartFill size={18} className='mr-1' /> {millify(likes)}
         </div>
       </div>
       <p className='mt-1 self-start text-sm line-clamp-1 text-gray-800 dark:text-gray-300'>

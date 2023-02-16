@@ -2,6 +2,7 @@ import React from 'react';
 import UserProfile from '../../components/UserProfile';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
 import Link from 'next/link';
+import millify from 'millify';
 
 interface Prop {
   src: string;
@@ -29,7 +30,7 @@ export default function UserAccount({
         <h2 className='font-bold'>{userName}</h2>
         <p className='text-[15px] text-gray-500 dark:text-gray-400'>
           <span>{generateFakeUsername(userName)}</span> <span>•</span>{' '}
-          <span className='text-dark dark:text-white'>{follower}</span>{' '}
+          <span className='text-dark dark:text-white'>{millify(follower)}</span>{' '}
           {follower > 1 ? 'Followers' : 'Follower'}
         </p>
         <p className='text-[15px] text-gray-700 dark:text-gray-300 line-clamp-2'>

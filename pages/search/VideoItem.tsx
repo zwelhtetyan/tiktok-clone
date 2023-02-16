@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import UserProfile from '../../components/UserProfile';
 import { generateFakeUsername } from '../../utils/generateFakeUsername';
+import millify from 'millify';
 
 interface VideoItemProps {
   src: string;
@@ -44,7 +45,7 @@ export function VideoItem({
             </p>
           </Link>
         </div>
-        <p className='ml-2'>{follower}</p>
+        <p className='ml-2'>{millify(follower)}</p>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react';
 import { Video } from '../../types';
 import { useRouter } from 'next/router';
 import { ROOT_URL } from '../../utils';
+import millify from 'millify';
 
 interface Props {
   likes: { _key?: string; _ref: string; _type?: string }[];
@@ -90,7 +91,7 @@ export default function Reaction({ likes, setShowLogin, video }: Props) {
         >
           <BsHeartFill size={18} />
         </button>
-        <p className='text-sm mt-1'>{totalLikes?.length || 0}</p>
+        <p className='text-sm mt-1'>{millify(totalLikes?.length || 0)}</p>
       </div>
 
       {/* comment */}
@@ -101,7 +102,7 @@ export default function Reaction({ likes, setShowLogin, video }: Props) {
         >
           <RiMessage2Fill size={18} />
         </button>
-        <p className='text-sm mt-1'>{video.comments?.length || 0}</p>
+        <p className='text-sm mt-1'>{millify(video.comments?.length || 0)}</p>
       </div>
 
       {/* share */}

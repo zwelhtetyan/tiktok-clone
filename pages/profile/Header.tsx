@@ -16,6 +16,7 @@ import { ROOT_URL } from '../../utils';
 import axios from 'axios';
 import EditBioModal from '../../components/modal/EditBioModal';
 import NotLoginModal from '../../components/modal/NotLoginModal';
+import millify from 'millify';
 
 interface Props {
   user: User;
@@ -28,7 +29,7 @@ function Status({ count, name }: { count: number; name: string }) {
   return (
     <p>
       <span className='text-black dark:text-white font-bold text-base mr-1'>
-        {count}
+        {millify(count)}
       </span>
       {name}
     </p>

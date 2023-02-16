@@ -18,6 +18,7 @@ import ShowFollowOrDelete from '../ShowFollowOrDelete';
 import useDeletePost from '../../hooks/useDeletePost';
 import DeleteModal from '../modal/DeleteModal';
 import useCopy from '../../hooks/useCopy';
+import millify from 'millify';
 
 interface Props {
   post: Video;
@@ -154,7 +155,7 @@ export default memo(function Header({
               <BsHeartFill size={18} />
             </button>
 
-            {post.likes?.length || 0}
+            {millify(post.likes?.length || 0)}
           </div>
 
           {/* comment */}
@@ -162,7 +163,7 @@ export default memo(function Header({
             <button className='reaction-btn mr-1 md:mr-2'>
               <RiMessage2Fill size={18} />
             </button>
-            {post.comments?.length || 0}
+            {millify(post.comments?.length || 0)}
           </div>
         </div>
 

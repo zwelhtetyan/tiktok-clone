@@ -32,6 +32,7 @@ export default function Sidebar() {
       </Link>
 
       <button
+        aria-label='search'
         onClick={() => setShowMobileSearchBar(true)}
         className={`${
           false

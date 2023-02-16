@@ -15,6 +15,7 @@ function Topic({ topic }: TopicProp) {
 
   return (
     <button
+      aria-label={topic.name}
       onClick={() => clickTopicHandler(topic.name)}
       key={topic.name}
       className={`${

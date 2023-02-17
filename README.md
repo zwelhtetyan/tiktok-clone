@@ -20,7 +20,7 @@
 
 - **Frontend** - [Nextjs](https://nextjs.org/)
 - **Type checking** - [Typescript](https://www.typescriptlang.org/)
-- ***Backend** - [Sanity](https://www.sanity.io/)
+- **Backend** - [Sanity](https://www.sanity.io/)
 - **Styling** - [Tailwindcss](https://tailwindcss.com/)
 - **UI Component** - [HeadlessUI](https://headlessui.com/)
 - **Auto play on scroll** - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)

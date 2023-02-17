@@ -57,13 +57,13 @@ Install dependencies
 
 To run this project, you will need to add the following environment variables to your .env.local file
 
-`NEXT_PUBLIC_SANITY_TOKEN`
+`NEXT_PUBLIC_SANITY_TOKEN` (`your sanity token`)
 
-`GOOGLE_CLIENT_ID`
+`GOOGLE_CLIENT_ID` (`your google client id`)
 
-`GOOGLE_CLIENT_SECRET`
+`GOOGLE_CLIENT_SECRET` (`your google client secret`)
 
-`NEXT_PUBLIC_ROOT_URL` (http://localhost:3000)
+`NEXT_PUBLIC_ROOT_URL` (`http://localhost:3000`)
 
 ### Start the server
 

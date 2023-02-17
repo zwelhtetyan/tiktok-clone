@@ -56,6 +56,7 @@ export default function Home({ videos }: Props) {
   useEffect(() => {
     //scroll top
     innerContainer.current?.scrollIntoView();
+    window.scrollTo(0, 0);
 
     const videoElems = document.querySelectorAll('.video');
     const elem = document.querySelector('.video-container')!;

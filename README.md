@@ -1,29 +1,31 @@
 <h2 align='center'>TikTok clone | video sharing web app</h2>
 
-### Tech stack
-
-- Nextjs (frontend)
-- Typescript (type checking)
-- Sanity (backend)
-- Tailwind (styling)
-- Headless UI (UI component)
-- IntersectionObserver (auto play on scroll)
-- Next auth (authentication)
-- Zustand (state management)
-
 ### Features
 
-- Authentication (google auth provider)
-- Upload Video
-- Delete (videos | comments) by author
-- Video Detail
-- Different Topic page
-- Search (by topic | by keywords)
-- User Profile (editable bio)
-- Follow | Unfollow
-- Like | Comment
-- Social share button (native sharing mechanism on mobile device)
-- Fully Responsive
+- Authentication 🔑 - (login | logout with google auth provider)
+- Upload Video 🎞
+- Delete (videos | comments) by author 🤔🫣
+- Video Detail ✨
+- Different Topic page 👀✨
+- Search (by topic | by keywords) 👀🔎
+- User Profile 🧸👩🏿‍💻 (editable bio)
+- Follow | Unfollow  👥
+- Like | Comment ❤️‍🔥💬
+- Social share 🌍🚀 (native sharing mechanism on mobile device)
+- Theme 🌞🌙 (light | dark)
+- Fully Responsive 📱💻
+
+
+### Tech stack
+
+- **Frontend** - [Nextjs](https://nextjs.org/)
+- **Type checking** - [Typescript](https://www.typescriptlang.org/)
+- ***Backend** - [Sanity](https://www.sanity.io/)
+- **Styling** - [Tailwindcss](https://tailwindcss.com/)
+- **UI Component** - [HeadlessUI](https://headlessui.com/)
+- **Auto play on scroll** - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+- **Authentication** - [Nextauth](https://next-auth.js.org/)
+- **State management** - [Zustand](https://zustand-demo.pmnd.rs/)
 
 <!-- Run Locally -->
 

@@ -39,6 +39,10 @@ export default function Search({
     <Layout>
       <Head>
         <title>{TITLE}</title>
+        <meta
+          property='og:url'
+          content={`https://tiktok-clone-zhy.vercel.app/search?q=${router.query.q}`}
+        ></meta>
       </Head>
 
       <div className='pl-2 sm:pl-4 lg:pl-10 h-[calc(100vh-97px)] overflow-y-auto'>

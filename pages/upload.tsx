@@ -99,6 +99,10 @@ export default function Upload() {
     <Layout>
       <Head>
         <title>Upload | Tik Tok</title>
+        <meta
+          property='og:url'
+          content='https://tiktok-clone-zhy.vercel.app/upload'
+        ></meta>
       </Head>
 
       <div className='w-full h-[calc(100vh-97px)] overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>

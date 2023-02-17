@@ -79,6 +79,10 @@ export default function Profile({ data }: Props) {
     <Layout>
       <Head>
         <title>{TITLE}</title>
+        <meta
+          property='og:url'
+          content={`https://tiktok-clone-zhy.vercel.app/profile/${router.query.id}`}
+        ></meta>
       </Head>
 
       <div className='pl-2 sm:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>

@@ -27,6 +27,10 @@ export default function VideoDetail({ videoDetail }: DetailProps) {
     <>
       <Head>
         <title>{TITLE}</title>
+        <meta
+          property='og:url'
+          content={`https://tiktok-clone-zhy.vercel.app/video/${router.query.id}`}
+        ></meta>
       </Head>
 
       {!videoDetail ? (

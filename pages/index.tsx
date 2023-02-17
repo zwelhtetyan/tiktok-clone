@@ -155,9 +155,12 @@ export default function Home({ videos }: Props) {
         <meta name='description' content={metadata.description} />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
-
         <meta property='og:title' content={metadata.title} />
         <meta property='og:description' content={metadata.description} />
+        <meta
+          property='og:url'
+          content='https://tiktok-clone-zhy.vercel.app/'
+        ></meta>
         <meta
           property='og:image'
           content='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kdb7qa7aav7vww7ayiki.png'

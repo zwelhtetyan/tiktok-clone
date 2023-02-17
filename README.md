@@ -15,6 +15,7 @@
 - Like | Comment ❤️‍🔥💬
 - Social share 🌍🚀 (native sharing mechanism on mobile device)
 - Theme 🌞🌙 (light | dark)
+- Progressive web app (PWA) 🚀🔥
 - Fully Responsive 📱💻
 
 

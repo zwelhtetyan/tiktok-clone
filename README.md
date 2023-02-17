@@ -1,5 +1,7 @@
 <h2 align='center'>TikTok clone | video sharing web app</h2>
 
+![](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8ia7odl3vkqcurq6v91s.png)
+
 ### Features
 
 - Authentication 🔑 - (login | logout with google auth provider)
@@ -96,4 +98,4 @@ To run this project, you will need to add the following environment variables to
 
 ### Author
 
-##### [Zwel](https://www.linkedin.com/in/zwelhtetyan/)
+#### [Zwel](https://www.linkedin.com/in/zwelhtetyan/)

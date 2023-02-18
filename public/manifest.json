@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "TikTok",
-  "short_name": "TikTok",
+  "name": "TikTok-ZHY",
+  "short_name": "TikTok-ZHY",
   "description": "TikTok, also known in China as Douyin, is a short-form video hosting service owned by the Chinese company ByteDance. It hosts user-submitted videos, which can range in duration from 3 seconds to 10 minutes.",
   "icons": [
     {

@@ -2,6 +2,10 @@
 
 ![](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8ia7odl3vkqcurq6v91s.png)
 
+<p align='center'>
+  <img  src='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6z1029fv99zdmni361i3.png' />
+</p>
+
 ### Features
 
 - Authentication 🔑 - (login | logout with google auth provider)

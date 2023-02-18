@@ -68,7 +68,7 @@ export default function SuggestedAccounts() {
     <div className='pt-4 mt-4 hidden lg:block border-t border-t-gray-200 dark:border-t-darkBorder'>
       <h2 className='font-semibold text-gray-500'>Suggested accounts</h2>
 
-      <div className='flex-1 mt-3 overflow-y-auto'>
+      <div className='flex-1 max-h-[270px] mt-3 overflow-y-auto'>
         {isLoading &&
           [1, 2, 3, 4, 5].map((_, idx) => <UserSkeleton key={idx} />)}
 

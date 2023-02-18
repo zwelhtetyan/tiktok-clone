@@ -5,14 +5,14 @@ import { signIn, useSession } from 'next-auth/react';
 import User from './User';
 import LogoLight from '../utils/LogoLight';
 import LogoDark from '../utils/LogoDark';
-import useThemeStore from '../store/theme';
 import { FormEvent, useRef } from 'react';
 import { useRouter } from 'next/router';
+import useStore from '../store';
 
 export default function Navbar() {
   const { data: user }: any = useSession();
 
-  const { theme } = useThemeStore();
+  const { theme } = useStore();
   const router = useRouter();
 
   const searchInputRef = useRef<HTMLInputElement>(null);

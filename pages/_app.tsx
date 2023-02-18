@@ -1,15 +1,15 @@
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
-import useThemeStore from '../store/theme';
 import NextNProgress from 'nextjs-progressbar';
 import '../styles/globals.css';
+import useStore from '../store';
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const { setTheme } = useThemeStore();
+  const { setTheme } = useStore();
 
   useEffect(() => {
     if (

@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
 import { IoIosLogOut, IoMdMoon } from 'react-icons/io';
 import { MdWbSunny } from 'react-icons/md';
-import useThemeStore from '../store/theme';
 import themeToggler from '../utils/themeToggler';
 import { FaUserCircle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
+import useStore from '../store';
 
 export default function User() {
   const { data: user }: any = useSession();
-  const { theme, setTheme } = useThemeStore();
+  const { theme, setTheme } = useStore();
   const router = useRouter();
 
   return (

@@ -27,12 +27,20 @@ export default function Upload() {
   const [selectedTopic, setSelectedTopic] = useState(noTopic);
   const [isUploading, setIsUploading] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+  const [isLargeFile, setIsLargeFile] = useState({ message: '' });
 
   async function uploadFile(e: Event<HTMLInputElement>) {
     const selectedFile = e.target.files![0] as File;
     const fileTypes = ['video/mp4', 'video/webm'];
 
     if (selectedFile && fileTypes.includes(selectedFile.type)) {
+      if (selectedFile.size > 10 * 1024 * 1024) {
+        setIsLargeFile({ message: 'file size should not exceed 10MB' });
+        return;
+      } else {
+        setIsLargeFile({ message: '' });
+      }
+
       setIsUploading(true);
 
       try {
@@ -151,7 +159,7 @@ export default function Upload() {
                   <p className='mb-2 text-sm'>MP4 or WebM</p>
                   <p className='mb-2 text-sm'>720x1280 resolution or higher</p>
                   <p className='mb-2 text-sm'>Up to 30 minutes</p>
-                  <p className='mb-6 text-sm'>Less than 2 GB</p>
+                  <p className='mb-6 text-sm'>Less than 10 MB</p>
                   <p className='btn-primary w-4/5 py-2 text-center'>
                     Select file
                   </p>
@@ -162,6 +170,13 @@ export default function Upload() {
                     className='w-0 h-0'
                     onChange={uploadFile}
                   />
+                  {isLargeFile ? (
+                    <p className='mt-4 text-sm text-center text-red-500 font-semibold'>
+                      {isLargeFile.message}
+                    </p>
+                  ) : (
+                    ''
+                  )}
                 </>
               )}
             </label>

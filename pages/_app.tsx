@@ -19,9 +19,11 @@ export default function App({
     ) {
       document.documentElement.classList.add('dark');
       setTheme('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
       setTheme('');
+      localStorage.removeItem('theme');
     }
 
     document.body.classList.add('dark:bg-dark');

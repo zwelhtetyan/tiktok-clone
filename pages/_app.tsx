@@ -22,8 +22,8 @@ export default function App({
       localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      setTheme('');
-      localStorage.removeItem('theme');
+      setTheme('light');
+      localStorage.setItem('theme', 'light');
     }
 
     document.body.classList.add('dark:bg-dark');

@@ -1,7 +1,7 @@
 export default function themeToggler(setTheme: (theme: string) => void) {
   if (localStorage.theme === 'dark') {
     document.documentElement.classList.remove('dark');
-    localStorage.removeItem('theme');
+    localStorage.setItem('theme', 'light');
     setTheme('light');
   } else {
     document.documentElement.classList.add('dark');

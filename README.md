@@ -15,13 +15,12 @@
 - Different Topic page 👀✨
 - Search (by topic | by keywords) 👀🔎
 - User Profile 🧸👩🏿‍💻 (editable bio)
-- Follow | Unfollow  👥
+- Follow | Unfollow 👥
 - Like | Comment ❤️‍🔥💬
 - Social share 🌍🚀 (native sharing mechanism on mobile device)
 - Theme 🌞🌙 (light | dark)
 - Progressive web app (PWA) 🚀🔥
 - Fully Responsive 📱💻
-
 
 ### Tech stack
 
@@ -97,7 +96,7 @@ To run this project, you will need to add the following environment variables to
   <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
 </a>
 
-##### Contributions are always welcome!
+#### Contributions are always welcome!
 
 <!-- Contact -->
 

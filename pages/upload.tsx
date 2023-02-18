@@ -175,6 +175,7 @@ export default function Upload() {
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
                 type='text'
+                autoComplete='off'
                 id='caption'
                 className='block border shadow-md outline-none w-full rounded-lg py-2 px-3 dark:bg-transparent dark:border-darkBorder'
               />

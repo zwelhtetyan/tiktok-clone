@@ -5,6 +5,7 @@ import { User } from '../types';
 import UserProfile from './UserProfile';
 import { generateFakeUsername } from '../utils/generateFakeUsername';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface DataProps {
   data: User[];
@@ -59,10 +60,20 @@ function UserSkeleton() {
 }
 
 export default function SuggestedAccounts() {
+  const [sortedUsers, setSortedUsers] = useState<User[]>([]);
+
   const { data: allUsers, isLoading }: DataProps = useSWR(
     'getAllUsers',
     getAllUsers
   );
+
+  // randomly sort users
+  useEffect(() => {
+    if (allUsers) {
+      const sortedUsers = allUsers?.sort(() => Math.random() - 0.5);
+      setSortedUsers(sortedUsers);
+    }
+  }, [allUsers]);
 
   return (
     <div className='pt-4 mt-4 hidden lg:block border-t border-t-gray-200 dark:border-t-darkBorder'>
@@ -72,7 +83,7 @@ export default function SuggestedAccounts() {
         {isLoading &&
           [1, 2, 3, 4, 5].map((_, idx) => <UserSkeleton key={idx} />)}
 
-        {allUsers?.slice(0, 10)?.map((user) => (
+        {sortedUsers?.map((user) => (
           <UserAccount
             key={user._id}
             src={user.image}

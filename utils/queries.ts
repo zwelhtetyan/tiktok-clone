@@ -151,7 +151,7 @@ export const userLikedPostsQuery = (userId: string | string[]) => {
 };
 
 export const topicPostsQuery = (topic: string | string[]) => {
-  const query = `*[_type == "post" && topic match '${topic}*'] {
+  const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) {
     _id,
      caption,
        video{

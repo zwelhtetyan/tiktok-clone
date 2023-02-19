@@ -12,6 +12,7 @@ import NoResult from '../../components/NoResult';
 import TabItem from '../../components/TabItem';
 import Header from './Header';
 import millify from 'millify';
+import useStore from '../../store';
 
 interface Props {
   data: {
@@ -62,6 +63,7 @@ export default function Profile({ data }: Props) {
   // hooks
   const { data: currentUser }: any = useSession();
   const router = useRouter();
+  const { setViewedVideoDetail } = useStore();
 
   const isCurrentUserProfile = user?._id === currentUser?._id;
 
@@ -72,6 +74,10 @@ export default function Profile({ data }: Props) {
     setTab(0);
     setUser(userInfo);
   }, [router.query.id, userInfo]);
+
+  useEffect(() => {
+    setViewedVideoDetail(0, null);
+  }, [setViewedVideoDetail]);
 
   const TITLE = hasNoUser ? 'No User Found' : `${user?.userName} | TikTok`;
 

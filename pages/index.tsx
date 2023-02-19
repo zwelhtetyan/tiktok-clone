@@ -11,6 +11,7 @@ import useFollow from '../hooks/useFollow';
 import { GetServerSidePropsContext } from 'next';
 import NoResult from '../components/NoResult';
 import { useRouter } from 'next/router';
+import useStore from '../store';
 
 interface Props {
   videos: Video[];
@@ -19,12 +20,18 @@ interface Props {
 let initialRender = true;
 
 export default function Home({ videos }: Props) {
-  const [isMute, setIsMute] = useState(true);
+  const { viewedVideoDetail, setViewedVideoDetail } = useStore();
+
+  //states
+  const [isMute, setIsMute] = useState(
+    viewedVideoDetail.prevScroll ? false : true
+  );
   const [allPostedBy, setAllPostedBy] = useState(
     videos.map((video) => video.postedBy)
   );
   const [currentUserId, setCurrentUserId] = useState('');
 
+  //ref
   const innerContainer = useRef<HTMLDivElement>(null);
 
   //hooks
@@ -54,10 +61,6 @@ export default function Home({ videos }: Props) {
   }, [isMute]);
 
   useEffect(() => {
-    //scroll top
-    innerContainer.current?.scrollIntoView();
-    window.scrollTo(0, 0);
-
     const videoElems = document.querySelectorAll('.video');
     const elem = document.querySelector('.video-container')!;
 
@@ -67,6 +70,14 @@ export default function Home({ videos }: Props) {
     let CURRENT_ID = 1;
     let isScrollDown = true;
     let current = 0;
+    let prevScroll = viewedVideoDetail.prevScroll;
+
+    if (prevScroll) {
+      elem.scrollTop = prevScroll;
+    } else {
+      innerContainer.current?.scrollIntoView();
+      window.scrollTo(0, 0);
+    }
 
     //check direction
     function checkDirection() {
@@ -88,8 +99,19 @@ export default function Home({ videos }: Props) {
       (entries) => {
         // console.log({ entry: entries[0], CURRENT_ID });
 
-        const selectedEntry = entries[0];
-        const selectedVideo = selectedEntry.target as HTMLVideoElement;
+        let selectedEntry = entries[0];
+
+        if (prevScroll) {
+          selectedEntry = entries.find(
+            (entry) => entry.target.id === viewedVideoDetail.videoRef!.id
+          )!;
+
+          CURRENT_ID = +viewedVideoDetail.videoRef!.id;
+          setViewedVideoDetail(0, null);
+          prevScroll = 0;
+        }
+
+        const selectedVideo = selectedEntry?.target as HTMLVideoElement;
 
         if (!isScrollDown) {
           if (+selectedVideo.id < CURRENT_ID && selectedEntry.isIntersecting) {

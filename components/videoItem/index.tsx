@@ -16,6 +16,7 @@ import NotLoginModal from '../modal/NotLoginModal';
 import DeleteModal from '../modal/DeleteModal';
 import { useRouter } from 'next/router';
 import Reaction from './Reaction';
+import useStore from '../../store';
 
 interface Props {
   post: Video;
@@ -54,6 +55,7 @@ export default function VideoItem({
   const router = useRouter();
   const { data: user }: any = useSession();
   const { deletingPost, handleDeletePost } = useDeletePost();
+  const { setViewedVideoDetail } = useStore();
 
   const isAlreadyFollow = postedBy?.follower?.some(
     (u) => u._ref === user?._id
@@ -107,6 +109,11 @@ export default function VideoItem({
         u._id === postedBy?._id ? { ...u, follower: creator.follower } : u
       ),
     ]);
+  }
+
+  function handleViewVideoDetail() {
+    const elem = document.querySelector('.video-container')!;
+    setViewedVideoDetail(elem.scrollTop, videoRef.current!);
   }
 
   return (
@@ -166,6 +173,7 @@ export default function VideoItem({
       {/* video */}
       <div className='flex w-full xs:ml-[60px] h-[470px] xs:h-[480px]'>
         <Link
+          onClick={handleViewVideoDetail}
           href={`/video/${videoId}`}
           aria-label='video'
           className='group relative rounded-lg h-full w-full max-w-[270px] bg-black flex items-center overflow-hidden cursor-pointer'

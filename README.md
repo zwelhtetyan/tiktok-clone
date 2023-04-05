@@ -8,30 +8,30 @@
 
 ### Features
 
-- Authentication 🔑 - (login | logout with google auth provider)
-- Upload Video 🎞
-- Delete (videos | comments) by author 🤔🫣
-- Video Detail ✨
-- Different Topic page 👀✨
-- Search (by topic | by keywords) 👀🔎
-- User Profile 🧸👩🏿‍💻 (editable bio)
-- Follow | Unfollow 👥
-- Like | Comment ❤️‍🔥💬
-- Social share 🌍🚀 (native sharing mechanism on mobile device)
-- Theme 🌞🌙 (light | dark)
-- Progressive web app (PWA) 🚀🔥
-- Fully Responsive 📱💻
+- [x] Authentication 🔑 - (login | logout with google auth provider)
+- [x] Upload Video 🎞
+- [x] Delete (videos | comments) by author 🤔🫣
+- [x] Video Detail ✨
+- [x] Different Topic page 👀✨
+- [x] Search (by topic | by keywords) 👀🔎
+- [x] User Profile 🧸👩🏿‍💻 (editable bio)
+- [x] Follow | Unfollow 👥
+- [x] Like | Comment ❤️‍🔥💬
+- [x] Social share 🌍🚀 (native sharing mechanism on mobile device)
+- [x] Theme 🌞🌙 (light | dark)
+- [x] Progressive web app (PWA) 🚀🔥
+- [x] Fully Responsive 📱💻
 
 ### Tech stack
 
-- **Frontend** - [Nextjs](https://nextjs.org/)
-- **Type checking** - [Typescript](https://www.typescriptlang.org/)
-- **Backend** - [Sanity](https://www.sanity.io/)
-- **Styling** - [Tailwindcss](https://tailwindcss.com/)
-- **UI Component** - [HeadlessUI](https://headlessui.com/)
-- **Auto play on scroll** - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
-- **Authentication** - [Nextauth](https://next-auth.js.org/)
-- **State management** - [Zustand](https://zustand-demo.pmnd.rs/)
+- [x] **Frontend** - [Nextjs](https://nextjs.org/)
+- [x] **Type checking** - [Typescript](https://www.typescriptlang.org/)
+- [x] **Backend** - [Sanity](https://www.sanity.io/)
+- [x] **Styling** - [Tailwindcss](https://tailwindcss.com/)
+- [x] **UI Component** - [HeadlessUI](https://headlessui.com/)
+- [x] **Auto play on scroll** - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+- [x] **Authentication** - [Nextauth](https://next-auth.js.org/)
+- [x] **State management** - [Zustand](https://zustand-demo.pmnd.rs/)
 
 <!-- Run Locally -->
 

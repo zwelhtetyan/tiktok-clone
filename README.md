@@ -58,7 +58,7 @@ Remove remote origin
 Install dependencies
 
 ```bash
-  yarn
+  npm install
 ```
 
 ### :key: Environment Variables
@@ -78,14 +78,14 @@ To run this project, you will need to add the following environment variables to
 ##### Project
 
 ```bash
-  yarn dev
+  npm run dev
 ```
 
 ##### Sanity studio
 
 ```bash
   cd sanity
-  yarn dev
+  npm run dev
 ```
 
 <!-- Contributing -->

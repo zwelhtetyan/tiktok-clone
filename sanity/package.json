@@ -15,7 +15,6 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/cli": "^3.14.3",
     "@sanity/icons": "^2.1.0",
     "@sanity/ui": "^1.2.0",
     "@sanity/vision": "^3.14.3",
@@ -27,7 +26,6 @@
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^2.0.4",
-    "@sanity/types": "^3.14.3",
     "@types/react": "^18.0.25",
     "@types/styled-components": "^5.1.26",
     "eslint": "^8.6.0",

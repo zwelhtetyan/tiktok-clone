@@ -37,58 +37,85 @@
 
 ### :running: Run Locally
 
-Clone the project
+#### Clone the project
 
 ```bash
   git@github.com:zwelhtetyan/tiktok-clone.git
 ```
 
-Go to the project directory
+#### Go to the project directory
 
 ```bash
   cd tiktok-clone
 ```
 
-Remove remote origin
+#### Remove remote origin
 
 ```bash
   git remote remove origin
 ```
 
-Install dependencies
+#### Install dependencies
 
 ```bash
-  npm install
+  yarn
 ```
 
-### :key: Environment Variables
+#### :key: Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env.local file
-
-`NEXT_PUBLIC_SANITY_TOKEN` - (`your sanity token`)
 
 `GOOGLE_CLIENT_ID` - (`your google client id`)
 
 `GOOGLE_CLIENT_SECRET` - (`your google client secret`)
 
-`NEXT_PUBLIC_ROOT_URL` - (`http://localhost:3000`)
+`NEXTAUTH_URL` - (`http://localhost:3000`)
 
-### Start the server
-
-##### Project
+#### Start the server
 
 ```bash
-  npm run dev
+  yarn dev
 ```
 
-##### Sanity studio
+And then, you can view client version on [http://localhosts:3000](http://localhosts:3000)
+
+### Create sanity studio
+
+Firstly, follow the instructions from sanity's official documentation
+[here.](https://www.sanity.io/get-started/create-project?originUrl=https%3A%2F%2Fwww.sanity.io%2Fdocs%2Fgetting-started-with-sanity)
+
+After creating sanity account from above instructions, you will get create command to install sanity studio like this `npm create sanity@latest -- --template get-started --project PROJECTID --dataset production --provider PROVIDER_NAME`
+
+And then, create a new folder under the root folder
 
 ```bash
-  cd sanity
-  npm run dev
+  mkdir sanity-backend
 ```
+
+#### Install sanity studio
+
+```bash
+  cd sanity-backend
+  npm create sanity@latest -- --template get-started --project `YOUR_PROJECTID` --dataset production --provider `YOUR_PROVIDERNAME`
+```
+
+And then, replace your `schemas` folder with mine (`from sanity/schemas`)
+
+#### Run sanity studio
+
+```bash
+  yarn dev
+```
+
+And then, you can view sanity studio on [http://localhosts:3333](http://localhosts:3333)
+
+Get your sanity token from sanity studio to add to env
+
+`NEXT_PUBLIC_SANITY_TOKEN` - (`your sanity token`)
 
 <!-- Contributing -->
+
+<br />
 
 ### :wave: Contributing
 
@@ -98,8 +125,10 @@ To run this project, you will need to add the following environment variables to
 
 #### Contributions are always welcome!
 
+<br />
+
 <!-- Contact -->
 
 ### Author
 
-- [@Zwel](https://www.linkedin.com/in/zwelhtetyan/)
+- [@zwelhtetyan](https://www.linkedin.com/in/zwelhtetyan/)

@@ -101,6 +101,7 @@ export default function Home({ videos }: Props) {
 
         let selectedEntry = entries[0];
 
+        //check previous scroll
         if (prevScroll) {
           selectedEntry = entries.find(
             (entry) => entry.target.id === viewedVideoDetail.videoRef!.id
@@ -190,8 +191,8 @@ export default function Home({ videos }: Props) {
         />
       </Head>
 
-      <div className="h-[calc(100vh-97px)] overflow-hidden overflow-y-auto">
-        <div className="video-container pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl">
+      <div className="video-container h-[calc(100vh-97px)] overflow-hidden overflow-y-auto">
+        <div className="pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl">
           <div ref={innerContainer}>
             {videos?.length > 0 ? (
               videos.map((video, idx) => (
@@ -216,6 +217,31 @@ export default function Home({ videos }: Props) {
           </div>
         </div>
       </div>
+
+      {/* <div className="video-container pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl h-[calc(100vh-97px)] overflow-hidden overflow-y-auto">
+        <div ref={innerContainer}>
+          {videos?.length > 0 ? (
+            videos.map((video, idx) => (
+              <VideoItem
+                key={video._id}
+                id={idx + 1}
+                post={video}
+                postedBy={allPostedBy[idx]}
+                setAllPostedBy={setAllPostedBy}
+                isMute={isMute}
+                handleMute={handleMute}
+                handleFollow={handleFollow}
+                setCurrentUserId={setCurrentUserId}
+                loadingFollow={
+                  loadingFollow && allPostedBy[idx]._id === currentUserId
+                }
+              />
+            ))
+          ) : (
+            <NoResult title="No video found!" />
+          )}
+        </div>
+      </div> */}
     </Layout>
   );
 }

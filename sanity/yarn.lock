@@ -1688,7 +1688,7 @@
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-"@sanity/types@3.14.3":
+"@sanity/types@3.14.3", "@sanity/types@^3.14.3":
   version "3.14.3"
   resolved "https://registry.yarnpkg.com/@sanity/types/-/types-3.14.3.tgz#28bf8b87ad1b234ef6c0fa6b7126232b85fd930b"
   integrity sha512-hpXleCTw+ktIkTBLdrEWNnQj9XsHCIq29ylUQeG9PhabOCZsHXeB1kzLg5Djg7Ujqzo3ggdV6o6RJIyD6TTf2w==

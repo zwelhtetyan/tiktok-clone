@@ -63,7 +63,7 @@
 
 #### :key: Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env.local file
+To run this project, you will need to add the following environment variables to your `.env.local` file
 
 `GOOGLE_CLIENT_ID` - (`your google client id`)
 
@@ -114,7 +114,7 @@ module.exports = {
 
 And then, you can view sanity studio on [http://localhosts:3333](http://localhosts:3333)
 
-### Add env
+### Add env in the root folder (`tiktok-clone/.env.local`)
 
 Get your `TOKEN` and `PROJECTID` from sanity studio
 

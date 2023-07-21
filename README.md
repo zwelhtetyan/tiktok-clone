@@ -71,14 +71,6 @@ To run this project, you will need to add the following environment variables to
 
 `NEXTAUTH_URL` - (`http://localhost:3000`)
 
-#### Start the server
-
-```bash
-  yarn dev
-```
-
-And then, you can view client version on [http://localhosts:3000](http://localhosts:3000)
-
 ### Create sanity studio
 
 Firstly, follow the instructions from sanity's official documentation
@@ -109,9 +101,20 @@ And then, replace your `schemas` folder with mine (`from sanity/schemas`)
 
 And then, you can view sanity studio on [http://localhosts:3333](http://localhosts:3333)
 
-Get your sanity token from sanity studio to add to env
+Get your `TOKEN` and `PROJECTID` from sanity studio to add to env
 
 `NEXT_PUBLIC_SANITY_TOKEN` - (`your sanity token`)
+`NEXT_PUBLIC_SANITY_PROJECT_ID` - (`your sanity projectId`)
+
+#### Run the app
+
+Please make sure you are in the root folder (`/tiktok-clone:`)
+
+```bash
+  yarn dev
+```
+
+Finally, you can view the app on [http://localhosts:3000](http://localhosts:3000)
 
 <!-- Contributing -->
 
@@ -124,8 +127,6 @@ Get your sanity token from sanity studio to add to env
 </a>
 
 #### Contributions are always welcome!
-
-<br />
 
 <!-- Contact -->
 

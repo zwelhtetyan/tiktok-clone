@@ -69,6 +69,8 @@ To run this project, you will need to add the following environment variables to
 
 `GOOGLE_CLIENT_SECRET` - (`your google client secret`)
 
+`NEXT_PUBLIC_ROOT_URL` - (`http://localhost:3000`)
+
 `NEXTAUTH_URL` - (`http://localhost:3000`)
 
 ### Create sanity studio

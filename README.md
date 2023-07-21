@@ -76,7 +76,7 @@ To run this project, you will need to add the following environment variables to
 Firstly, follow the instructions from sanity's official documentation
 [here.](https://www.sanity.io/get-started/create-project?originUrl=https%3A%2F%2Fwww.sanity.io%2Fdocs%2Fgetting-started-with-sanity)
 
-After creating sanity account from above instructions, you will get create command to install sanity studio like this `npm create sanity@latest -- --template get-started --project PROJECTID --dataset production --provider PROVIDER_NAME`
+After creating sanity account from above instructions, you will get `create command` to install sanity studio like this `npm create sanity@latest -- --template get-started --project PROJECTID --dataset production --provider PROVIDER_NAME`
 
 And then, create a new folder under the root folder
 

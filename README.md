@@ -91,7 +91,20 @@ And then, create a new folder under the root folder
   npm create sanity@latest -- --template get-started --project `YOUR_PROJECTID` --dataset production --provider `YOUR_PROVIDERNAME`
 ```
 
-And then, replace your `schemas` folder with mine (`from sanity/schemas`)
+And then, replace your `schemas` folder with mine (`from sanity/schemas`);
+
+Note: If you have an error `Cannot read property of undefined (reading 'config')`, simply add `tailwind.config.js` file in the root of `sanity-backend` folder with below content.
+
+```tsx
+// tailwind.config.js
+module.exports = {
+  content: [],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
 
 #### Run sanity studio
 

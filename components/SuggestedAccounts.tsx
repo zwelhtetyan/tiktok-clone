@@ -5,7 +5,7 @@ import { User } from "../types";
 import UserProfile from "./UserProfile";
 import { generateFakeUsername } from "../utils/generateFakeUsername";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useStore from "../store";
 
 interface DataProps {
@@ -63,7 +63,6 @@ function UserSkeleton() {
 let initialRender = true;
 
 export default function SuggestedAccounts() {
-  // const [sortedUsers, setSortedUsers] = useState<User[]>([]);
   const { suggestedUsers, setSuggestedUsers } = useStore();
 
   const { data: allUsers, isLoading }: DataProps = useSWR(

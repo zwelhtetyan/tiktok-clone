@@ -1,17 +1,17 @@
-import axios from 'axios';
-import Head from 'next/head';
-import { Video } from '../types';
-import VideoItem from '../components/videoItem';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { pauseAllVideo } from '../utils/pauseAllVideo';
-import { updateActionBtn } from '../utils/updateActionBtn';
-import { ROOT_URL } from '../utils';
-import Layout from '../components/Layout';
-import useFollow from '../hooks/useFollow';
-import { GetServerSidePropsContext } from 'next';
-import NoResult from '../components/NoResult';
-import { useRouter } from 'next/router';
-import useStore from '../store';
+import axios from "axios";
+import Head from "next/head";
+import { Video } from "../types";
+import VideoItem from "../components/videoItem";
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import { pauseAllVideo } from "../utils/pauseAllVideo";
+import { updateActionBtn } from "../utils/updateActionBtn";
+import { ROOT_URL } from "../utils";
+import Layout from "../components/Layout";
+import useFollow from "../hooks/useFollow";
+import { GetServerSidePropsContext } from "next";
+import NoResult from "../components/NoResult";
+import { useRouter } from "next/router";
+import useStore from "../store";
 
 interface Props {
   videos: Video[];
@@ -29,7 +29,7 @@ export default function Home({ videos }: Props) {
   const [allPostedBy, setAllPostedBy] = useState(
     videos.map((video) => video.postedBy)
   );
-  const [currentUserId, setCurrentUserId] = useState('');
+  const [currentUserId, setCurrentUserId] = useState("");
 
   //ref
   const innerContainer = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export default function Home({ videos }: Props) {
 
   // mute | unmute
   useEffect(() => {
-    const videoElems = document.querySelectorAll('.video');
+    const videoElems = document.querySelectorAll(".video");
 
     videoElems.forEach((elem) => {
       const video = elem as HTMLVideoElement;
@@ -61,8 +61,8 @@ export default function Home({ videos }: Props) {
   }, [isMute]);
 
   useEffect(() => {
-    const videoElems = document.querySelectorAll('.video');
-    const elem = document.querySelector('.video-container')!;
+    const videoElems = document.querySelectorAll(".video");
+    const elem = document.querySelector(".video-container")!;
 
     // pause all the video first;
     pauseAllVideo(videoElems);
@@ -92,7 +92,7 @@ export default function Home({ videos }: Props) {
       current = scrollH;
     }
 
-    elem.addEventListener('scroll', checkDirection);
+    elem.addEventListener("scroll", checkDirection);
 
     //observer
     const observer = new IntersectionObserver(
@@ -154,7 +154,7 @@ export default function Home({ videos }: Props) {
 
     return () => {
       videoElems.forEach((video) => observer.unobserve(video));
-      elem.removeEventListener('scroll', checkDirection);
+      elem.removeEventListener("scroll", checkDirection);
     };
   }, [videos]);
 
@@ -167,51 +167,53 @@ export default function Home({ videos }: Props) {
 
   const metadata = {
     description:
-      'TikTok, also known in China as Douyin, is a short-form video hosting service owned by the Chinese company ByteDance. It hosts user-submitted videos, which can range in duration from 3 seconds to 10 minutes.',
-    title: 'TikTok - Make Your Day',
+      "TikTok, also known in China as Douyin, is a short-form video hosting service owned by the Chinese company ByteDance. It hosts user-submitted videos, which can range in duration from 3 seconds to 10 minutes.",
+    title: "TikTok - Make Your Day",
   };
 
   return (
     <Layout>
       <Head>
         <title>{metadata.title}</title>
-        <meta name='description' content={metadata.description} />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
-        <meta property='og:title' content={metadata.title} />
-        <meta property='og:description' content={metadata.description} />
+        <meta name="description" content={metadata.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:description" content={metadata.description} />
         <meta
-          property='og:url'
-          content='https://tiktok-clone-zhy.vercel.app/'
+          property="og:url"
+          content="https://tiktok-clone-zhy.vercel.app/"
         ></meta>
         <meta
-          property='og:image'
-          content='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kdb7qa7aav7vww7ayiki.png'
+          property="og:image"
+          content="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kdb7qa7aav7vww7ayiki.png"
         />
       </Head>
 
-      <div className='video-container pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl h-[calc(100vh-97px)] overflow-hidden overflow-y-auto'>
-        <div ref={innerContainer}>
-          {videos?.length > 0 ? (
-            videos.map((video, idx) => (
-              <VideoItem
-                key={video._id}
-                id={idx + 1}
-                post={video}
-                postedBy={allPostedBy[idx]}
-                setAllPostedBy={setAllPostedBy}
-                isMute={isMute}
-                handleMute={handleMute}
-                handleFollow={handleFollow}
-                setCurrentUserId={setCurrentUserId}
-                loadingFollow={
-                  loadingFollow && allPostedBy[idx]._id === currentUserId
-                }
-              />
-            ))
-          ) : (
-            <NoResult title='No video found!' />
-          )}
+      <div className="h-[calc(100vh-97px)] overflow-hidden overflow-y-auto">
+        <div className="video-container pt-2 pl-2 sm:pl-4 lg:pl-10 max-w-2xl">
+          <div ref={innerContainer}>
+            {videos?.length > 0 ? (
+              videos.map((video, idx) => (
+                <VideoItem
+                  key={video._id}
+                  id={idx + 1}
+                  post={video}
+                  postedBy={allPostedBy[idx]}
+                  setAllPostedBy={setAllPostedBy}
+                  isMute={isMute}
+                  handleMute={handleMute}
+                  handleFollow={handleFollow}
+                  setCurrentUserId={setCurrentUserId}
+                  loadingFollow={
+                    loadingFollow && allPostedBy[idx]._id === currentUserId
+                  }
+                />
+              ))
+            ) : (
+              <NoResult title="No video found!" />
+            )}
+          </div>
         </div>
       </div>
     </Layout>

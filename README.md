@@ -101,10 +101,16 @@ And then, replace your `schemas` folder with mine (`from sanity/schemas`)
 
 And then, you can view sanity studio on [http://localhosts:3333](http://localhosts:3333)
 
-Get your `TOKEN` and `PROJECTID` from sanity studio to add to env
+### Add env
+
+Get your `TOKEN` and `PROJECTID` from sanity studio
 
 `NEXT_PUBLIC_SANITY_TOKEN` - (`your sanity token`)
+
 `NEXT_PUBLIC_SANITY_PROJECT_ID` - (`your sanity projectId`)
+
+`NEXT_PUBLIC_SANITY_API_VERSION` - (`2023-11-11`)
+
 
 #### Run the app
 

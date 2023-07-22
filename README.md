@@ -126,6 +126,7 @@ Get your `TOKEN` and `PROJECTID` from sanity studio
 
 `NEXT_PUBLIC_SANITY_API_VERSION` - (`2023-11-11`)
 
+> Note: Please make sure you allow the `CORS` orgin in you sanity-studio
 
 #### Run the app
 

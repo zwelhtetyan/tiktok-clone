@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
 @layer base {
   body {
     @apply lg:overflow-hidden text-black dark:text-white selection:bg-primary selection:text-white;
@@ -14,15 +11,15 @@
     /* width: 6px; */
     @apply w-0 xs:w-1 md:w-[6px];
   }
-  
+
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all;
   }
-  
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .side-bar::-webkit-scrollbar {
     display: none;
@@ -30,15 +27,14 @@
 
   /* Hide scrollbar for IE, Edge and Firefox */
   .side-bar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 
   input,
   textarea {
     @apply caret-primary;
   }
-
 }
 
 @layer components {

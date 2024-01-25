@@ -1,5 +1,5 @@
 import PopularTopics from "./PopularTopics";
-import { RiHomeSmileFill } from "react-icons/ri";
+import { RiGithubFill, RiHomeSmileFill } from "react-icons/ri";
 import SuggestedAccounts from "./SuggestedAccounts";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,6 +17,18 @@ export default function Sidebar() {
       {showMobileSearchBar && (
         <MobileSearchBarModal onClose={() => setShowMobileSearchBar(false)} />
       )}
+
+      <Link
+        href="https://github.com/zwelhtetyan/tiktok-clone"
+        target="_blank"
+        aria-label="Home"
+        className={`mb-2 lg:bg-primary max-w-[150px] lg:text-white text-sm rounded-full lg:rounded-md flex items-center justify-center lg:p-1 dark:border-darkSecondary
+        bg-gray-100 w-12 h-12 lg:w-auto lg:h-auto dark:bg-darkBtn dark:lg:bg-primary
+        `}
+      >
+        <RiGithubFill size={22} />
+        <p className="lg:ml-2 hidden lg:block">Stars on Github</p>
+      </Link>
 
       <Link
         href="/"

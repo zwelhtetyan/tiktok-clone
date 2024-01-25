@@ -72,7 +72,7 @@ export default function User() {
                 </button>
               )}
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               {({ active }) => (
                 <button
                   className={`${
@@ -95,7 +95,7 @@ export default function User() {
                   <FaGithubAlt size={20} />
                 </button>
               )}
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
               {({ active }) => (
                 <button

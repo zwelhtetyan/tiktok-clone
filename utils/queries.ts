@@ -98,8 +98,9 @@ export const singleUserQuery = (userId: string | string[]) => {
   return query;
 };
 
+//TODO: add pagination
 export const allUsersQuery = () => {
-  const query = `*[_type == "user"]`;
+  const query = `*[_type == "user"] [0...30]`;
 
   return query;
 };

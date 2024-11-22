@@ -15,7 +15,6 @@ export default function ShowFollowOrDelete({
   followHandler,
   loadingFollow,
   showDeleteModal,
-  userId,
 }: Props) {
   return (
     <>

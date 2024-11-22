@@ -1,8 +1,8 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { client } from "../../../utils/client";
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { client } from '../../../utils/client';
 
-export default NextAuth({
+export const AUTH_OPTIONS = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -10,12 +10,12 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  secret: "zwel",
+  secret: 'zwel',
   callbacks: {
     async session({ session, user, token }): Promise<any> {
       const userInfo = {
         _id: token?.sub!,
-        _type: "user",
+        _type: 'user',
         userName: token?.name!,
         image: token?.picture!,
       };
@@ -24,4 +24,6 @@ export default NextAuth({
       return userInfo;
     },
   },
-});
+} satisfies NextAuthOptions;
+
+export default NextAuth(AUTH_OPTIONS);

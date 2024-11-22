@@ -1,5 +1,5 @@
-export const allPostsQuery = () => {
-  const query = `*[_type == "post"] | order(_createdAt desc){
+export const getAllPostsByLimit = (userId: string) => {
+  const query = `*[_type == "post"] | order(_createdAt desc)[51...60]{
     _id,
      caption,
        video{
@@ -15,8 +15,11 @@ export const allPostsQuery = () => {
         image,
         follower,
         following,
+        "isFollowed": "${userId}" in follower[]._ref,
       },
     likes,
+    "isLiked": "${userId}" in likes[]._ref,
+    "totalLikes": count(likes),
     comments[]{
       comment,
       _key,
@@ -31,7 +34,40 @@ export const allPostsQuery = () => {
   return query;
 };
 
-export const postDetailQuery = (postId: string | string[]) => {
+// export const allPostsQuery = () => {
+//   const query = `*[_type == "post"] | order(_createdAt desc){
+//     _id,
+//      caption,
+//        video{
+//         asset->{
+//           _id,
+//           url
+//         }
+//       },
+//       userId,
+//       postedBy->{
+//         _id,
+//         userName,
+//         image,
+//         follower,
+//         following,
+//       },
+//     likes,
+//     comments[]{
+//       comment,
+//       _key,
+//       postedBy->{
+//       _id,
+//       userName,
+//       image
+//     },
+//     },
+//   }`;
+
+//   return query;
+// };
+
+export const postDetailQuery = (postId: string | string[], userId: string) => {
   const query = `*[_type == "post" && _id == '${postId}']{
     _id,
      caption,
@@ -48,8 +84,11 @@ export const postDetailQuery = (postId: string | string[]) => {
       image,
       follower,
       following,
+      "isFollowed": "${userId}" in follower[]._ref,
     },
     likes,
+    "isLiked": "${userId}" in likes[]._ref,
+    "totalLikes": count(likes),
     comments[]{
       comment,
       _key,
@@ -84,9 +123,12 @@ export const searchPostsQuery = (searchTerm: string | string[]) => {
     postedBy->{
       _id,
       userName,
-      image
+      image,
+      follower,
+      following
     },
     likes,
+    "totalLikes": count(likes),
   }`;
 
   return query;
@@ -124,6 +166,7 @@ export const userCreatedPostsQuery = (userId: string | string[]) => {
        following,
      },
    likes,
+   "totalLikes": count(likes),
  }`;
 
   return query;
@@ -146,12 +189,13 @@ export const userLikedPostsQuery = (userId: string | string[]) => {
       image
     },
     likes,
+    "totalLikes": count(likes),
   }`;
 
   return query;
 };
 
-export const topicPostsQuery = (topic: string | string[]) => {
+export const topicPostsQuery = (topic: string | string[], userId: string) => {
   const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) {
     _id,
      caption,
@@ -168,8 +212,11 @@ export const topicPostsQuery = (topic: string | string[]) => {
         image,
         follower,
         following,
+        "isFollowed": "${userId}" in follower[]._ref,
       },
     likes,
+    "isLiked": "${userId}" in likes[]._ref,
+    "totalLikes": count(likes),
     comments[]{
       comment,
       _key,

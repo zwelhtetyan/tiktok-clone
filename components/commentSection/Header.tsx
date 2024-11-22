@@ -38,7 +38,7 @@ export default memo(function Header({
   //hooks
   const { data: user }: any = useSession();
   const router = useRouter();
-  const { liking, handleLike } = useLike();
+  const { loading: liking, handleLike } = useLike();
   const { loadingFollow, handleFollow } = useFollow();
   const { deletingPost, handleDeletePost } = useDeletePost();
   const { isCopied, copyToClipboard } = useCopy();
@@ -46,7 +46,7 @@ export default memo(function Header({
 
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
   const isAlreadyFollow = post.postedBy.follower?.some(
-    (u) => u._ref === user?._id
+    (u) => u._ref === user?._id,
   );
 
   async function likeHandler() {

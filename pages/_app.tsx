@@ -2,8 +2,8 @@ import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import NextNProgress from 'nextjs-progressbar';
-import '../styles/globals.css';
 import useStore from '../store';
+import '../styles/globals.css';
 
 export default function App({
   Component,

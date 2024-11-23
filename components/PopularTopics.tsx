@@ -33,7 +33,7 @@ function Topic({ topic }: TopicProp) {
 export default function PopularTopics() {
   return (
     <div className='mb-2'>
-      <h2 className='font-semibold mb-3 text-gray-500 hidden lg:block'>
+      <h2 className='font-semibold mb-3 text-gray-500 dark:text-gray-400 hidden lg:block'>
         Popular Topic
       </h2>
 

@@ -29,6 +29,7 @@ export const getAllPostsByLimit = (userId: string) => {
       image
     },
     },
+    _createdAt,
   }`;
 
   return query;
@@ -226,6 +227,7 @@ export const topicPostsQuery = (topic: string | string[], userId: string) => {
       image
     },
     },
+    _createdAt,
   }`;
 
   return query;

@@ -8,6 +8,9 @@ import CommentSection from '../../components/commentSection';
 import { useEffect } from 'react';
 import NoResult from '../../components/NoResult';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth/next';
+import { GetServerSidePropsContext } from 'next';
+import { AUTH_OPTIONS } from '../api/auth/[...nextauth]';
 
 interface DetailProps {
   videoDetail: Video;
@@ -76,12 +79,15 @@ export default function VideoDetail({ videoDetail }: DetailProps) {
   );
 }
 
-export async function getServerSideProps({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
-  const res = await axios.get(`${ROOT_URL}/api/post/${id}`);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { params, req, res } = context;
+  const session = await getServerSession(req, res, AUTH_OPTIONS);
+  const videoId = params?.id;
+  const currentUserId = session?._id;
 
-  return { props: { videoDetail: res.data } };
+  const response = await axios.get(
+    `${ROOT_URL}/api/post/${videoId}?currentUserId=${currentUserId}`,
+  );
+
+  return { props: { videoDetail: response.data } };
 }

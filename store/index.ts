@@ -1,5 +1,6 @@
 import { create, StateCreator } from 'zustand';
-import { User, Video } from '../types';
+import { User } from '../types';
+import { RefObject } from 'react';
 
 // interfaces
 interface ThemeSlice {
@@ -13,11 +14,32 @@ interface UsersSlice {
 }
 
 interface VideoSlice {
-  viewedVideoDetail: { prevScroll: number; videoRef: HTMLVideoElement | null };
-  setViewedVideoDetail: (
+  currentVideo: {
+    prevScroll: number;
+    isPlaying: boolean;
+    videoRef: RefObject<HTMLVideoElement> | null;
+  };
+  setCurrentVideo: (
     scrollTop: number,
-    videoRef: HTMLVideoElement | null
+    isPlaying: boolean,
+    videoRef: RefObject<HTMLVideoElement> | null,
   ) => void;
+}
+
+// temporary manage client state to be sync
+interface UserFollowSlide {
+  followLoadingIds: string[];
+  currentFollowedUserIds: string[];
+  currentUnFollowedUserIds: string[];
+
+  setFollowLoadingId: (id: string) => void;
+  removeFollowLoadingId: (id: string) => void;
+
+  setCurrentFollowedUserIds: (id: string) => void;
+  removeCurrentFollowedUserIds: (id: string) => void;
+
+  setCurrentUnFollowedUserIds: (id: string) => void;
+  removeCurrentUnFollowedUserIds: (id: string) => void;
 }
 
 // slices
@@ -31,18 +53,58 @@ const createUsersSlice: StateCreator<UsersSlice> = (set) => ({
   setSuggestedUsers: (users: User[]) => set(() => ({ suggestedUsers: users })),
 });
 
+const createUserFollowSlide: StateCreator<UserFollowSlide> = (set) => ({
+  followLoadingIds: [],
+  currentFollowedUserIds: [],
+  currentUnFollowedUserIds: [],
+
+  setFollowLoadingId: (id) =>
+    set((prev) => ({ followLoadingIds: [...prev.followLoadingIds, id] })),
+  removeFollowLoadingId: (id) =>
+    set((prev) => ({
+      followLoadingIds: prev.followLoadingIds.filter((_id) => _id !== id),
+    })),
+  setCurrentFollowedUserIds: (id) =>
+    set((prev) => ({
+      currentFollowedUserIds: [...prev.currentFollowedUserIds, id],
+    })),
+  removeCurrentFollowedUserIds: (id) =>
+    set((prev) => ({
+      currentFollowedUserIds: prev.currentFollowedUserIds.filter(
+        (_id) => _id !== id,
+      ),
+    })),
+  setCurrentUnFollowedUserIds: (id) =>
+    set((prev) => ({
+      currentUnFollowedUserIds: [...prev.currentUnFollowedUserIds, id],
+    })),
+  removeCurrentUnFollowedUserIds: (id) =>
+    set((prev) => ({
+      currentUnFollowedUserIds: prev.currentUnFollowedUserIds.filter(
+        (_id) => _id !== id,
+      ),
+    })),
+});
+
 const createVideoSlice: StateCreator<VideoSlice> = (set) => ({
-  viewedVideoDetail: { prevScroll: 0, videoRef: null },
-  setViewedVideoDetail: (
+  currentVideo: { prevScroll: 0, isPlaying: false, videoRef: null },
+  setCurrentVideo: (
     scrollTop: number,
-    videoRef: HTMLVideoElement | null
-  ) => set(() => ({ viewedVideoDetail: { prevScroll: scrollTop, videoRef } })),
+    isPlaying: boolean,
+    videoRef: RefObject<HTMLVideoElement> | null,
+  ) =>
+    set(() => ({
+      currentVideo: { prevScroll: scrollTop, isPlaying, videoRef },
+    })),
 });
 
 // store
-const useStore = create<ThemeSlice & UsersSlice & VideoSlice>()((...a) => ({
+const useStore = create<
+  ThemeSlice & UsersSlice & VideoSlice & UserFollowSlide
+>()((...a) => ({
   ...createThemeSlice(...a),
   ...createUsersSlice(...a),
+  ...createUserFollowSlide(...a),
   ...createVideoSlice(...a),
 }));
 

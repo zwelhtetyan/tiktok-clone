@@ -51,10 +51,33 @@
   }
 
   .reaction-btn {
-    @apply w-9 h-9 bg-gray-200 dark:bg-[#7e7b7b5e] text-gray-700 dark:text-gray-200 flex items-center justify-center rounded-full hover:bg-gray-300  dark:hover:bg-[#5c59595e];
+    @apply w-12 h-12 bg-gray-200 dark:bg-[#7e7b7b5e] text-gray-700 dark:text-gray-200 flex items-center justify-center rounded-full hover:bg-gray-300  dark:hover:bg-[#5c59595e];
   }
 
   .spinner {
     @apply animate-spin h-6 w-6 rounded-full border-2 border-l-primary border-b-primary dark:border-darkBorder dark:border-l-primary dark:border-b-primary;
+  }
+}
+
+@layer utilities {
+  .video-overlay-bg {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 12%,
+      rgba(0, 0, 0, 0.01) 21%,
+      rgba(0, 0, 0, 0.02) 29%,
+      rgba(0, 0, 0, 0.03) 35%,
+      rgba(0, 0, 0, 0.04) 40%,
+      rgba(0, 0, 0, 0.06) 45%,
+      rgba(0, 0, 0, 0.08) 48%,
+      rgba(0, 0, 0, 0.1) 52%,
+      rgba(0, 0, 0, 0.12) 55%,
+      rgba(0, 0, 0, 0.14) 60%,
+      rgba(0, 0, 0, 0.16) 65%,
+      rgba(0, 0, 0, 0.18) 71%,
+      rgba(0, 0, 0, 0.2) 79%,
+      rgba(0, 0, 0, 0.22) 88%,
+      rgba(0, 0, 0, 0.24) 100%
+    );
   }
 }

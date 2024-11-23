@@ -63,7 +63,7 @@ export default function Profile({ data }: Props) {
   // hooks
   const { data: currentUser }: any = useSession();
   const router = useRouter();
-  const { setViewedVideoDetail } = useStore();
+  const { setCurrentVideo } = useStore();
 
   const isCurrentUserProfile = user?._id === currentUser?._id;
 
@@ -76,8 +76,8 @@ export default function Profile({ data }: Props) {
   }, [router.query.id, userInfo]);
 
   useEffect(() => {
-    setViewedVideoDetail(0, null);
-  }, [setViewedVideoDetail]);
+    setCurrentVideo(0, false, null);
+  }, [setCurrentVideo]);
 
   const TITLE = hasNoUser ? 'No User Found' : `${user?.userName} | TikTok`;
 

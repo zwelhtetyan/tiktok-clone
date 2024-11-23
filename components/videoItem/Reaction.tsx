@@ -1,24 +1,38 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { IoIosCopy, IoMdShareAlt } from 'react-icons/io';
+import { IoIosCopy, IoMdCheckmark, IoMdShareAlt } from 'react-icons/io';
 import { nativeShareVia, shareVia } from '../../utils/shareVia';
 import { socialIcons } from '../../utils/constants';
-import useLike from '../../hooks/useLike';
 import useCopy from '../../hooks/useCopy';
 import { BsHeartFill } from 'react-icons/bs';
 import { RiMessage2Fill } from 'react-icons/ri';
 import useCheckTouchDevice from '../../hooks/useCheckTouchDevice';
-import { useSession } from 'next-auth/react';
 import { Video } from '../../types';
-import { useRouter } from 'next/router';
 import { ROOT_URL } from '../../utils';
 import millify from 'millify';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { PiSpinnerGap } from 'react-icons/pi';
+
+import {
+  Dispatch,
+  MouseEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
+import { MdDelete } from 'react-icons/md';
+import { useSession } from 'next-auth/react';
+import useStore from '../../store';
+import useFollow from '../../hooks/useFollow';
 
 interface Props {
-  likes: { _key?: string; _ref: string; _type?: string }[];
-  setShowLogin: Dispatch<SetStateAction<boolean>>;
+  totalLikes: number;
   video: Video;
+  likeUnlikeHandler: () => Promise<void>;
+  isAlreadyLike: boolean;
+  liking: boolean;
+  setShowLoginModal: Dispatch<SetStateAction<boolean>>;
+  setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
 }
 
 interface ShareLinkProps {
@@ -49,61 +63,169 @@ function ShareLink({ src, name, POST_URL, caption }: ShareLinkProps) {
   );
 }
 
-export default function Reaction({ likes, setShowLogin, video }: Props) {
-  const [totalLikes, setTotalLikes] = useState(likes);
+export default function Reaction({
+  totalLikes,
+  video,
+  likeUnlikeHandler,
+  isAlreadyLike,
+  liking,
+  setShowLoginModal,
+  setShowDeleteModal,
+}: Props) {
+  const { postedBy } = video;
 
-  const { liking, handleLike } = useLike();
+  const [isCreator, setIsCreator] = useState(false);
+  const [alreadyFollow, setAlreadyFollow] = useState(!!postedBy.isFollowed);
+
   const { isCopied, copyToClipboard } = useCopy();
   const { isTouchDevice } = useCheckTouchDevice();
+  const { handleFollow, handleUnFollow } = useFollow();
+
+  const {
+    followLoadingIds,
+    currentFollowedUserIds,
+    currentUnFollowedUserIds,
+    setFollowLoadingId,
+    removeFollowLoadingId,
+    setCurrentFollowedUserIds,
+    removeCurrentFollowedUserIds,
+    setCurrentUnFollowedUserIds,
+    removeCurrentUnFollowedUserIds,
+  } = useStore();
+
   const { data: user }: any = useSession();
-  const router = useRouter();
+
+  const followLoading = followLoadingIds.includes(postedBy._id);
+
+  useEffect(() => {
+    setIsCreator(postedBy._id === user?._id);
+  }, [user, postedBy._id]);
 
   const POST_URL = `${ROOT_URL}/video/${video._id}`;
-  const isAlreadyLike = totalLikes?.find((u) => u._ref === user?._id);
 
-  async function likeHandler() {
-    if (!user) {
-      setShowLogin(true);
-      return;
+  async function followHandler(e: MouseEvent) {
+    e.stopPropagation();
+    if (!user) return setShowLoginModal(true);
+
+    const obj = { userId: user._id, creatorId: postedBy?._id };
+
+    setFollowLoadingId(obj.creatorId);
+
+    if (alreadyFollow) {
+      await handleUnFollow(obj);
+
+      removeFollowLoadingId(obj.creatorId);
+      setCurrentUnFollowedUserIds(obj.creatorId);
+      removeCurrentFollowedUserIds(obj.creatorId);
+    } else {
+      await handleFollow(obj);
+
+      removeFollowLoadingId(obj.creatorId);
+      setCurrentFollowedUserIds(obj.creatorId);
+      removeCurrentUnFollowedUserIds(obj.creatorId);
     }
-
-    const obj = {
-      userId: user._id,
-      postId: video._id,
-      like: isAlreadyLike ? false : true,
-    };
-
-    const updatedPost = await handleLike(obj);
-
-    setTotalLikes(updatedPost.likes);
   }
 
+  // check already follow or not
+  useEffect(() => {
+    const isCurrentlyFollow = currentFollowedUserIds.includes(postedBy._id);
+    const isCurrentlyUnFollow = currentUnFollowedUserIds.includes(postedBy._id);
+
+    if (postedBy.isFollowed && !isCurrentlyUnFollow) {
+      setAlreadyFollow(true);
+    } else if (!postedBy.isFollowed && isCurrentlyFollow) {
+      setAlreadyFollow(true);
+    } else {
+      setAlreadyFollow(false);
+    }
+  }, [
+    currentFollowedUserIds,
+    currentUnFollowedUserIds,
+    postedBy._id,
+    postedBy.isFollowed,
+  ]);
+
   return (
-    <div className='hidden sm:flex w-12 h-full flex-col items-center justify-end space-y-3 ml-4'>
+    <div className='hidden sm:flex w-12 h-full flex-col items-center justify-end space-y-3 ml-4 select-none'>
+      {/* follow or delete */}
+      {isCreator ? (
+        <div className='flex flex-col items-center'>
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className={`reaction-btn mb-1`}
+          >
+            <MdDelete size={25} color='red' />
+          </button>
+        </div>
+      ) : (
+        <div className='relative mb-4'>
+          <Link
+            href={`/profile/${postedBy._id}`}
+            className='flex flex-col items-center w-14 h-14 rounded-full overflow-hidden'
+          >
+            <Image
+              src={postedBy.image}
+              alt='user avatar'
+              className='w-full h-full object-cover bg-gray-200 dark:bg-[#7e7b7b5e]'
+              width={60}
+              height={60}
+            />
+          </Link>
+
+          {alreadyFollow ? (
+            <button
+              onClick={followHandler}
+              disabled={followLoading}
+              className='border-none outline-none w-6 h-6 rounded-full flex justify-center items-center bg-gray-100 absolute left-1/2 -translate-x-1/2 -bottom-3'
+            >
+              {followLoading ? (
+                <PiSpinnerGap className='animate-spin' />
+              ) : (
+                <IoMdCheckmark className='text-primary font-bold' />
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={followHandler}
+              disabled={followLoading}
+              className='border-none outline-none w-6 h-6 rounded-full flex justify-center items-center bg-primary absolute left-1/2 -translate-x-1/2 -bottom-3'
+            >
+              {followLoading ? (
+                <PiSpinnerGap className='text-white animate-spin' />
+              ) : (
+                <AiOutlinePlus className='text-white' />
+              )}
+            </button>
+          )}
+        </div>
+      )}
+
       {/* like */}
       <div className='flex flex-col items-center'>
         <button
-          onClick={likeHandler}
+          onClick={likeUnlikeHandler}
           disabled={liking}
           className={`reaction-btn ${
             isAlreadyLike ? 'text-primary dark:text-primary' : ''
           }`}
         >
-          <BsHeartFill size={18} />
+          <BsHeartFill size={22} />
         </button>
-        <p className='text-sm mt-1'>{millify(totalLikes?.length || 0)}</p>
+        <p className='text-sm mt-1'>{millify(totalLikes || 0)}</p>
       </div>
 
       {/* comment */}
-      <div className='flex flex-col items-center'>
-        <button
-          onClick={() => router.push(`/video/${video._id}`)}
-          className='reaction-btn'
-        >
-          <RiMessage2Fill size={18} />
+      <Link
+        // onClick={handleViewVideoDetail}
+        href={`/video/${video._id}`}
+        aria-label='video'
+        className='flex flex-col items-center'
+      >
+        <button className='reaction-btn'>
+          <RiMessage2Fill size={22} />
         </button>
         <p className='text-sm mt-1'>{millify(video.comments?.length || 0)}</p>
-      </div>
+      </Link>
 
       {/* share */}
       {isTouchDevice ? (
@@ -116,41 +238,40 @@ export default function Reaction({ likes, setShowLogin, video }: Props) {
       ) : (
         <div className='relative group'>
           <button className='reaction-btn'>
-            <IoMdShareAlt size={20} />
+            <IoMdShareAlt size={22} />
           </button>
 
-          <div>
-            <div className='w-[240px] absolute bottom-14 -left-3 hidden group-hover:block'>
-              <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
-                {socialIcons.map((item) => (
-                  <ShareLink
-                    key={item.name}
-                    src={item.icon}
-                    name={item.name}
-                    POST_URL={POST_URL}
-                    caption={video.caption}
-                  />
-                ))}
+          <div className='w-[240px] absolute bottom-16 -left-3 hidden group-hover:block'>
+            <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
+              {socialIcons.map((item) => (
+                <ShareLink
+                  key={item.name}
+                  src={item.icon}
+                  name={item.name}
+                  POST_URL={POST_URL}
+                  caption={video.caption}
+                />
+              ))}
 
-                <div
-                  onClick={() => copyToClipboard(POST_URL)}
-                  className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
-                >
-                  <div className='mr-2 w-7 h-7 flex items-center justify-center'>
-                    <IoIosCopy size={20} />
-                  </div>
-                  <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
-                    {isCopied ? 'Copied' : 'Copy link'}
-                  </p>
+              <div
+                onClick={() => copyToClipboard(POST_URL)}
+                className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
+              >
+                <div className='mr-2 w-7 h-7 flex items-center justify-center'>
+                  <IoIosCopy size={25} />
                 </div>
+                <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
+                  {isCopied ? 'Copied' : 'Copy link'}
+                </p>
               </div>
-
-              <div className='mt-3' />
             </div>
-            <p className='text-xs mt-1 text-gray-600 dark:text-gray-200'>
-              Share
-            </p>
+
+            <div className='mt-3' />
           </div>
+
+          <p className='text-xs mt-1 text-center text-gray-600 dark:text-gray-200'>
+            Share
+          </p>
         </div>
       )}
     </div>

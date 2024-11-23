@@ -8,16 +8,21 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'PUT') {
-    const { userId, postId } = req.body;
+    const { userId, creatorId } = req.body;
 
-    const data = await client
-      .patch(postId)
-      .setIfMissing({ likes: [] })
-      .insert('after', 'likes[-1]', [
-        { _key: nanoid(), _ref: userId, _type: 'postedBy' },
-      ])
+    // update creator
+    const updateCreator = await client
+      .patch(creatorId)
+      .unset([`follower[_ref=="${userId}"]`])
       .commit();
 
+    // update user
+    const updateUser = await client
+      .patch(userId)
+      .unset([`following[_ref=="${creatorId}"]`])
+      .commit();
+
+    const data = await Promise.all([updateCreator, updateUser]);
     res.status(200).json(data);
   }
 }

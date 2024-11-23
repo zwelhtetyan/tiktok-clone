@@ -13,7 +13,7 @@ export interface Video {
     image: string;
     follower: { _key: string; _ref: string; _type: string }[];
     following: { _key: string; _ref: string; _type: string }[];
-    isFollow?: boolean;
+    isFollowed?: boolean;
   };
   likes: {
     _ref: string;

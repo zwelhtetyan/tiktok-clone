@@ -65,7 +65,7 @@ export default function Sidebar() {
 
       <div className='hidden lg:block h-[1] my-4 bg-gray-200 dark:bg-darkBorder' />
 
-      <h2 className='hidden lg:block font-semibold text-gray-500 mb-4'>
+      <h2 className='hidden lg:block font-semibold text-gray-500 dark:text-gray-400 mb-4'>
         Suggested accounts
       </h2>
 

@@ -47,14 +47,14 @@ function ShareLink({ src, name, POST_URL, caption }: ShareLinkProps) {
     <Link
       target='_blank'
       href={shareVia(name, POST_URL, caption)!}
-      className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
+      className='flex cursor-pointer items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-darkBtnHover'
     >
       <Image
         src={src}
         alt='social_icon'
         width={30}
         height={30}
-        className='w-7 h-7 cursor-pointer mr-2'
+        className='mr-2 h-7 w-7 cursor-pointer'
       />
       <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
         Share to {name}
@@ -146,7 +146,7 @@ export default function Reaction({
   ]);
 
   return (
-    <div className='hidden sm:flex w-12 h-full flex-col items-center justify-end space-y-3 ml-4 select-none'>
+    <div className='ml-4 hidden h-full w-12 select-none flex-col items-center justify-end space-y-3 sm:flex'>
       {/* follow or delete */}
       {isCreator ? (
         <div className='flex flex-col items-center'>
@@ -161,12 +161,12 @@ export default function Reaction({
         <div className='relative mb-4'>
           <Link
             href={`/profile/${postedBy._id}`}
-            className='flex flex-col items-center w-14 h-14 rounded-full overflow-hidden'
+            className='flex h-14 w-14 flex-col items-center overflow-hidden rounded-full'
           >
             <Image
               src={postedBy.image}
               alt='user avatar'
-              className='w-full h-full object-cover bg-gray-200 dark:bg-[#7e7b7b5e]'
+              className='h-full w-full bg-gray-200 object-cover dark:bg-[#7e7b7b5e]'
               width={60}
               height={60}
             />
@@ -176,22 +176,22 @@ export default function Reaction({
             <button
               onClick={followHandler}
               disabled={followLoading}
-              className='border-none outline-none w-6 h-6 rounded-full flex justify-center items-center bg-gray-100 absolute left-1/2 -translate-x-1/2 -bottom-3'
+              className='absolute -bottom-3 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full border-none bg-gray-100 outline-none'
             >
               {followLoading ? (
                 <PiSpinnerGap className='animate-spin' />
               ) : (
-                <IoMdCheckmark className='text-primary font-bold' />
+                <IoMdCheckmark className='font-bold text-primary' />
               )}
             </button>
           ) : (
             <button
               onClick={followHandler}
               disabled={followLoading}
-              className='border-none outline-none w-6 h-6 rounded-full flex justify-center items-center bg-primary absolute left-1/2 -translate-x-1/2 -bottom-3'
+              className='absolute -bottom-3 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full border-none bg-primary outline-none'
             >
               {followLoading ? (
-                <PiSpinnerGap className='text-white animate-spin' />
+                <PiSpinnerGap className='animate-spin text-white' />
               ) : (
                 <AiOutlinePlus className='text-white' />
               )}
@@ -211,7 +211,7 @@ export default function Reaction({
         >
           <BsHeartFill size={22} />
         </button>
-        <p className='text-sm mt-1'>{millify(totalLikes || 0)}</p>
+        <p className='mt-1 text-sm'>{millify(totalLikes || 0)}</p>
       </div>
 
       {/* comment */}
@@ -224,7 +224,7 @@ export default function Reaction({
         <button className='reaction-btn'>
           <RiMessage2Fill size={22} />
         </button>
-        <p className='text-sm mt-1'>{millify(video.comments?.length || 0)}</p>
+        <p className='mt-1 text-sm'>{millify(video.comments?.length || 0)}</p>
       </Link>
 
       {/* share */}
@@ -236,13 +236,13 @@ export default function Reaction({
           <IoMdShareAlt size={22} />
         </button>
       ) : (
-        <div className='relative group'>
+        <div className='group relative'>
           <button className='reaction-btn'>
             <IoMdShareAlt size={22} />
           </button>
 
-          <div className='w-[240px] absolute bottom-16 -left-3 hidden group-hover:block'>
-            <div className='rounded-md bg-slate-100 dark:bg-darkSecondary border border-gray-200 dark:border-darkBorder'>
+          <div className='absolute -left-3 bottom-16 hidden w-[240px] group-hover:block'>
+            <div className='rounded-md border border-gray-200 bg-slate-100 dark:border-darkBorder dark:bg-darkSecondary'>
               {socialIcons.map((item) => (
                 <ShareLink
                   key={item.name}
@@ -255,9 +255,9 @@ export default function Reaction({
 
               <div
                 onClick={() => copyToClipboard(POST_URL)}
-                className='flex items-center py-2 px-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-darkBtnHover'
+                className='flex cursor-pointer items-center px-4 py-2 hover:bg-gray-200 dark:hover:bg-darkBtnHover'
               >
-                <div className='mr-2 w-7 h-7 flex items-center justify-center'>
+                <div className='mr-2 flex h-7 w-7 items-center justify-center'>
                   <IoIosCopy size={25} />
                 </div>
                 <p className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
@@ -269,7 +269,7 @@ export default function Reaction({
             <div className='mt-3' />
           </div>
 
-          <p className='text-xs mt-1 text-center text-gray-600 dark:text-gray-200'>
+          <p className='mt-1 text-center text-xs text-gray-600 dark:text-gray-200'>
             Share
           </p>
         </div>

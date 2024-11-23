@@ -51,29 +51,29 @@ export default function MobileSearchBarModal({ onClose }: Props) {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl border bg-white p-6 text-left align-middle shadow-xl transition-all dark:border-darkBorder dark:bg-darkSecondary dark:text-white'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-bold leading-5 border-b border-b-gray-200 dark:border-b-darkBorder pb-4'
+                    className='border-b border-b-gray-200 pb-4 text-lg font-bold leading-5 dark:border-b-darkBorder'
                   >
                     TikTok Search
                   </Dialog.Title>
 
                   <form
                     onSubmit={handleSearch}
-                    className='mt-6 mb-2 flex justify-between items-center dark:text-white bg-gray-100 dark:bg-darkBtnHover rounded-full overflow-hidden border dark:border-transparent focus-within:border-gray-300 dark:focus-within:border-gray-500 focus-within:bg-gray-200 dark:focus-within:bg-darkSecondary'
+                    className='mb-2 mt-6 flex items-center justify-between overflow-hidden rounded-full border bg-gray-100 focus-within:border-gray-300 focus-within:bg-gray-200 dark:border-transparent dark:bg-darkBtnHover dark:text-white dark:focus-within:border-gray-500 dark:focus-within:bg-darkSecondary'
                   >
                     <input
                       ref={searchInputRef}
                       // defaultValue={router.query.q || ''}
                       type='text'
                       placeholder='Search accounts and videos'
-                      className='flex-1 w-full peer p-2 pl-4 border-none outline-none bg-transparent dark:placeholder-gray-500'
+                      className='peer w-full flex-1 border-none bg-transparent p-2 pl-4 outline-none dark:placeholder-gray-500'
                     />
 
                     <button
                       type='submit'
-                      className='w-11 h-10 flex items-center justify-center border-l text-gray-400 border-l-gray-200 dark:border-l-gray-500 peer-focus:border-l-gray-300 dark:peer-focus:border-l-gray-500 cursor-pointer'
+                      className='flex h-10 w-11 cursor-pointer items-center justify-center border-l border-l-gray-200 text-gray-400 peer-focus:border-l-gray-300 dark:border-l-gray-500 dark:peer-focus:border-l-gray-500'
                     >
                       <IoSearchOutline size={23} />
                     </button>

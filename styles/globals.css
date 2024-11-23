@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply lg:overflow-hidden text-black dark:text-white selection:bg-primary selection:text-white;
+    @apply text-black selection:bg-primary selection:text-white dark:text-white lg:overflow-hidden;
   }
 
   ::-webkit-scrollbar {
@@ -17,7 +17,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply rounded-sm bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBorder transition-all;
+    @apply rounded-sm bg-gray-200 transition-all hover:bg-gray-300 dark:bg-darkBtn dark:hover:bg-darkBorder;
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -39,23 +39,23 @@
 
 @layer components {
   .active-topic {
-    @apply lg:border-primary text-primary bg-gray-200 dark:bg-black lg:bg-transparent;
+    @apply bg-gray-200 text-primary dark:bg-black lg:border-primary lg:bg-transparent;
   }
 
   .btn-primary {
-    @apply transition-all bg-primary text-gray-200 rounded px-4 py-[5px] hover:bg-[rgb(237,32,72)] dark:hover:bg-primary/80;
+    @apply rounded bg-primary px-4 py-[5px] text-gray-200 transition-all hover:bg-[rgb(237,32,72)] dark:hover:bg-primary/80;
   }
 
   .btn-secondary {
-    @apply transition-all border border-gray-200 dark:border-[rgb(22,24,35,0.12)] bg-gray-200 dark:bg-darkBtn text-gray-800 dark:text-gray-200 rounded px-4 py-[5px] hover:border-gray-300 dark:hover:bg-darkBtnHover;
+    @apply rounded border border-gray-200 bg-gray-200 px-4 py-[5px] text-gray-800 transition-all hover:border-gray-300 dark:border-[rgb(22,24,35,0.12)] dark:bg-darkBtn dark:text-gray-200 dark:hover:bg-darkBtnHover;
   }
 
   .reaction-btn {
-    @apply w-12 h-12 bg-gray-200 dark:bg-[#7e7b7b5e] text-gray-700 dark:text-gray-200 flex items-center justify-center rounded-full hover:bg-gray-300  dark:hover:bg-[#5c59595e];
+    @apply flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-[#7e7b7b5e] dark:text-gray-200 dark:hover:bg-[#5c59595e];
   }
 
   .spinner {
-    @apply animate-spin h-6 w-6 rounded-full border-2 border-l-primary border-b-primary dark:border-darkBorder dark:border-l-primary dark:border-b-primary;
+    @apply h-6 w-6 animate-spin rounded-full border-2 border-b-primary border-l-primary dark:border-darkBorder dark:border-b-primary dark:border-l-primary;
   }
 }
 

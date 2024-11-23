@@ -33,16 +33,16 @@ function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
   return (
     <Link
       href={`/video/${videoId}`}
-      className='flex flex-col items-center w-52 xs:w-auto'
+      className='flex w-52 flex-col items-center xs:w-auto'
     >
-      <div className='overflow-hidden relative bg-black h-[290px] w-52 xs:w-auto xs:h-[250px] flex items-center justify-center rounded-md'>
+      <div className='relative flex h-[290px] w-52 items-center justify-center overflow-hidden rounded-md bg-black xs:h-[250px] xs:w-auto'>
         <video src={videoURL} className='object-cover' />
 
-        <div className='text-white absolute bottom-0 left-0 text-sm backdrop-blur-sm w-full flex items-center p-2 py-3'>
+        <div className='absolute bottom-0 left-0 flex w-full items-center p-2 py-3 text-sm text-white backdrop-blur-sm'>
           <BsHeartFill size={18} className='mr-1' /> {millify(likes)}
         </div>
       </div>
-      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-900 dark:text-gray-300'>
+      <p className='mt-1 line-clamp-1 self-start text-sm text-gray-900 dark:text-gray-300'>
         {caption}
       </p>
     </Link>
@@ -91,7 +91,7 @@ export default function Profile({ data }: Props) {
         ></meta>
       </Head>
 
-      <div className='pl-2 sm:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
+      <div className='h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4'>
         {hasNoUser ? (
           <NoResult title='No user found!' />
         ) : (
@@ -133,7 +133,7 @@ export default function Profile({ data }: Props) {
                 />
               ) : (
                 // videos
-                <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
+                <div className='mt-4 grid place-items-center gap-x-3 gap-y-5 pb-4 xs:grid-cols-auto-fill-180 xs:place-items-stretch'>
                   {tab === 0 ? (
                     <>
                       {userCreatedPosts?.map((post) => (

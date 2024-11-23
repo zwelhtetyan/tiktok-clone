@@ -28,27 +28,27 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='border-b border-b-[rgba(34,90,89,0.2)] dark:border-b-darkBorder dark:bg-dark h-16'>
-      <div className='flex justify-between items-center mx-auto px-2 lg:px-4 py-2 gap-4'>
+    <nav className='h-16 border-b border-b-[rgba(34,90,89,0.2)] dark:border-b-darkBorder dark:bg-dark'>
+      <div className='mx-auto flex items-center justify-between gap-4 px-2 py-2 lg:px-4'>
         <Link href='/' aria-label='TikTok_logo'>
           {theme === 'dark' ? <LogoDark /> : <LogoLight />}
         </Link>
 
         <form
           onSubmit={handleSearch}
-          className='hidden md:flex w-full max-w-lg justify-between items-center dark:text-white bg-gray-100 dark:bg-darkSecondary rounded-full overflow-hidden border dark:border-transparent focus-within:border-gray-300 dark:focus-within:border-gray-500 focus-within:bg-gray-200 dark:focus-within:bg-darkSecondary'
+          className='hidden w-full max-w-lg items-center justify-between overflow-hidden rounded-full border bg-gray-100 focus-within:border-gray-300 focus-within:bg-gray-200 dark:border-transparent dark:bg-darkSecondary dark:text-white dark:focus-within:border-gray-500 dark:focus-within:bg-darkSecondary md:flex'
         >
           <input
             ref={searchInputRef}
             defaultValue={router.query.q || ''}
             type='text'
             placeholder='Search accounts and videos'
-            className='peer flex-1 w-full p-2 pl-4 border-none outline-none bg-transparent dark:placeholder-gray-500'
+            className='peer w-full flex-1 border-none bg-transparent p-2 pl-4 outline-none dark:placeholder-gray-500'
           />
 
           <button
             type='submit'
-            className='w-11 h-10 flex items-center justify-center border-l text-gray-400 border-l-gray-200 dark:border-l-gray-500 peer-focus:border-l-gray-300 dark:peer-focus:border-l-gray-500 cursor-pointer'
+            className='flex h-10 w-11 cursor-pointer items-center justify-center border-l border-l-gray-200 text-gray-400 peer-focus:border-l-gray-300 dark:border-l-gray-500 dark:peer-focus:border-l-gray-500'
           >
             <IoSearchOutline size={23} />
           </button>
@@ -59,7 +59,7 @@ export default function Navbar() {
             <>
               <Link
                 href='/upload'
-                className='btn-secondary flex items-center mr-2'
+                className='btn-secondary mr-2 flex items-center'
               >
                 <CgMathPlus />
                 <p className='ml-2'>Upload</p>

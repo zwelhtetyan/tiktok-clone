@@ -41,31 +41,31 @@ export default function VideoDetail({ videoDetail }: DetailProps) {
           <NoResult title='No video found!' />
           <Link
             href='/'
-            className='mt-2 block font-bold text-center text-sm text-primary hover:underline'
+            className='mt-2 block text-center text-sm font-bold text-primary hover:underline'
           >
             Back to home
           </Link>
         </>
       ) : (
         <>
-          <div className='lg:min-h-screen w-full flex flex-col lg:flex-row dark:bg-dark dark:text-white'>
+          <div className='flex w-full flex-col dark:bg-dark dark:text-white lg:min-h-screen lg:flex-row'>
             {/* left */}
-            <div className='h-[480px] w-full lg:flex-1 lg:h-screen bg-img-blur-light dark:bg-img-blur-dark bg-no-repeat bg-cover object-cover'>
+            <div className='h-[480px] w-full bg-img-blur-light bg-cover bg-no-repeat object-cover dark:bg-img-blur-dark lg:h-screen lg:flex-1'>
               <div
                 onClick={() => router.back()}
                 title='back'
-                className='absolute hidden xs:flex items-center justify-center text-white bg-[#7e7b7b5e] w-9 h-9 rounded-full top-2 left-2 cursor-pointer hover:bg-[#5c59595e]'
+                className='absolute left-2 top-2 hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#7e7b7b5e] text-white hover:bg-[#5c59595e] xs:flex'
               >
                 <RxCross2 size={23} />
               </div>
 
-              <div className='bg-black h-full max-w-[270px] lg:max-w-[390px] flex items- justify-center mx-auto cursor-pointer'>
+              <div className='items- mx-auto flex h-full max-w-[270px] cursor-pointer justify-center bg-black lg:max-w-[390px]'>
                 <video
                   src={videoDetail.video.asset.url}
                   autoPlay
                   loop
                   controls
-                  className='w-full h-full'
+                  className='h-full w-full'
                 />
               </div>
             </div>

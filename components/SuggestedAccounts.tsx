@@ -31,13 +31,13 @@ function UserAccount({
   return (
     <Link
       href={`/profile/${userId}`}
-      className='flex items-center dark:text-gray-200 rounded p-[2px] hover:bg-gray-100 dark:hover:bg-darkBtnHover cursor-pointer'
+      className='flex cursor-pointer items-center rounded p-[2px] hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-darkBtnHover'
     >
-      <UserProfile src={src} className=' mr-2' />
+      <UserProfile src={src} className='mr-2' />
 
       <div>
         <h2 className='font-semibold leading-5'>{userName}</h2>
-        <p className='text-gray-500 text-sm'>
+        <p className='text-sm text-gray-500'>
           {generateFakeUsername(userName)}
         </p>
       </div>
@@ -47,13 +47,13 @@ function UserAccount({
 
 function UserSkeleton() {
   return (
-    <div className='shadow rounded-md p-[2px] w-full mb-1'>
-      <div className='animate-pulse flex items-center space-x-2'>
-        <div className='rounded-full bg-gray-300 dark:bg-darkBtn h-10 w-10' />
+    <div className='mb-1 w-full rounded-md p-[2px] shadow'>
+      <div className='flex animate-pulse items-center space-x-2'>
+        <div className='h-10 w-10 rounded-full bg-gray-300 dark:bg-darkBtn' />
 
         <div className='flex-1 space-y-2 py-1'>
-          <div className='h-2 bg-gray-300 dark:bg-darkBtn rounded w-2/3'></div>
-          <div className='h-2 bg-gray-300 dark:bg-darkBtn rounded w-36'></div>
+          <div className='h-2 w-2/3 rounded bg-gray-300 dark:bg-darkBtn'></div>
+          <div className='h-2 w-36 rounded bg-gray-300 dark:bg-darkBtn'></div>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@ export default function SuggestedAccounts() {
   }, [allUsers, setSuggestedUsers]);
 
   return (
-    <div className='hidden lg:block h-full overflow-y-auto'>
+    <div className='hidden h-full overflow-y-auto lg:block'>
       {isLoading &&
         Array.from({ length: 30 }, (_, idx) => <UserSkeleton key={idx} />)}
 

@@ -24,16 +24,16 @@ export default function UserAccount({
       href={`/profile/${userId}`}
       className='mb-4 flex cursor-pointer rounded-md hover:bg-gray-100 dark:hover:bg-darkBtnHover'
     >
-      <UserProfile src={src} className='w-16 h-16' />
+      <UserProfile src={src} className='h-16 w-16' />
 
-      <div className='flex-1 ml-3 mt-[2px]'>
+      <div className='ml-3 mt-[2px] flex-1'>
         <h2 className='font-bold'>{userName}</h2>
         <p className='text-[15px] text-gray-500 dark:text-gray-400'>
           <span>{generateFakeUsername(userName)}</span> <span>•</span>{' '}
           <span className='text-dark dark:text-white'>{millify(follower)}</span>{' '}
           {follower > 1 ? 'Followers' : 'Follower'}
         </p>
-        <p className='text-[15px] text-gray-800 dark:text-gray-300 line-clamp-2'>
+        <p className='line-clamp-2 text-[15px] text-gray-800 dark:text-gray-300'>
           {bio}
         </p>
       </div>

@@ -88,7 +88,7 @@ export default function Home({ videos }: Props) {
 
       <div
         style={{ scrollbarWidth: 'none', scrollSnapType: 'y mandatory' }}
-        className='w-full h-[calc(100vh-97px)] px-4 md:px-10 overflow-y-auto space-y-6'
+        className='h-[calc(100vh-97px)] w-full space-y-6 overflow-y-auto px-4 md:px-10'
       >
         {videos?.length > 0 ? (
           videos.map((video, idx) => (

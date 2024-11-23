@@ -21,7 +21,7 @@ export default function Upload() {
   const router = useRouter();
 
   const [videoAsset, setVideoAsset] = useState<SanityAssetDocument | null>(
-    null
+    null,
   );
   const [caption, setCaption] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(noTopic);
@@ -113,8 +113,8 @@ export default function Upload() {
         ></meta>
       </Head>
 
-      <div className='w-full h-[calc(100vh-97px)] overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
-        <div className='border shadow-sm dark:border-darkBtn max-w-4xl mx-auto p-4 xs:p-6 rounded-lg mb-10 xs:mb-0 overflow-hidden'>
+      <div className='h-[calc(100vh-97px)] w-full overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
+        <div className='mx-auto mb-10 max-w-4xl overflow-hidden rounded-lg border p-4 shadow-sm dark:border-darkBtn xs:mb-0 xs:p-6'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>
             <p className='text-[rgba(22,24,35,0.5)] dark:text-gray-400'>
@@ -122,15 +122,15 @@ export default function Upload() {
             </p>
           </div>
 
-          <div className='flex flex-col-reverse md:flex-row items-center'>
+          <div className='flex flex-col-reverse items-center md:flex-row'>
             {/* left */}
             <label
               htmlFor='video'
               className={`${
                 isUploading ? 'bg-gray-100 dark:bg-darkBtnHover' : ''
               } ${
-                videoAsset ? 'p-0 bg-black border-none' : 'p-4'
-              } flex flex-col items-center justify-center w-[260px] h-[458px] rounded-lg border-2 border-dashed border-gray-300 hover:border-primary text-gray-500 cursor-pointer transition-all`}
+                videoAsset ? 'border-none bg-black p-0' : 'p-4'
+              } flex h-[458px] w-[260px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-gray-500 transition-all hover:border-primary`}
             >
               {videoAsset ? (
                 <video
@@ -143,8 +143,8 @@ export default function Upload() {
                 />
               ) : isUploading ? (
                 <>
-                  <div className='border-2 border-l-primary animate-spin w-12 h-12 rounded-full' />
-                  <h3 className='mt-4 text-lg animate-pulse tracking-wide'>
+                  <div className='h-12 w-12 animate-spin rounded-full border-2 border-l-primary' />
+                  <h3 className='mt-4 animate-pulse text-lg tracking-wide'>
                     Uploading...
                   </h3>
                 </>
@@ -153,7 +153,7 @@ export default function Upload() {
                   <div className='flex justify-center text-gray-300'>
                     <FaCloudUploadAlt size={45} />
                   </div>
-                  <h3 className='font-semibold text-lg mb-6 text-black dark:text-gray-200'>
+                  <h3 className='mb-6 text-lg font-semibold text-black dark:text-gray-200'>
                     Select video to upload
                   </h3>
                   <p className='mb-2 text-sm'>MP4 or WebM</p>
@@ -167,11 +167,11 @@ export default function Upload() {
                     id='video'
                     type='file'
                     accept='video/mp4, video/webm'
-                    className='w-0 h-0'
+                    className='h-0 w-0'
                     onChange={uploadFile}
                   />
                   {isLargeFile ? (
-                    <p className='mt-4 text-sm text-center text-red-500 font-semibold'>
+                    <p className='mt-4 text-center text-sm font-semibold text-red-500'>
                       {isLargeFile.message}
                     </p>
                   ) : (
@@ -182,8 +182,8 @@ export default function Upload() {
             </label>
 
             {/* right */}
-            <div className='flex-1 md:pl-8 w-full mb-10 md:mb-0'>
-              <label htmlFor='caption' className='block mb-2 font-semibold'>
+            <div className='mb-10 w-full flex-1 md:mb-0 md:pl-8'>
+              <label htmlFor='caption' className='mb-2 block font-semibold'>
                 Caption
               </label>
               <input
@@ -192,7 +192,7 @@ export default function Upload() {
                 type='text'
                 autoComplete='off'
                 id='caption'
-                className='block border shadow-md outline-none w-full rounded-lg py-2 px-3 dark:bg-transparent dark:border-darkBorder'
+                className='block w-full rounded-lg border px-3 py-2 shadow-md outline-none dark:border-darkBorder dark:bg-transparent'
               />
 
               <p className='mb-2 mt-6 font-semibold'>Choose a topic</p>
@@ -201,18 +201,18 @@ export default function Upload() {
                 setSelectedTopic={setSelectedTopic}
               />
 
-              <div className='mt-12 hidden md:flex items-center justify-center gap-4'>
+              <div className='mt-12 hidden items-center justify-center gap-4 md:flex'>
                 <button
                   onClick={handleDiscard}
                   disabled={isPosting || (!caption && !videoAsset)}
-                  className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
+                  className='btn-secondary w-36 py-2 disabled:cursor-not-allowed'
                 >
                   Discard
                 </button>
 
                 <button
                   onClick={handleUpload}
-                  className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
+                  className='btn-primary w-36 py-2 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:disabled:bg-darkBtnHover dark:disabled:text-gray-500'
                   disabled={!caption || !videoAsset || isPosting}
                 >
                   {isPosting ? 'Posting...' : 'Post'}
@@ -222,18 +222,18 @@ export default function Upload() {
           </div>
 
           {/* mobile layout */}
-          <div className='mt-10 xs:mt-12 flex md:hidden items-center justify-center gap-4'>
+          <div className='mt-10 flex items-center justify-center gap-4 xs:mt-12 md:hidden'>
             <button
               onClick={handleDiscard}
               disabled={isPosting || !caption || !videoAsset}
-              className='btn-secondary py-2 w-36 disabled:cursor-not-allowed'
+              className='btn-secondary w-36 py-2 disabled:cursor-not-allowed'
             >
               Discard
             </button>
 
             <button
               onClick={handleUpload}
-              className='btn-primary py-2 w-36 disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-darkBtnHover disabled:text-gray-400 dark:disabled:text-gray-500'
+              className='btn-primary w-36 py-2 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:disabled:bg-darkBtnHover dark:disabled:text-gray-500'
               disabled={!caption || !videoAsset || isPosting}
             >
               {isPosting ? 'Posting...' : 'Post'}

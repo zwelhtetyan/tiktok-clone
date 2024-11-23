@@ -20,7 +20,7 @@ export default function Layout({ children }: Props) {
     <div className='dark:bg-dark'>
       <Navbar />
 
-      <main className='flex w-full mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-64px)] overflow-y-auto overflow-hidden'>
+      <main className='mx-auto flex h-[calc(100vh-64px)] w-full overflow-hidden overflow-y-auto px-2 py-4 lg:px-4'>
         {showSideBar && <Sidebar />}
 
         <div className='w-full flex-1'>{children}</div>

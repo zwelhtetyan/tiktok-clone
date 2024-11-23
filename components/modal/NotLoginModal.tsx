@@ -34,28 +34,28 @@ export default function NotLoginModal({ onClose }: Props) {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl border bg-white p-6 text-left align-middle shadow-xl transition-all dark:border-darkBorder dark:bg-darkSecondary dark:text-white'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-bold leading-5 border-b border-b-gray-200 dark:border-b-darkBorder pb-4'
+                    className='border-b border-b-gray-200 pb-4 text-lg font-bold leading-5 dark:border-b-darkBorder'
                   >
                     Login to TikTok
                   </Dialog.Title>
-                  <div className='mt-6 flex-col items-center flex justify-center'>
-                    <p className='tracking-wide mb-4 text-sm text-gray-500 dark:text-gray-300'>
+                  <div className='mt-6 flex flex-col items-center justify-center'>
+                    <p className='mb-4 text-sm tracking-wide text-gray-500 dark:text-gray-300'>
                       Continue with google
                     </p>
 
                     <div className='flex items-center gap-3'>
                       <button
                         onClick={onClose}
-                        className='btn-secondary py-2 px-6'
+                        className='btn-secondary px-6 py-2'
                       >
                         Close
                       </button>
                       <button
                         onClick={() => signIn('google')}
-                        className='btn-primary py-2 px-6'
+                        className='btn-primary px-6 py-2'
                       >
                         Login
                       </button>

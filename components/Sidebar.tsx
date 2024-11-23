@@ -13,7 +13,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className='side-bar lg:flex lg:flex-col min-w-[3.5rem] w-14 lg:w-full lg:max-w-[21rem] border-r lg:border-none border-r-gray-100 dark:border-r-darkBorder lg:pr-4 h-[calc(100vh-97px)] overflow-hidden overflow-y-auto'>
+    <aside className='side-bar h-[calc(100vh-97px)] w-14 min-w-[3.5rem] overflow-hidden overflow-y-auto border-r border-r-gray-100 dark:border-r-darkBorder lg:flex lg:w-full lg:max-w-[21rem] lg:flex-col lg:border-none lg:pr-4'>
       <div>
         {showMobileSearchBar && (
           <MobileSearchBarModal onClose={() => setShowMobileSearchBar(false)} />
@@ -23,12 +23,10 @@ export default function Sidebar() {
           href='https://github.com/zwelhtetyan/tiktok-clone'
           target='_blank'
           aria-label='Home'
-          className={`mb-2 lg:bg-primary max-w-[150px] lg:text-white text-sm rounded-full lg:rounded-md flex items-center justify-center lg:p-1 dark:border-darkSecondary
-        bg-gray-100 w-12 h-12 lg:w-auto lg:h-auto dark:bg-darkBtn dark:lg:bg-primary
-        `}
+          className={`mb-2 flex h-12 w-12 max-w-[150px] items-center justify-center rounded-full bg-gray-100 text-sm dark:border-darkSecondary dark:bg-darkBtn lg:h-auto lg:w-auto lg:rounded-md lg:bg-primary lg:p-1 lg:text-white dark:lg:bg-primary`}
         >
           <RiGithubFill size={22} />
-          <p className='lg:ml-2 hidden lg:block'>Stars on Github</p>
+          <p className='hidden lg:ml-2 lg:block'>Stars on Github</p>
         </Link>
 
         <Link
@@ -36,13 +34,12 @@ export default function Sidebar() {
           aria-label='Home'
           className={`${
             router.asPath === '/'
-              ? 'lg:border-primary text-primary bg-gray-200 dark:bg-black'
-              : 'border-gray-200 dark:text-white bg-gray-100 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300 lg:bg-transparent dark:lg:bg-transparent'
-          } font-bold text-lg lg:border-none rounded-full lg:rounded-sm flex items-center justify-center lg:justify-start w-12 h-12 lg:w-auto lg:p-2 border dark:border-darkSecondary
-        `}
+              ? 'bg-gray-200 text-primary dark:bg-black lg:border-primary'
+              : 'border-gray-200 bg-gray-100 hover:border-gray-300 hover:bg-gray-200 dark:bg-darkBtn dark:text-white dark:hover:bg-darkBtnHover lg:bg-transparent dark:lg:bg-transparent'
+          } flex h-12 w-12 items-center justify-center rounded-full border text-lg font-bold dark:border-darkSecondary lg:w-auto lg:justify-start lg:rounded-sm lg:border-none lg:p-2`}
         >
           <RiHomeSmileFill size={22} />
-          <p className='lg:ml-2 hidden lg:block'>For You</p>
+          <p className='hidden lg:ml-2 lg:block'>For You</p>
         </Link>
 
         <button
@@ -51,21 +48,20 @@ export default function Sidebar() {
           className={`${
             false
               ? 'active-topic'
-              : 'border-gray-200 dark:text-white bg-gray-100 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
-          } mt-2 rounded-full flex md:hidden items-center justify-center w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary focus-visible:outline-none
-        `}
+              : 'border-gray-200 bg-gray-100 hover:border-gray-300 hover:bg-gray-200 dark:bg-darkBtn dark:text-white dark:hover:bg-darkBtnHover'
+          } mt-2 flex h-12 w-12 items-center justify-center rounded-full border focus-visible:outline-none dark:border-darkSecondary md:hidden lg:h-auto lg:w-auto lg:px-3 lg:py-2`}
         >
           <IoSearchOutline size={23} />
         </button>
 
-        <div className='h-[1px] bg-gray-200 dark:bg-darkBorder my-3' />
+        <div className='my-3 h-[1px] bg-gray-200 dark:bg-darkBorder' />
 
         <PopularTopics />
       </div>
 
-      <div className='hidden lg:block h-[1] my-4 bg-gray-200 dark:bg-darkBorder' />
+      <div className='my-4 hidden h-[1] bg-gray-200 dark:bg-darkBorder lg:block' />
 
-      <h2 className='hidden lg:block font-semibold text-gray-500 dark:text-gray-400 mb-4'>
+      <h2 className='mb-4 hidden font-semibold text-gray-500 dark:text-gray-400 lg:block'>
         Suggested accounts
       </h2>
 

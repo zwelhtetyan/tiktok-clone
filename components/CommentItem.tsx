@@ -27,21 +27,21 @@ export default function CommentItem({
   const { isTouchDevice } = useCheckTouchDevice();
 
   return (
-    <div className='group flex items-start mb-4'>
+    <div className='group mb-4 flex items-start'>
       <Link href={`/profile/${userId}`}>
-        <UserProfile src={src} className='mr-2 xs:mr-3 xs:w-12 xs:h-12' />
+        <UserProfile src={src} className='mr-2 xs:mr-3 xs:h-12 xs:w-12' />
       </Link>
 
-      <div className='flex-1 flex items-start justify-between'>
+      <div className='flex flex-1 items-start justify-between'>
         <div className='flex-1'>
           <Link
             href={`/profile/${userId}`}
-            className='font-semibold leading-6 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300'
+            className='cursor-pointer font-semibold leading-6 hover:text-gray-700 dark:hover:text-gray-300'
           >
             {userName}
             {isCreator && (
-              <span className='font-bold text-sm text-primary cursor-default'>
-                <span className='ml-[4px] text-gray-800 dark:text-gray-200 text-sm'>
+              <span className='cursor-default text-sm font-bold text-primary'>
+                <span className='ml-[4px] text-sm text-gray-800 dark:text-gray-200'>
                   •
                 </span>{' '}
                 Creator
@@ -56,7 +56,7 @@ export default function CommentItem({
 
         <div className='w-9'>
           {deletingComment ? (
-            <div className='w-9 h-9 rounded-full flex items-center justify-center'>
+            <div className='flex h-9 w-9 items-center justify-center rounded-full'>
               <div className='spinner' />
             </div>
           ) : isCommentCreator ? (
@@ -64,7 +64,7 @@ export default function CommentItem({
               onClick={showDeleteModal}
               className={`${
                 isTouchDevice ? 'flex' : 'hidden'
-              } reaction-btn text-red-600 dark:text-red-600 cursor-pointer group-hover:flex`}
+              } reaction-btn cursor-pointer text-red-600 group-hover:flex dark:text-red-600`}
             >
               <AiTwotoneDelete size={20} />
             </div>

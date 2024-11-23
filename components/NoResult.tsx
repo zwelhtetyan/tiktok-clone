@@ -17,7 +17,7 @@ export default function NoResult({ title, desc }: Props) {
         className='w-52'
       />
 
-      <h4 className='mt-5 text-center font-extrabold text-xl sm:text-2xl'>
+      <h4 className='mt-5 text-center text-xl font-extrabold sm:text-2xl'>
         {title}
       </h4>
 

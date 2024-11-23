@@ -22,20 +22,20 @@ export function VideoFooter({ creator, caption, createdAt }: Props) {
   };
 
   return (
-    <div className='absolute w-full bottom-0 left-0 px-4 pb-6 text-sm space-y-1 video-overlay-bg text-white'>
+    <div className='video-overlay-bg absolute bottom-0 left-0 w-full space-y-1 px-4 pb-6 text-sm text-white'>
       <p className='opacity-90'>
         <Link
           onClick={(e) => e.stopPropagation()}
           href={`/profile/${creator._id}`}
-          className='hover:underline font-bold'
+          className='font-bold hover:underline'
         >
           {creator.userName}
         </Link>{' '}
-        • <span className='italic text-xs'>{formatDate(createdAt)}</span>
+        • <span className='text-xs italic'>{formatDate(createdAt)}</span>
       </p>
 
       <div
-        className={`${isTextExpanded ? 'pb-7' : 'gap-4'} relative flex justify-between items-center opacity-90 transition-all`}
+        className={`${isTextExpanded ? 'pb-7' : 'gap-4'} relative flex items-center justify-between opacity-90 transition-all`}
       >
         <p ref={textRef} className={`${isTextExpanded ? '' : 'line-clamp-1'}`}>
           {caption}
@@ -53,7 +53,7 @@ export function VideoFooter({ creator, caption, createdAt }: Props) {
         {isTextExpanded && (
           <button
             onClick={toggleTextExpend}
-            className='text-nowrap px-2 py-1 ml-auto absolute bottom-0 right-0'
+            className='absolute bottom-0 right-0 ml-auto text-nowrap px-2 py-1'
           >
             less
           </button>

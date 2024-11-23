@@ -165,16 +165,16 @@ export default function VideoItem({
         threshold={0.5}
         onChange={onIntersectingChange}
         style={{ scrollSnapStop: 'always', scrollSnapAlign: 'start center' }}
-        className='w-full h-[calc(100vh-97px)] flex justify-center items-center'
+        className='flex h-[calc(100vh-97px)] w-full items-center justify-center'
       >
         <div
           aria-label='video'
           onClick={handleVideoClick}
-          className='group relative rounded-2xl sm:h-full max-h-[calc(100vh-97px)] flex items-center overflow-hidden cursor-pointer'
+          className='group relative flex max-h-[calc(100vh-97px)] cursor-pointer items-center overflow-hidden rounded-2xl sm:h-full'
         >
           {showHeart && (
             <motion.div
-              className='absolute pointer-events-none text-5xl text-primary'
+              className='pointer-events-none absolute text-5xl text-primary'
               style={{ left: heartPosition.x, top: heartPosition.y }}
               initial={{ scale: 0, opacity: 0 }}
               animate={{
@@ -195,22 +195,22 @@ export default function VideoItem({
             loop
             muted
             playsInline
-            className='video w-full h-full cursor-pointer object-cover object-center'
+            className='video h-full w-full cursor-pointer object-cover object-center'
           />
 
           {showPlayBtn && (
             <PlayPauseAniWrapper onComplete={() => setShowPlayBtn(false)}>
-              <IoPlay className='w-full h-full' />
+              <IoPlay className='h-full w-full' />
             </PlayPauseAniWrapper>
           )}
 
           {showPauseBtn && (
             <PlayPauseAniWrapper onComplete={() => setShowPauseBtn(false)}>
-              <IoMdPause className='w-full h-full' />
+              <IoMdPause className='h-full w-full' />
             </PlayPauseAniWrapper>
           )}
 
-          <div className='action-btn-container absolute flex  group-hover:flex justify-between items-center right-0 top-0 p-4 text-white'>
+          <div className='action-btn-container absolute right-0 top-0 flex items-center justify-between p-4 text-white group-hover:flex'>
             <>
               {isMute ? (
                 <HiVolumeOff size={27} onClick={handleMute} />
@@ -251,7 +251,7 @@ function PlayPauseAniWrapper({
 }: PlayPauseAniWrapperProps) {
   return (
     <motion.div
-      className='bg-[#00000045] text-white p-1 rounded-full w-12 h-12 flex justify-center items-center absolute top-1/2 left-1/2'
+      className='absolute left-1/2 top-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-[#00000045] p-1 text-white'
       initial={{
         scale: 0,
         opacity: 0,

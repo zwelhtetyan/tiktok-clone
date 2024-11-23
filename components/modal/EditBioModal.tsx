@@ -43,33 +43,33 @@ export default function EditBioModal({
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl border bg-white p-6 text-left align-middle shadow-xl transition-all dark:border-darkBorder dark:bg-darkSecondary dark:text-white'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-bold leading-5 border-b border-b-gray-200 dark:border-b-darkBorder pb-4'
+                    className='border-b border-b-gray-200 pb-4 text-lg font-bold leading-5 dark:border-b-darkBorder'
                   >
                     Bio
                   </Dialog.Title>
-                  <div className='mt-4 flex-col items-center flex justify-center'>
+                  <div className='mt-4 flex flex-col items-center justify-center'>
                     <textarea
                       ref={bioRef}
                       defaultValue={bio}
                       placeholder='Bio'
-                      className='w-full h-28 border outline-none rounded-lg py-2 px-3 dark:bg-transparent border-gray-200 dark:border-darkBorder'
+                      className='h-28 w-full rounded-lg border border-gray-200 px-3 py-2 outline-none dark:border-darkBorder dark:bg-transparent'
                     />
 
-                    <div className='w-full mt-4 flex items-center justify-end gap-3'>
+                    <div className='mt-4 flex w-full items-center justify-end gap-3'>
                       <button
                         onClick={onClose}
                         disabled={savingBio}
-                        className='btn-secondary py-2 px-6 disabled:cursor-not-allowed'
+                        className='btn-secondary px-6 py-2 disabled:cursor-not-allowed'
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleSaveBio}
                         disabled={savingBio}
-                        className='btn-primary py-2 px-6 disabled:cursor-not-allowed'
+                        className='btn-primary px-6 py-2 disabled:cursor-not-allowed'
                       >
                         {savingBio ? 'Saving...' : 'Save'}
                       </button>

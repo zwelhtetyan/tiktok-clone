@@ -7,7 +7,6 @@ import { ROOT_URL } from '../utils';
 import Layout from '../components/Layout';
 import { GetServerSidePropsContext } from 'next';
 import NoResult from '../components/NoResult';
-import { useRouter } from 'next/router';
 import useStore from '../store';
 import { getServerSession } from 'next-auth/next';
 import { AUTH_OPTIONS } from './api/auth/[...nextauth]';
@@ -31,9 +30,6 @@ export default function Home({ videos }: Props) {
   const { currentVideo, setCurrentVideo } = useStore();
 
   const [isMute, setIsMute] = useState(true);
-
-  //hooks
-  const router = useRouter();
 
   const handleIntersectingChange = useCallback(
     (video: TIntersectingVideo) => {
@@ -91,7 +87,7 @@ export default function Home({ videos }: Props) {
         className='h-[calc(100vh-97px)] w-full space-y-6 overflow-y-auto px-4 md:px-10'
       >
         {videos?.length > 0 ? (
-          videos.map((video, idx) => (
+          videos.map((video) => (
             <VideoItem
               handleIntersectingChange={handleIntersectingChange}
               key={video._id}

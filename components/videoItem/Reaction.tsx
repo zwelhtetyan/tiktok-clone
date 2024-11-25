@@ -24,6 +24,7 @@ import { MdDelete } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
 import useStore from '../../store';
 import useFollow from '../../hooks/useFollow';
+import { useSetPrevScroll } from '../../hooks/usePrevScroll';
 
 interface Props {
   totalLikes: number;
@@ -77,6 +78,7 @@ export default function Reaction({
   const [isCreator, setIsCreator] = useState(false);
   const [alreadyFollow, setAlreadyFollow] = useState(!!postedBy.isFollowed);
 
+  const { data: user }: any = useSession();
   const { isCopied, copyToClipboard } = useCopy();
   const { isTouchDevice } = useCheckTouchDevice();
   const { handleFollow, handleUnFollow } = useFollow();
@@ -85,6 +87,7 @@ export default function Reaction({
     followLoadingIds,
     currentFollowedUserIds,
     currentUnFollowedUserIds,
+    videoContainerRef,
     setFollowLoadingId,
     removeFollowLoadingId,
     setCurrentFollowedUserIds,
@@ -92,8 +95,7 @@ export default function Reaction({
     setCurrentUnFollowedUserIds,
     removeCurrentUnFollowedUserIds,
   } = useStore();
-
-  const { data: user }: any = useSession();
+  const { keepScrollBeforeNavigate } = useSetPrevScroll(videoContainerRef!);
 
   const followLoading = followLoadingIds.includes(postedBy._id);
 
@@ -152,7 +154,7 @@ export default function Reaction({
         <div className='flex flex-col items-center'>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className={`reaction-btn mb-1`}
+            className={`reaction-btn mb-2`}
           >
             <MdDelete size={25} color='red' />
           </button>
@@ -160,6 +162,7 @@ export default function Reaction({
       ) : (
         <div className='relative mb-4'>
           <Link
+            onClick={keepScrollBeforeNavigate}
             href={`/profile/${postedBy._id}`}
             className='flex h-14 w-14 flex-col items-center overflow-hidden rounded-full'
           >
@@ -216,7 +219,7 @@ export default function Reaction({
 
       {/* comment */}
       <Link
-        // onClick={handleViewVideoDetail}
+        onClick={keepScrollBeforeNavigate}
         href={`/video/${video._id}`}
         aria-label='video'
         className='flex flex-col items-center'

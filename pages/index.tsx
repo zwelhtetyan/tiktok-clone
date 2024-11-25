@@ -2,7 +2,7 @@ import axios from 'axios';
 import Head from 'next/head';
 import { Video } from '../types';
 import VideoItem from '../components/videoItem';
-import { MouseEvent, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useRef } from 'react';
 import { ROOT_URL } from '../utils';
 import Layout from '../components/Layout';
 import { GetServerSidePropsContext } from 'next';
@@ -10,6 +10,8 @@ import NoResult from '../components/NoResult';
 import useStore from '../store';
 import { getServerSession } from 'next-auth/next';
 import { AUTH_OPTIONS } from './api/auth/[...nextauth]';
+import { useRestorePreviousScroll } from '../hooks/usePrevScroll';
+import { useRouter } from 'next/router';
 
 const metadata = {
   description:
@@ -27,9 +29,19 @@ export type TIntersectingVideo = {
 };
 
 export default function Home({ videos }: Props) {
-  const { currentVideo, setCurrentVideo } = useStore();
+  const router = useRouter();
+  const {
+    currentVideo,
+    setCurrentVideo,
+    setVideoContainerRef,
+    isMute,
+    toggleMute,
+    isRestore,
+    prevScroll,
+  } = useStore();
 
-  const [isMute, setIsMute] = useState(true);
+  const videoContainerRef = useRef<HTMLDivElement | null>(null);
+  useRestorePreviousScroll(videoContainerRef);
 
   const handleIntersectingChange = useCallback(
     (video: TIntersectingVideo) => {
@@ -45,7 +57,7 @@ export default function Home({ videos }: Props) {
       }
 
       videoElem.play();
-      setCurrentVideo(0, true, videoRef);
+      setCurrentVideo(videoRef, true);
     },
     [setCurrentVideo],
   );
@@ -58,10 +70,30 @@ export default function Home({ videos }: Props) {
     video.muted = isMute;
   }, [isMute, currentVideo]);
 
-  const handleMute = useCallback((e: MouseEvent) => {
-    e.stopPropagation();
-    setIsMute((prev) => !prev);
-  }, []);
+  const handleMute = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      toggleMute();
+    },
+    [toggleMute],
+  );
+
+  // set videoContainerRef to global store
+  useEffect(() => {
+    if (!videoContainerRef) return;
+    setVideoContainerRef(videoContainerRef);
+  }, [setVideoContainerRef, videoContainerRef]);
+
+  // reset scroll position after topic change
+  // Omit `isRestore` from effect's dependency array to avoid unnecessary render
+  useEffect(() => {
+    const videoContainer = videoContainerRef.current;
+    if (!videoContainer || isRestore) return;
+
+    videoContainer.scrollTop = 0;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.topic]);
 
   return (
     <Layout>
@@ -83,8 +115,9 @@ export default function Home({ videos }: Props) {
       </Head>
 
       <div
+        ref={videoContainerRef}
         style={{ scrollbarWidth: 'none', scrollSnapType: 'y mandatory' }}
-        className='h-[calc(100vh-97px)] w-full space-y-6 overflow-y-auto px-4 md:px-10'
+        className='video-container h-[calc(100vh-97px)] w-full space-y-6 overflow-y-auto px-4 md:px-10'
       >
         {videos?.length > 0 ? (
           videos.map((video) => (

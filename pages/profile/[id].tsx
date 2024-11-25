@@ -13,6 +13,7 @@ import TabItem from '../../components/TabItem';
 import Header from './Header';
 import millify from 'millify';
 import useStore from '../../store';
+import { useSetPrevScroll } from '../../hooks/usePrevScroll';
 
 interface Props {
   data: {
@@ -27,11 +28,19 @@ interface VideoItemProps {
   likes: number;
   caption: string;
   videoId: string;
+  onVideoClick: VoidFunction;
 }
 
-function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
+function VideoItem({
+  videoURL,
+  likes,
+  caption,
+  videoId,
+  onVideoClick,
+}: VideoItemProps) {
   return (
     <Link
+      onClick={onVideoClick}
       href={`/video/${videoId}`}
       className='flex w-52 flex-col items-center xs:w-auto'
     >
@@ -58,26 +67,68 @@ export default function Profile({ data }: Props) {
   const [tab, setTab] = useState(0);
 
   // refs
+  const containerRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLTextAreaElement>(null);
+  const shouldRestoreScroll = useRef<boolean>(true);
 
   // hooks
   const { data: currentUser }: any = useSession();
   const router = useRouter();
-  const { setCurrentVideo } = useStore();
+  const {
+    setCurrentVideo,
+    setIsRestore,
+    prevScroll,
+    isRestore,
+    setPrevScroll,
+  } = useStore();
+  const { keepScrollBeforeNavigate } = useSetPrevScroll(containerRef);
 
   const isCurrentUserProfile = user?._id === currentUser?._id;
 
   const hasNoUser =
     !userInfo && !userCreatedPosts.length && !userLikedPosts.length;
 
+  // init tab
   useEffect(() => {
     setTab(0);
     setUser(userInfo);
   }, [router.query.id, userInfo]);
 
+  // set current playing video to null, since it is in profile page and no video is playing
   useEffect(() => {
-    setCurrentVideo(0, false, null);
+    setCurrentVideo(null, false);
   }, [setCurrentVideo]);
+
+  // Set isRestore to true before history change to keep previous scroll in next page
+  useEffect(() => {
+    const onBeforeHistoryChange = () => {
+      shouldRestoreScroll.current = false; // don't restore scroll in this page
+
+      if (prevScroll) {
+        setIsRestore(true);
+      }
+    };
+
+    router.events.on('beforeHistoryChange', onBeforeHistoryChange);
+
+    return () => {
+      router.events.off('beforeHistoryChange', onBeforeHistoryChange);
+    };
+  }, [router.events, setIsRestore, prevScroll]);
+
+  // restore scroll based on conditions
+  useEffect(() => {
+    if (!shouldRestoreScroll.current || !isRestore) return;
+
+    const elem = containerRef?.current;
+    if (!elem) return;
+
+    elem.scrollTop = prevScroll;
+
+    // reset scroll state after scroll
+    setPrevScroll(0);
+    setIsRestore(false);
+  }, [isRestore, prevScroll, setIsRestore, setPrevScroll]);
 
   const TITLE = hasNoUser ? 'No User Found' : `${user?.userName} | TikTok`;
 
@@ -91,7 +142,10 @@ export default function Profile({ data }: Props) {
         ></meta>
       </Head>
 
-      <div className='h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4'>
+      <div
+        ref={containerRef}
+        className='profile-container h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4'
+      >
         {hasNoUser ? (
           <NoResult title='No user found!' />
         ) : (
@@ -143,6 +197,7 @@ export default function Profile({ data }: Props) {
                           likes={post.likes?.length || 0}
                           caption={post.caption}
                           videoId={post._id}
+                          onVideoClick={keepScrollBeforeNavigate}
                         />
                       ))}
                     </>
@@ -155,6 +210,7 @@ export default function Profile({ data }: Props) {
                           likes={post.likes?.length || 0}
                           caption={post.caption}
                           videoId={post._id}
+                          onVideoClick={keepScrollBeforeNavigate}
                         />
                       ))}
                     </>

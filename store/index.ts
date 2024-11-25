@@ -14,15 +14,22 @@ interface UsersSlice {
 }
 
 interface VideoSlice {
+  isMute: boolean;
+  isRestore: boolean;
+  prevScroll: number;
+  videoContainerRef: RefObject<HTMLElement> | null;
   currentVideo: {
-    prevScroll: number;
-    isPlaying: boolean;
     videoRef: RefObject<HTMLVideoElement> | null;
+    isPlaying: boolean;
   };
+  toggleMute: () => void;
+  setIsMute: (muted: boolean) => void;
+  setIsRestore: (isRestore: boolean) => void;
+  setPrevScroll: (scrollHeight: number) => void;
+  setVideoContainerRef: (ref: RefObject<HTMLElement> | null) => void;
   setCurrentVideo: (
-    scrollTop: number,
-    isPlaying: boolean,
     videoRef: RefObject<HTMLVideoElement> | null,
+    isPlaying: boolean,
   ) => void;
 }
 
@@ -87,15 +94,18 @@ const createUserFollowSlide: StateCreator<UserFollowSlide> = (set) => ({
 });
 
 const createVideoSlice: StateCreator<VideoSlice> = (set) => ({
-  currentVideo: { prevScroll: 0, isPlaying: false, videoRef: null },
-  setCurrentVideo: (
-    scrollTop: number,
-    isPlaying: boolean,
-    videoRef: RefObject<HTMLVideoElement> | null,
-  ) =>
-    set(() => ({
-      currentVideo: { prevScroll: scrollTop, isPlaying, videoRef },
-    })),
+  isMute: true,
+  isRestore: false,
+  prevScroll: 0,
+  videoContainerRef: null,
+  currentVideo: { isPlaying: false, videoRef: null },
+  toggleMute: () => set(({ isMute: _isMute }) => ({ isMute: !_isMute })),
+  setIsMute: (muted) => set(() => ({ isMute: muted })),
+  setIsRestore: (isRestore) => set(() => ({ isRestore })),
+  setPrevScroll: (scrollHeight) => set(() => ({ prevScroll: scrollHeight })),
+  setVideoContainerRef: (ref) => set(() => ({ videoContainerRef: ref })),
+  setCurrentVideo: (videoRef, isPlaying) =>
+    set(() => ({ currentVideo: { isPlaying, videoRef } })),
 });
 
 // store

@@ -105,12 +105,12 @@ export default function VideoItem({
 
     if (currentVideo.isPlaying) {
       video.pause();
-      setCurrentVideo(0, false, videoRef);
+      setCurrentVideo(videoRef, false);
       setShowPlayBtn(false);
       setShowPauseBtn(true);
     } else {
       video.play();
-      setCurrentVideo(0, true, videoRef);
+      setCurrentVideo(videoRef, true);
       setShowPauseBtn(false);
       setShowPlayBtn(true);
     }

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { getServerSession } from 'next-auth/next';
 import { GetServerSidePropsContext } from 'next';
 import { AUTH_OPTIONS } from '../api/auth/[...nextauth]';
+import useStore from '../../store';
 
 interface DetailProps {
   videoDetail: Video;
@@ -18,13 +19,24 @@ interface DetailProps {
 
 export default function VideoDetail({ videoDetail }: DetailProps) {
   const router = useRouter();
-
-  // scroll top
-  useEffect(() => window.scrollTo(0, 0), []);
+  const { setIsRestore } = useStore();
 
   const TITLE = !videoDetail
     ? 'No video found'
     : `${videoDetail.caption} | TikTok Video`;
+
+  // set isRestore to true before history change to keep previous scroll in next page
+  useEffect(() => {
+    const onBeforeHistoryChange = () => {
+      setIsRestore(true);
+    };
+
+    router.events.on('beforeHistoryChange', onBeforeHistoryChange);
+
+    return () => {
+      router.events.off('beforeHistoryChange', onBeforeHistoryChange);
+    };
+  }, [router.events, setIsRestore]);
 
   return (
     <>

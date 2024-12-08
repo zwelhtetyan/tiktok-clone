@@ -1,5 +1,5 @@
 export const getAllPostsByLimit = (userId: string) => {
-  const query = `*[_type == "post"] | order(_createdAt desc)[51...60]{
+  const query = `*[_type == "post"] | order(_createdAt desc) [1...30] {
     _id,
      caption,
        video{
@@ -34,39 +34,6 @@ export const getAllPostsByLimit = (userId: string) => {
 
   return query;
 };
-
-// export const allPostsQuery = () => {
-//   const query = `*[_type == "post"] | order(_createdAt desc){
-//     _id,
-//      caption,
-//        video{
-//         asset->{
-//           _id,
-//           url
-//         }
-//       },
-//       userId,
-//       postedBy->{
-//         _id,
-//         userName,
-//         image,
-//         follower,
-//         following,
-//       },
-//     likes,
-//     comments[]{
-//       comment,
-//       _key,
-//       postedBy->{
-//       _id,
-//       userName,
-//       image
-//     },
-//     },
-//   }`;
-
-//   return query;
-// };
 
 export const postDetailQuery = (postId: string | string[], userId: string) => {
   const query = `*[_type == "post" && _id == '${postId}']{
@@ -197,7 +164,7 @@ export const userLikedPostsQuery = (userId: string | string[]) => {
 };
 
 export const topicPostsQuery = (topic: string | string[], userId: string) => {
-  const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) {
+  const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) [1...30] {
     _id,
      caption,
        video{

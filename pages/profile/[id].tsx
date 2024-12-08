@@ -14,6 +14,7 @@ import Header from './Header';
 import millify from 'millify';
 import useStore from '../../store';
 import { useSetPrevScroll } from '../../hooks/usePrevScroll';
+import { closeSidebar } from '../../utils/sidebar-drawer';
 
 interface Props {
   data: {
@@ -92,6 +93,7 @@ export default function Profile({ data }: Props) {
   useEffect(() => {
     setTab(0);
     setUser(userInfo);
+    closeSidebar();
   }, [router.query.id, userInfo]);
 
   // set current playing video to null, since it is in profile page and no video is playing

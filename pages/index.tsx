@@ -12,6 +12,7 @@ import { getServerSession } from 'next-auth/next';
 import { AUTH_OPTIONS } from './api/auth/[...nextauth]';
 import { useRestorePreviousScroll } from '../hooks/usePrevScroll';
 import { useRouter } from 'next/router';
+import { closeSidebar } from '../utils/sidebar-drawer';
 
 const metadata = {
   description:
@@ -37,7 +38,6 @@ export default function Home({ videos }: Props) {
     isMute,
     toggleMute,
     isRestore,
-    prevScroll,
   } = useStore();
 
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
@@ -91,6 +91,9 @@ export default function Home({ videos }: Props) {
     if (!videoContainer || isRestore) return;
 
     videoContainer.scrollTop = 0;
+
+    // close sidebar on topic change
+    closeSidebar();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.topic]);

@@ -12,7 +12,7 @@ export const AUTH_OPTIONS = {
   ],
   secret: 'zwel',
   callbacks: {
-    async session({ session, user, token }): Promise<any> {
+    async session({ token }): Promise<any> {
       const userInfo = {
         _id: token?.sub!,
         _type: 'user',

@@ -43,7 +43,7 @@ export function VideoFooter({ creator, caption, createdAt }: Props) {
 
         {isTextOverflow && (
           <button
-            onClick={(e) => toggleTextExpend}
+            onClick={() => toggleTextExpend}
             className='text-nowrap px-2 py-1'
           >
             more

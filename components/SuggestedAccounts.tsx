@@ -81,7 +81,7 @@ export default function SuggestedAccounts() {
   }, [allUsers, setSuggestedUsers]);
 
   return (
-    <div className='hidden h-full overflow-y-auto lg:block'>
+    <div className='h-full overflow-y-auto'>
       {isLoading &&
         Array.from({ length: 30 }, (_, idx) => <UserSkeleton key={idx} />)}
 

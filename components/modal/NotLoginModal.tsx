@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { signIn } from 'next-auth/react';
-import { Fragment, memo } from 'react';
+import { Fragment } from 'react';
 
 interface Props {
   onClose(): void;

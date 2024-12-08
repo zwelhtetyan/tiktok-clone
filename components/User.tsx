@@ -5,8 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { IoIosLogOut, IoMdMoon } from 'react-icons/io';
 import { MdWbSunny } from 'react-icons/md';
 import themeToggler from '../utils/themeToggler';
-import { FaUserCircle, FaGithubAlt } from 'react-icons/fa';
-import { TiStar } from 'react-icons/ti';
+import { FaUserCircle } from 'react-icons/fa';
 
 import { useRouter } from 'next/router';
 import useStore from '../store';

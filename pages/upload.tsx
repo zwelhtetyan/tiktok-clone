@@ -17,7 +17,7 @@ interface Event<T = EventTarget> {
 const noTopic = { name: 'No Topic', icon: '' };
 
 export default function Upload() {
-  const { data: user }: any = useSession();
+  const { data: user, status }: any = useSession();
   const router = useRouter();
 
   const [videoAsset, setVideoAsset] = useState<SanityAssetDocument | null>(
@@ -98,10 +98,10 @@ export default function Upload() {
   }
 
   useEffect(() => {
-    if (!user) {
+    if (status !== 'loading' && !user) {
       router.back();
     }
-  }, [user, router]);
+  }, [user, router, status]);
 
   return (
     <Layout>
@@ -205,7 +205,7 @@ export default function Upload() {
                 <button
                   onClick={handleDiscard}
                   disabled={isPosting || (!caption && !videoAsset)}
-                  className='btn-secondary w-36 py-2 disabled:cursor-not-allowed'
+                  className='btn-secondary w-36 py-2 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:disabled:bg-darkBtnHover dark:disabled:text-gray-500'
                 >
                   Discard
                 </button>
@@ -225,8 +225,8 @@ export default function Upload() {
           <div className='mt-10 flex items-center justify-center gap-4 xs:mt-12 md:hidden'>
             <button
               onClick={handleDiscard}
-              disabled={isPosting || !caption || !videoAsset}
-              className='btn-secondary w-36 py-2 disabled:cursor-not-allowed'
+              disabled={isPosting || (!caption && !videoAsset)}
+              className='btn-secondary w-36 py-2 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:disabled:bg-darkBtnHover dark:disabled:text-gray-500'
             >
               Discard
             </button>

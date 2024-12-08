@@ -8,8 +8,14 @@ import LogoDark from '../utils/LogoDark';
 import { FormEvent, useRef } from 'react';
 import { useRouter } from 'next/router';
 import useStore from '../store';
+import { BiMenuAltLeft } from 'react-icons/bi';
+import { toggleSidebarDrawer } from '../utils/sidebar-drawer';
 
-export default function Navbar() {
+type Props = {
+  hasSidebar: boolean;
+};
+
+export default function Navbar({ hasSidebar }: Props) {
   const { data: user }: any = useSession();
 
   const { theme } = useStore();
@@ -28,11 +34,24 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='h-16 border-b border-b-[rgba(34,90,89,0.2)] dark:border-b-darkBorder dark:bg-dark'>
+    <nav className='relative z-10 h-16 border-b border-b-[rgba(34,90,89,0.2)] bg-white dark:border-b-darkBorder dark:bg-dark'>
       <div className='mx-auto flex items-center justify-between gap-4 px-2 py-2 lg:px-4'>
-        <Link href='/' aria-label='TikTok_logo'>
+        <Link
+          href='/'
+          aria-label='TikTok_logo'
+          className={`${!hasSidebar ? 'block' : 'hidden lg:block'} `}
+        >
           {theme === 'dark' ? <LogoDark /> : <LogoLight />}
         </Link>
+
+        {hasSidebar && (
+          <button
+            onClick={toggleSidebarDrawer}
+            className='flex items-center justify-center rounded p-1 transition-colors hover:bg-gray-100 dark:hover:bg-darkBtnHover lg:hidden'
+          >
+            <BiMenuAltLeft size={30} />
+          </button>
+        )}
 
         <form
           onSubmit={handleSearch}

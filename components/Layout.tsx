@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import Navbar from './Navbar';
-import Sidebar from './Sidebar';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+const Sidebar = dynamic(() => import('./Sidebar'), { ssr: false });
 
 type Props = {
   children: ReactNode;
@@ -18,9 +19,9 @@ export default function Layout({ children }: Props) {
 
   return (
     <div className='dark:bg-dark'>
-      <Navbar />
+      <Navbar hasSidebar={showSideBar} />
 
-      <main className='flex max-w-6xl mx-auto px-2 lg:px-4 py-4 h-[calc(100vh-64px)] overflow-y-auto overflow-hidden'>
+      <main className='mx-auto flex h-[calc(100vh-64px)] w-full overflow-hidden overflow-y-auto px-2 py-4 lg:px-4'>
         {showSideBar && <Sidebar />}
 
         <div className='w-full flex-1'>{children}</div>

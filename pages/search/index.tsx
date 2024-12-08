@@ -45,7 +45,7 @@ export default function Search({
         ></meta>
       </Head>
 
-      <div className='pl-2 sm:pl-4 lg:pl-10 h-[calc(100vh-97px)] overflow-y-auto'>
+      <div className='h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4 lg:pl-10'>
         {/* no videos */}
         {!hasSearchedPosts && !hasSearchedUsers && (
           <NoResult desc={`Couldn't find any matches for "${searchQuery}"`} />
@@ -68,11 +68,11 @@ export default function Search({
         {hasSearchedUsers && tab !== 2 && (
           <div className='mt-5'>
             {tab !== 1 && (
-              <div className='flex justify-between mb-3'>
+              <div className='mb-3 flex justify-between'>
                 <h4 className='font-bold'>Accounts</h4>
                 <button
                   onClick={() => setTab(1)}
-                  className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'
+                  className='btn-secondary px-2 text-sm text-gray-700 dark:text-gray-300'
                 >
                   See more
                 </button>
@@ -98,18 +98,18 @@ export default function Search({
             className={`${tab !== 2 && hasSearchedUsers ? 'mt-10' : 'mt-5'}`}
           >
             {tab !== 2 && (
-              <div className='flex justify-between mb-3'>
+              <div className='mb-3 flex justify-between'>
                 <h4 className='font-bold'>Videos</h4>
                 <button
                   onClick={() => setTab(2)}
-                  className='btn-secondary text-sm px-2 text-gray-700 dark:text-gray-300'
+                  className='btn-secondary px-2 text-sm text-gray-700 dark:text-gray-300'
                 >
                   See more
                 </button>
               </div>
             )}
 
-            <div className='grid place-items-center sm:place-items-stretch grid-cols-auto-fill-200 gap-x-3 gap-y-5 text-gray-700 dark:text-gray-300'>
+            <div className='grid grid-cols-auto-fill-200 place-items-center gap-x-3 gap-y-5 text-gray-700 dark:text-gray-300 sm:place-items-stretch'>
               {searchedPosts.slice(0, 9).map((post) => (
                 <VideoItem
                   key={post._id}

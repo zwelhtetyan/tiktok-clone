@@ -6,24 +6,36 @@ import axios from 'axios';
 export interface ObjProps {
   userId: string;
   creatorId: string;
-  follow: boolean;
 }
 
 export default function useFollow() {
-  const [loadingFollow, setLoadingFollow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleFollow(obj: ObjProps) {
-    setLoadingFollow(true);
+    setLoading(true);
 
     const { data: updatedUsers }: { data: User[] } = await axios.put(
-      `${ROOT_URL}/api/user`,
-      obj
+      `${ROOT_URL}/api/user/follow`,
+      obj,
     );
 
-    setLoadingFollow(false);
+    setLoading(false);
 
     return updatedUsers;
   }
 
-  return { loadingFollow, handleFollow };
+  async function handleUnFollow(obj: ObjProps) {
+    setLoading(true);
+
+    const { data: updatedUsers }: { data: User[] } = await axios.put(
+      `${ROOT_URL}/api/user/unFollow`,
+      obj,
+    );
+
+    setLoading(false);
+
+    return updatedUsers;
+  }
+
+  return { loading, handleFollow, handleUnFollow };
 }

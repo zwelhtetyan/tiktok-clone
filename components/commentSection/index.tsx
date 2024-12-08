@@ -101,7 +101,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
   }, [scrollDown]);
 
   return (
-    <div className='flex flex-col w-full max-w-3xl mx-auto pt-2 lg:pt-0 lg:w-[500px] h-auto lg:h-screen border-t lg:border-l dark:border-t-darkBorder lg:dark:border-l-darkBorder'>
+    <div className='mx-auto flex h-auto w-full max-w-3xl flex-col border-t pt-2 dark:border-t-darkBorder lg:h-screen lg:w-[500px] lg:border-l lg:pt-0 lg:dark:border-l-darkBorder'>
       {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
       {showDeleteCmtModal.show && (
         <DeleteModal
@@ -123,7 +123,7 @@ export default function CommentSection({ videoDetail }: DetailProps) {
       />
 
       {/* comments */}
-      <div className='flex-1 max-h-[400px] lg:max-h-[unset] p-4 lg:p-6 overflow-hidden overflow-y-auto'>
+      <div className='max-h-[400px] flex-1 overflow-hidden overflow-y-auto p-4 lg:max-h-[unset] lg:p-6'>
         {post.comments?.length > 0 ? (
           post.comments?.map((cmt) => (
             <CommentItem
@@ -143,17 +143,17 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             />
           ))
         ) : (
-          <div className='min-h-[200px] lg:min-h-0 h-full flex items-center tracking-wide justify-center text-gray-500 dark:text-gray-400'>
+          <div className='flex h-full min-h-[200px] items-center justify-center tracking-wide text-gray-500 dark:text-gray-400 lg:min-h-0'>
             Be the first to comment!
           </div>
         )}
 
-        <div ref={showNewCmt} className='w-0 h-0 opacity-0 apple' />
+        <div ref={showNewCmt} className='apple h-0 w-0 opacity-0' />
       </div>
 
       {/* add comment */}
-      <div className='w-full p-4 lg:px-6 py-4 border-t dark:border-t-darkBorder'>
-        <form onSubmit={addCommentHandler} className='w-full flex items-center'>
+      <div className='w-full border-t p-4 py-4 dark:border-t-darkBorder lg:px-6'>
+        <form onSubmit={addCommentHandler} className='flex w-full items-center'>
           <input
             ref={commentInputRef}
             onClick={handleClickCommentBox}
@@ -162,11 +162,11 @@ export default function CommentSection({ videoDetail }: DetailProps) {
             placeholder='Add comment...'
             disabled={isCommenting}
             type='text'
-            className='flex-1 min-w-0 bg-gray-200 dark:bg-darkSecondary border-none outline-none p-2 pl-4 rounded-lg caret-primary'
+            className='min-w-0 flex-1 rounded-lg border-none bg-gray-200 p-2 pl-4 caret-primary outline-none dark:bg-darkSecondary'
           />
 
           <button
-            className='py-2 pl-3 disabled:text-gray-400 dark:disabled:text-gray-600 text-primary font-semibold disabled:cursor-not-allowed'
+            className='py-2 pl-3 font-semibold text-primary disabled:cursor-not-allowed disabled:text-gray-400 dark:disabled:text-gray-600'
             disabled={!commentVal.trim()}
           >
             {isCommenting ? <div className='spinner' /> : 'Post'}

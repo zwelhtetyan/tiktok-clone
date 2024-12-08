@@ -7,14 +7,21 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'PUT') {
-    const { userId, bio } = req.body;
+    const { userId, creatorId } = req.body;
 
-    const data = await client
-      .patch(userId)
-      .setIfMissing({ bio: '' })
-      .set({ bio })
+    // update creator
+    const updateCreator = await client
+      .patch(creatorId)
+      .unset([`follower[_ref=="${userId}"]`])
       .commit();
 
+    // update user
+    const updateUser = await client
+      .patch(userId)
+      .unset([`following[_ref=="${creatorId}"]`])
+      .commit();
+
+    const data = await Promise.all([updateCreator, updateUser]);
     res.status(200).json(data);
   }
 }

@@ -1,6 +1,6 @@
 export function updateActionBtn(id: string, isPause = false) {
   const actionBtnContainers = document.querySelectorAll(
-    '.action-btn-container'
+    '.action-btn-container',
   );
 
   actionBtnContainers.forEach((btnContainer) => {

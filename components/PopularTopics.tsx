@@ -21,11 +21,10 @@ function Topic({ topic }: TopicProp) {
       className={`${
         topic.name === activeTopic
           ? 'active-topic'
-          : 'border-gray-200 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-darkBtn hover:bg-gray-200 dark:hover:bg-darkBtnHover hover:border-gray-300'
-      } rounded-full flex items-center justify-center text-sm w-12 h-12 lg:w-auto lg:h-auto lg:px-3 lg:py-2 border dark:border-darkSecondary
-      `}
+          : 'border-gray-200 bg-gray-100 text-gray-800 hover:border-gray-300 hover:bg-gray-200 dark:bg-darkBtn dark:text-gray-200 dark:hover:bg-darkBtnHover'
+      } flex items-center justify-center rounded-full border px-3 py-2 text-sm dark:border-darkSecondary`}
     >
-      {topic.icon} <p className='ml-2 hidden lg:block'>{topic.name}</p>
+      {topic.icon} <p className='ml-2'>{topic.name}</p>
     </button>
   );
 }
@@ -33,7 +32,7 @@ function Topic({ topic }: TopicProp) {
 export default function PopularTopics() {
   return (
     <div className='mb-2'>
-      <h2 className='font-semibold mb-3 text-gray-500 hidden lg:block'>
+      <h2 className='mb-3 font-semibold text-gray-500 dark:text-gray-400'>
         Popular Topic
       </h2>
 

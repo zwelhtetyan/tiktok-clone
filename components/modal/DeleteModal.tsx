@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, memo } from 'react';
+import { Fragment } from 'react';
 
 interface Props {
   onClose(): void;
@@ -43,35 +43,35 @@ export default function DeleteModal({
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden border dark:border-darkBorder rounded-2xl dark:text-white bg-white dark:bg-darkSecondary p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl border bg-white p-6 text-left align-middle shadow-xl transition-all dark:border-darkBorder dark:bg-darkSecondary dark:text-white'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-bold leading-5 border-b border-b-gray-200 dark:border-b-darkBorder pb-4'
+                    className='border-b border-b-gray-200 pb-4 text-lg font-bold leading-5 dark:border-b-darkBorder'
                   >
                     Delete {type}
                   </Dialog.Title>
-                  <div className='mt-4 flex-col items-center flex justify-center'>
+                  <div className='mt-4 flex flex-col items-center justify-center'>
                     <div>
-                      <h4 className='w-full font-bold text-center line-clamp-1'>
+                      <h4 className='line-clamp-1 w-full text-center font-bold'>
                         {text}
                       </h4>
-                      <p className='text-gray-500 dark:text-gray-300 text-sm mt-1'>
+                      <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
                         Are you sure you want to delete this {type}?
                       </p>
                     </div>
 
-                    <div className='w-full mt-4 flex items-center justify-end gap-3'>
+                    <div className='mt-4 flex w-full items-center justify-end gap-3'>
                       <button
                         onClick={onClose}
                         disabled={deleting}
-                        className='btn-secondary py-2 px-6 disabled:cursor-not-allowed'
+                        className='btn-secondary px-6 py-2 disabled:cursor-not-allowed'
                       >
                         Close
                       </button>
                       <button
                         onClick={deleteHandler}
                         disabled={deleting}
-                        className='btn-primary py-2 px-6 disabled:cursor-not-allowed'
+                        className='btn-primary px-6 py-2 disabled:cursor-not-allowed'
                       >
                         {deleting ? 'Deleting...' : 'Delete'}
                       </button>

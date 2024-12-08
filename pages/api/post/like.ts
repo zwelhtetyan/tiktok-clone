@@ -5,23 +5,18 @@ import { nanoid } from 'nanoid';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === 'PUT') {
-    const { userId, postId, like } = req.body;
+    const { userId, postId } = req.body;
 
-    const data = like
-      ? await client
-          .patch(postId)
-          .setIfMissing({ likes: [] })
-          .insert('after', 'likes[-1]', [
-            { _key: nanoid(), _ref: userId, _type: 'postedBy' },
-          ])
-          .commit()
-      : await client
-          .patch(postId)
-          .unset([`likes[_ref=="${userId}"]`])
-          .commit();
+    const data = await client
+      .patch(postId)
+      .setIfMissing({ likes: [] })
+      .insert('after', 'likes[-1]', [
+        { _key: nanoid(), _ref: userId, _type: 'postedBy' },
+      ])
+      .commit();
 
     res.status(200).json(data);
   }

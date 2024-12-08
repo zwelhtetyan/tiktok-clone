@@ -105,7 +105,7 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+};
 ```
 
 #### Run sanity studio

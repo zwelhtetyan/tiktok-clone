@@ -15,14 +15,13 @@ export default function ShowFollowOrDelete({
   followHandler,
   loadingFollow,
   showDeleteModal,
-  userId,
 }: Props) {
   return (
     <>
       {isCreator ? (
         <div
           onClick={showDeleteModal}
-          className='reaction-btn text-red-600 dark:text-red-600 cursor-pointer'
+          className='reaction-btn cursor-pointer text-red-600 dark:text-red-600'
         >
           <AiTwotoneDelete size={20} />
         </div>
@@ -30,7 +29,7 @@ export default function ShowFollowOrDelete({
         <button
           onClick={followHandler}
           disabled={loadingFollow}
-          className='btn-secondary text-sm px-2 rounded font-semibold'
+          className='btn-secondary rounded px-2 text-sm font-semibold'
         >
           Following
         </button>
@@ -38,7 +37,7 @@ export default function ShowFollowOrDelete({
         <button
           disabled={loadingFollow}
           onClick={followHandler}
-          className='py-[3px] px-2 transition-all rounded font-semibold text-sm text-primary border border-primary hover:bg-primary hover:text-white'
+          className='rounded border border-primary px-2 py-[3px] text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-white'
         >
           Follow
         </button>

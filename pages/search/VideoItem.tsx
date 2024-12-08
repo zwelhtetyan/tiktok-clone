@@ -23,24 +23,24 @@ export default function VideoItem({
   follower,
 }: VideoItemProps) {
   return (
-    <div className='w-full max-w-[230px] sm:max-w-none overflow-hidden'>
+    <div className='w-full max-w-[230px] overflow-hidden sm:max-w-none'>
       <Link
         href={`/video/${videoId}`}
-        className='bg-black overflow-hidden flex items-center w-full justify-center h-72 rounded-md'
+        className='flex h-72 w-full items-center justify-center overflow-hidden rounded-md bg-black'
       >
         <video src={src} className='w-full object-cover' />
       </Link>
 
-      <p className='line-clamp-1 mt-1'>{caption}</p>
+      <p className='mt-1 line-clamp-1'>{caption}</p>
 
-      <div className='flex justify-between items-center mt-1'>
+      <div className='mt-1 flex items-center justify-between'>
         <div className='flex items-center'>
           <Link href={`/profile/${creatorId}`}>
-            <UserProfile src={creatorImg} className='w-7 h-7 !p-0' />
+            <UserProfile src={creatorImg} className='h-7 w-7 !p-0' />
           </Link>
 
           <Link href={`/profile/${creatorId}`}>
-            <p className='font-bold ml-1 line-clamp-1 cursor-pointer'>
+            <p className='ml-1 line-clamp-1 cursor-pointer font-bold'>
               {generateFakeUsername(creatorName)}
             </p>
           </Link>

@@ -10,12 +10,14 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   if (req.method === 'GET') {
+    const currentUserId = (req.query.currentUserId as string) || '';
+
     const topic = req.query.topic!;
 
-    const query = topicPostsQuery(topic);
+    const query = topicPostsQuery(topic, currentUserId);
 
     const data: { data: Video[] } = await client.fetch(query);
 

@@ -38,15 +38,15 @@ export default memo(function Header({
   //hooks
   const { data: user }: any = useSession();
   const router = useRouter();
-  const { liking, handleLike } = useLike();
-  const { loadingFollow, handleFollow } = useFollow();
+  const { loading: liking, handleLike } = useLike();
+  const { loading: loadingFollow, handleFollow } = useFollow();
   const { deletingPost, handleDeletePost } = useDeletePost();
   const { isCopied, copyToClipboard } = useCopy();
   const { isTouchDevice } = useCheckTouchDevice();
 
   const isAlreadyLike = post.likes?.find((u) => u._ref === user?._id);
   const isAlreadyFollow = post.postedBy.follower?.some(
-    (u) => u._ref === user?._id
+    (u) => u._ref === user?._id,
   );
 
   async function likeHandler() {
@@ -95,7 +95,7 @@ export default memo(function Header({
   }
 
   return (
-    <header className='p-4 lg:p-6 border-b dark:border-b-darkBorder'>
+    <header className='border-b p-4 dark:border-b-darkBorder lg:p-6'>
       {showDeletePostModal && (
         <DeleteModal
           onClose={() => setShowDeletePostModal(false)}
@@ -106,24 +106,24 @@ export default memo(function Header({
         />
       )}
 
-      <div className='w-full flex items-start justify-between mb-2'>
+      <div className='mb-2 flex w-full items-start justify-between'>
         <div className='flex items-start'>
           <Link href={`/profile/${post.postedBy._id}`}>
             <UserProfile
               src={post.postedBy.image}
-              className='mr-2 xs:mr-3 xs:w-14 xs:h-14'
+              className='mr-2 xs:mr-3 xs:h-14 xs:w-14'
             />
           </Link>
 
           <div>
             <Link
               href={`/profile/${post.postedBy._id}`}
-              className='text-lg font-bold leading-6 cursor-pointer hover:text-gray-800 dark:hover:text-gray-300'
+              className='cursor-pointer text-lg font-bold leading-6 hover:text-gray-800 dark:hover:text-gray-300'
             >
               {post.postedBy.userName}
             </Link>
 
-            <p className='text-gray-500 dark:text-gray-400 text-sm'>
+            <p className='text-sm text-gray-500 dark:text-gray-400'>
               {formatDate(post._createdAt!)}
             </p>
           </div>
@@ -141,10 +141,10 @@ export default memo(function Header({
 
       <p>{post.caption}</p>
 
-      <div className='mt-6 flex items-center justify-between flex-wrap'>
+      <div className='mt-6 flex flex-wrap items-center justify-between'>
         <div className='flex items-center'>
           {/* like */}
-          <div className='flex items-center mr-4 md:mr-6 text-sm'>
+          <div className='mr-4 flex items-center text-sm md:mr-6'>
             <button
               onClick={likeHandler}
               disabled={liking}
@@ -187,7 +187,7 @@ export default memo(function Header({
                   alt='social_icon'
                   width={30}
                   height={30}
-                  className='w-7 h-7 cursor-pointer'
+                  className='h-7 w-7 cursor-pointer'
                 />
               </Link>
             ))}
@@ -195,14 +195,14 @@ export default memo(function Header({
         )}
       </div>
 
-      <div className='mt-6 w-full flex items-center h-9'>
-        <div className='h-full pl-2 pr-1 flex-1 bg-gray-100 dark:bg-darkSecondary text-sm rounded-l-md flex items-center overflow-hidden'>
+      <div className='mt-6 flex h-9 w-full items-center'>
+        <div className='flex h-full flex-1 items-center overflow-hidden rounded-l-md bg-gray-100 pl-2 pr-1 text-sm dark:bg-darkSecondary'>
           <p className='truncate'>{POST_URL}</p>
         </div>
 
         <button
           onClick={() => copyToClipboard(POST_URL)}
-          className='h-full w-20 text-sm rounded-r-md bg-gray-200 dark:bg-darkBtn hover:bg-gray-300 dark:hover:bg-darkBtnHover'
+          className='h-full w-20 rounded-r-md bg-gray-200 text-sm hover:bg-gray-300 dark:bg-darkBtn dark:hover:bg-darkBtnHover'
         >
           {isCopied ? 'Copied!' : 'Copy link'}
         </button>

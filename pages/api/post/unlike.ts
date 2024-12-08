@@ -7,12 +7,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'PUT') {
-    const { userId, bio } = req.body;
+    const { userId, postId } = req.body;
 
     const data = await client
-      .patch(userId)
-      .setIfMissing({ bio: '' })
-      .set({ bio })
+      .patch(postId)
+      .unset([`likes[_ref=="${userId}"]`])
       .commit();
 
     res.status(200).json(data);

@@ -5,7 +5,7 @@ import { searchPostsQuery, searchUsersQuery } from '../../../utils/queries';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
     const searchQuery = req.query.searchQuery as string;

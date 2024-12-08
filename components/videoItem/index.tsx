@@ -1,81 +1,68 @@
-import { User, Video } from '../../types';
-import { IoMdPause } from 'react-icons/io';
+import { Video } from '../../types';
+import { IoMdHeart, IoMdPause } from 'react-icons/io';
 import { IoPlay } from 'react-icons/io5';
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
-import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
-import { pauseAllVideo } from '../../utils/pauseAllVideo';
-import { updateActionBtn } from '../../utils/updateActionBtn';
-import Link from 'next/link';
-import UserProfile from '../UserProfile';
-import { generateFakeUsername } from '../../utils/generateFakeUsername';
+import { MouseEvent, ReactNode, useCallback, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import ShowFollowOrDelete from '../ShowFollowOrDelete';
-import { ObjProps } from '../../hooks/useFollow';
 import useDeletePost from '../../hooks/useDeletePost';
 import NotLoginModal from '../modal/NotLoginModal';
 import DeleteModal from '../modal/DeleteModal';
 import { useRouter } from 'next/router';
 import Reaction from './Reaction';
 import useStore from '../../store';
+import { InView } from 'react-intersection-observer';
+import { TIntersectingVideo } from '../../pages';
+import useLike from '../../hooks/useLike';
+import { videoClicker } from '../../utils/videoClick';
+import { motion } from 'framer-motion';
+import { handleClickPosition } from '../../utils/handleClickPosition';
+import { VideoFooter } from './footer';
 
 interface Props {
   post: Video;
   isMute: boolean;
-  id: number;
   handleMute(e: MouseEvent): void;
-  postedBy: User;
-  setAllPostedBy: Dispatch<SetStateAction<any>>;
-  loadingFollow: boolean;
-  handleFollow: (obj: ObjProps) => Promise<User[]>;
-  setCurrentUserId: Dispatch<SetStateAction<string>>;
+  handleIntersectingChange: (video: TIntersectingVideo) => void;
 }
 
 export default function VideoItem({
   post,
-  postedBy,
-  setAllPostedBy,
   isMute,
-  id,
   handleMute,
-  loadingFollow,
-  handleFollow,
-  setCurrentUserId,
+  handleIntersectingChange,
 }: Props) {
-  // destructure
-  const { _id: videoId, caption, video, likes } = post;
+  const {
+    _id: videoId,
+    caption,
+    video,
+    isLiked: isLikedByCurrentUser,
+    totalLikes: currentTotalLike,
+    postedBy,
+    _createdAt: videoCreatedAt,
+  } = post;
 
-  //states
   const [showLogin, setShowLogin] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(currentTotalLike);
+  const [alreadyLiked, setAlreadyLiked] = useState(!!isLikedByCurrentUser);
+  const [showPlayBtn, setShowPlayBtn] = useState(false);
+  const [showPauseBtn, setShowPauseBtn] = useState(false);
 
-  // refs
+  // heart animation
+  const [showHeart, setShowHeart] = useState(false);
+  const [heartPosition, setHeartPosition] = useState({ x: 0, y: 0 });
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
   //hooks
   const router = useRouter();
   const { data: user }: any = useSession();
   const { deletingPost, handleDeletePost } = useDeletePost();
-  const { setViewedVideoDetail } = useStore();
+  const { loading: liking, handleLike, handleUnlike } = useLike();
+  const { currentVideo, setCurrentVideo } = useStore();
 
-  const isAlreadyFollow = postedBy?.follower?.some(
-    (u) => u._ref === user?._id
-  )!;
-
-  const handlePlayPause = (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const videoElem = videoRef.current!;
-
-    if (!videoElem.paused) {
-      videoElem.pause();
-      updateActionBtn(id.toString(), true);
-    } else {
-      const videoElems = document.querySelectorAll('.video');
-      pauseAllVideo(videoElems, false);
-      videoElem.play();
-      updateActionBtn(id.toString());
-    }
+  const onIntersectingChange = (inView: boolean) => {
+    handleIntersectingChange({ id: videoId, inView, videoRef });
   };
 
   async function deletePostHandler() {
@@ -86,38 +73,82 @@ export default function VideoItem({
     router.push('/');
   }
 
-  async function followHandler() {
-    if (!user) {
-      setShowLogin(true);
-      return;
+  const likeUnlikeHandler = useCallback(async () => {
+    if (!user) return setShowLogin(true);
+
+    const obj = { userId: user._id, postId: post._id };
+
+    if (alreadyLiked) {
+      try {
+        setAlreadyLiked(false);
+        setTotalLikes((prev) => prev - 1);
+        await handleUnlike(obj);
+      } catch (error) {
+        setAlreadyLiked(true);
+        setTotalLikes((prev) => prev + 1);
+      }
+    } else {
+      try {
+        setAlreadyLiked(true);
+        setTotalLikes((prev) => prev + 1);
+        await handleLike(obj);
+      } catch (error) {
+        setAlreadyLiked(false);
+        setTotalLikes((prev) => prev - 1);
+      }
     }
+  }, [user, post._id, alreadyLiked, handleUnlike, handleLike]);
 
-    setCurrentUserId(postedBy?._id);
+  const handlePlayPause = useCallback(() => {
+    const video = currentVideo.videoRef?.current;
+    if (!video) return;
 
-    const obj = {
-      userId: user._id,
-      creatorId: postedBy?._id,
-      follow: isAlreadyFollow ? false : true,
-    };
+    if (currentVideo.isPlaying) {
+      video.pause();
+      setCurrentVideo(videoRef, false);
+      setShowPlayBtn(false);
+      setShowPauseBtn(true);
+    } else {
+      video.play();
+      setCurrentVideo(videoRef, true);
+      setShowPauseBtn(false);
+      setShowPlayBtn(true);
+    }
+  }, [currentVideo.isPlaying, currentVideo.videoRef, setCurrentVideo]);
 
-    const updatedUsers = await handleFollow(obj);
+  const handleVideoSingleClick = useCallback(() => {
+    handlePlayPause();
+  }, [handlePlayPause]);
 
-    const creator = updatedUsers.find((u) => u._id === postedBy?._id)!;
+  const handleVideoDoubleClick = useCallback(
+    async (e: MouseEvent) => {
+      if (!user) return setShowLogin(true);
 
-    setAllPostedBy((prev: User[]) => [
-      ...prev.map((u: User) =>
-        u._id === postedBy?._id ? { ...u, follower: creator.follower } : u
-      ),
-    ]);
-  }
+      setHeartPosition(handleClickPosition(e));
+      setShowHeart(true);
 
-  function handleViewVideoDetail() {
-    const elem = document.querySelector('.video-container')!;
-    setViewedVideoDetail(elem.scrollTop, videoRef.current!);
-  }
+      if (!alreadyLiked) {
+        setAlreadyLiked(true);
+        setTotalLikes((prev) => prev + 1);
+
+        try {
+          await handleLike({ userId: user._id, postId: post._id });
+        } catch (error) {
+          setAlreadyLiked(false);
+          setTotalLikes((prev) => prev - 1);
+        }
+      }
+    },
+    [alreadyLiked, handleLike, post._id, user],
+  );
+
+  const handleVideoClick = videoClicker(
+    handleVideoSingleClick,
+    handleVideoDoubleClick,
+  );
 
   return (
-    <div className='pb-6 mb-6 border-b border-b-gray-100 dark:border-b-darkBorder dark:text-white'>
+    <>
       {showLogin && <NotLoginModal onClose={() => setShowLogin(false)} />}
       {showDeletePostModal && (
         <DeleteModal
@@ -129,97 +160,110 @@ export default function VideoItem({
         />
       )}
 
-      <header className='w-full flex items-start mb-1 xs:mb-4'>
-        <div className='flex-1 flex'>
-          <Link href={`/profile/${postedBy?._id}`}>
-            <UserProfile
-              src={postedBy?.image}
-              className='xs:w-[52px] xs:h-[52px] mr-2 xs:mr-3'
-            />
-          </Link>
-
-          <div className='flex-1'>
-            <Link
-              href={`/profile/${postedBy?._id}`}
-              className='font-bold inline-block xs:text-lg cursor-pointer hover:text-gray-700 dark:hover:text-gray-300'
-            >
-              {postedBy?.userName}
-            </Link>
-            <p className='text-gray-500 dark:text-gray-400 text-sm leading-4'>
-              {generateFakeUsername(postedBy?.userName)}
-            </p>
-            <p className='max-w-md text-gray-700 dark:text-gray-200 leading-[1.3rem] mt-1 hidden xs:block xs:line-clamp-2'>
-              {caption}
-            </p>
-          </div>
-        </div>
-
-        {/* follow | unfollow */}
-        <ShowFollowOrDelete
-          showDeleteModal={() => setShowDeletePostModal(true)}
-          isCreator={postedBy?._id === user?._id}
-          isAlreadyFollow={isAlreadyFollow}
-          followHandler={followHandler}
-          loadingFollow={loadingFollow}
-          userId={postedBy?._id}
-        />
-      </header>
-
-      {/* caption */}
-      <p className='max-w-md line-clamp-2 text-gray-700 dark:text-gray-200 leading-[1.2rem] mb-3 xs:hidden'>
-        {caption}
-      </p>
-
-      {/* video */}
-      <div className='flex w-full xs:ml-[60px] h-[470px] xs:h-[480px]'>
-        <Link
-          onClick={handleViewVideoDetail}
-          href={`/video/${videoId}`}
+      <InView
+        as='article'
+        threshold={0.5}
+        onChange={onIntersectingChange}
+        style={{ scrollSnapStop: 'always', scrollSnapAlign: 'start center' }}
+        className='relative flex h-[calc(100vh-97px)] w-full flex-col items-center justify-center pb-[90px] sm:flex-row sm:pb-0'
+      >
+        <div
           aria-label='video'
-          className='group relative rounded-lg h-full w-full max-w-[270px] bg-black flex items-center overflow-hidden cursor-pointer'
+          onClick={handleVideoClick}
+          className='group relative flex max-h-[calc(100vh-97px)] cursor-pointer items-center overflow-hidden rounded-2xl sm:h-full'
         >
+          {showHeart && (
+            <motion.div
+              className='pointer-events-none absolute text-5xl text-primary'
+              style={{ left: heartPosition.x, top: heartPosition.y }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{
+                opacity: [0.7, 1, 0],
+                scale: [1, 1.5, 1],
+                rotate: [0, -20, 20, 0],
+              }}
+              transition={{ duration: 0.7 }}
+              onAnimationComplete={() => setShowHeart(false)}
+            >
+              <IoMdHeart />
+            </motion.div>
+          )}
+
           <video
             ref={videoRef}
             src={video.asset.url}
             loop
             muted
             playsInline
-            className='video w-full object-cover object-center'
-            id={id.toString()}
+            className='video h-full w-full cursor-pointer object-cover object-center'
           />
 
-          {/* action buttons */}
-          <div
-            id={id.toString()}
-            className='action-btn-container absolute flex md:hidden group-hover:flex justify-between items-center left-0 right-0 bottom-5 xs:bottom-7 px-4 text-white'
-          >
-            <>
-              <IoMdPause
-                size={25}
-                onClick={handlePlayPause}
-                className='pause-btn hidden'
-              />
+          {showPlayBtn && (
+            <PlayPauseAniWrapper onComplete={() => setShowPlayBtn(false)}>
+              <IoPlay className='h-full w-full' />
+            </PlayPauseAniWrapper>
+          )}
 
-              <IoPlay
-                size={25}
-                onClick={handlePlayPause}
-                className='play-btn'
-              />
-            </>
+          {showPauseBtn && (
+            <PlayPauseAniWrapper onComplete={() => setShowPauseBtn(false)}>
+              <IoMdPause className='h-full w-full' />
+            </PlayPauseAniWrapper>
+          )}
 
+          <div className='action-btn-container absolute right-0 top-0 flex items-center justify-between p-4 text-white group-hover:flex'>
             <>
               {isMute ? (
-                <HiVolumeOff size={25} onClick={handleMute} />
+                <HiVolumeOff size={27} onClick={handleMute} />
               ) : (
-                <HiVolumeUp size={25} onClick={handleMute} />
+                <HiVolumeUp size={27} onClick={handleMute} />
               )}
             </>
           </div>
-        </Link>
 
-        {/* like | share | comment */}
-        <Reaction likes={likes} setShowLogin={setShowLogin} video={post} />
-      </div>
-    </div>
+          <VideoFooter
+            creator={postedBy}
+            caption={caption}
+            createdAt={videoCreatedAt!}
+          />
+        </div>
+
+        <Reaction
+          totalLikes={totalLikes}
+          likeUnlikeHandler={likeUnlikeHandler}
+          isAlreadyLike={alreadyLiked}
+          video={post}
+          liking={liking}
+          setShowLoginModal={setShowLogin}
+          setShowDeleteModal={setShowDeletePostModal}
+        />
+      </InView>
+    </>
+  );
+}
+
+type PlayPauseAniWrapperProps = {
+  children: ReactNode;
+  onComplete?: VoidFunction;
+};
+function PlayPauseAniWrapper({
+  onComplete,
+  children,
+}: PlayPauseAniWrapperProps) {
+  return (
+    <motion.div
+      className='absolute left-1/2 top-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-[#00000045] p-1 text-white'
+      initial={{
+        scale: 0,
+        opacity: 0,
+        transform: 'translate(-50%, -50%)',
+      }}
+      animate={{
+        opacity: [0, 1, 0],
+        scale: [1, 1.7, 0],
+      }}
+      onAnimationComplete={onComplete}
+    >
+      {children}
+    </motion.div>
   );
 }

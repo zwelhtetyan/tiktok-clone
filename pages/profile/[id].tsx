@@ -13,6 +13,8 @@ import TabItem from '../../components/TabItem';
 import Header from './Header';
 import millify from 'millify';
 import useStore from '../../store';
+import { useSetPrevScroll } from '../../hooks/usePrevScroll';
+import { closeSidebar } from '../../utils/sidebar-drawer';
 
 interface Props {
   data: {
@@ -27,22 +29,30 @@ interface VideoItemProps {
   likes: number;
   caption: string;
   videoId: string;
+  onVideoClick: VoidFunction;
 }
 
-function VideoItem({ videoURL, likes, caption, videoId }: VideoItemProps) {
+function VideoItem({
+  videoURL,
+  likes,
+  caption,
+  videoId,
+  onVideoClick,
+}: VideoItemProps) {
   return (
     <Link
+      onClick={onVideoClick}
       href={`/video/${videoId}`}
-      className='flex flex-col items-center w-52 xs:w-auto'
+      className='flex w-52 flex-col items-center xs:w-auto'
     >
-      <div className='overflow-hidden relative bg-black h-[290px] w-52 xs:w-auto xs:h-[250px] flex items-center justify-center rounded-md'>
+      <div className='relative flex h-[290px] w-52 items-center justify-center overflow-hidden rounded-md bg-black xs:h-[250px] xs:w-auto'>
         <video src={videoURL} className='object-cover' />
 
-        <div className='text-white absolute bottom-0 left-0 text-sm backdrop-blur-sm w-full flex items-center p-2 py-3'>
+        <div className='absolute bottom-0 left-0 flex w-full items-center p-2 py-3 text-sm text-white backdrop-blur-sm'>
           <BsHeartFill size={18} className='mr-1' /> {millify(likes)}
         </div>
       </div>
-      <p className='mt-1 self-start text-sm line-clamp-1 text-gray-900 dark:text-gray-300'>
+      <p className='mt-1 line-clamp-1 self-start text-sm text-gray-900 dark:text-gray-300'>
         {caption}
       </p>
     </Link>
@@ -58,26 +68,69 @@ export default function Profile({ data }: Props) {
   const [tab, setTab] = useState(0);
 
   // refs
+  const containerRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLTextAreaElement>(null);
+  const shouldRestoreScroll = useRef<boolean>(true);
 
   // hooks
   const { data: currentUser }: any = useSession();
   const router = useRouter();
-  const { setViewedVideoDetail } = useStore();
+  const {
+    setCurrentVideo,
+    setIsRestore,
+    prevScroll,
+    isRestore,
+    setPrevScroll,
+  } = useStore();
+  const { keepScrollBeforeNavigate } = useSetPrevScroll(containerRef);
 
   const isCurrentUserProfile = user?._id === currentUser?._id;
 
   const hasNoUser =
     !userInfo && !userCreatedPosts.length && !userLikedPosts.length;
 
+  // init tab
   useEffect(() => {
     setTab(0);
     setUser(userInfo);
+    closeSidebar();
   }, [router.query.id, userInfo]);
 
+  // set current playing video to null, since it is in profile page and no video is playing
   useEffect(() => {
-    setViewedVideoDetail(0, null);
-  }, [setViewedVideoDetail]);
+    setCurrentVideo(null, false);
+  }, [setCurrentVideo]);
+
+  // Set isRestore to true before history change to keep previous scroll in next page
+  useEffect(() => {
+    const onBeforeHistoryChange = () => {
+      shouldRestoreScroll.current = false; // don't restore scroll in this page
+
+      if (prevScroll) {
+        setIsRestore(true);
+      }
+    };
+
+    router.events.on('beforeHistoryChange', onBeforeHistoryChange);
+
+    return () => {
+      router.events.off('beforeHistoryChange', onBeforeHistoryChange);
+    };
+  }, [router.events, setIsRestore, prevScroll]);
+
+  // restore scroll based on conditions
+  useEffect(() => {
+    if (!shouldRestoreScroll.current || !isRestore) return;
+
+    const elem = containerRef?.current;
+    if (!elem) return;
+
+    elem.scrollTop = prevScroll;
+
+    // reset scroll state after scroll
+    setPrevScroll(0);
+    setIsRestore(false);
+  }, [isRestore, prevScroll, setIsRestore, setPrevScroll]);
 
   const TITLE = hasNoUser ? 'No User Found' : `${user?.userName} | TikTok`;
 
@@ -91,7 +144,10 @@ export default function Profile({ data }: Props) {
         ></meta>
       </Head>
 
-      <div className='pl-2 sm:pl-4 h-[calc(100vh-97px)] overflow-y-auto'>
+      <div
+        ref={containerRef}
+        className='profile-container h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4'
+      >
         {hasNoUser ? (
           <NoResult title='No user found!' />
         ) : (
@@ -133,7 +189,7 @@ export default function Profile({ data }: Props) {
                 />
               ) : (
                 // videos
-                <div className='mt-4 grid place-items-center xs:place-items-stretch xs:grid-cols-auto-fill-180 gap-x-3 gap-y-5 pb-4'>
+                <div className='mt-4 grid place-items-center gap-x-3 gap-y-5 pb-4 xs:grid-cols-auto-fill-180 xs:place-items-stretch'>
                   {tab === 0 ? (
                     <>
                       {userCreatedPosts?.map((post) => (
@@ -143,6 +199,7 @@ export default function Profile({ data }: Props) {
                           likes={post.likes?.length || 0}
                           caption={post.caption}
                           videoId={post._id}
+                          onVideoClick={keepScrollBeforeNavigate}
                         />
                       ))}
                     </>
@@ -155,6 +212,7 @@ export default function Profile({ data }: Props) {
                           likes={post.likes?.length || 0}
                           caption={post.caption}
                           videoId={post._id}
+                          onVideoClick={keepScrollBeforeNavigate}
                         />
                       ))}
                     </>

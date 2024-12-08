@@ -17,7 +17,7 @@ export default function useAddComment() {
 
     const { data: updatedPost }: { data: Video } = await axios.put(
       `${ROOT_URL}/api/post/comment`,
-      obj
+      obj,
     );
 
     setIsCommenting(false);

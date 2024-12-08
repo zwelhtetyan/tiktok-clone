@@ -165,7 +165,7 @@ export default function VideoItem({
         threshold={0.5}
         onChange={onIntersectingChange}
         style={{ scrollSnapStop: 'always', scrollSnapAlign: 'start center' }}
-        className='flex h-[calc(100vh-97px)] w-full items-center justify-center'
+        className='relative flex h-[calc(100vh-97px)] w-full flex-col items-center justify-center pb-[90px] sm:flex-row sm:pb-0'
       >
         <div
           aria-label='video'

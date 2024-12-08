@@ -148,7 +148,7 @@ export default function Reaction({
   ]);
 
   return (
-    <div className='ml-4 hidden h-full w-12 select-none flex-col items-center justify-end space-y-3 sm:flex'>
+    <div className='absolute bottom-0 left-1/2 flex w-full max-w-80 -translate-x-1/2 select-none flex-wrap items-center justify-between gap-3 sm:static sm:ml-4 sm:h-full sm:w-12 sm:max-w-[unset] sm:transform-none sm:flex-col sm:flex-nowrap sm:justify-end'>
       {/* follow or delete */}
       {isCreator ? (
         <div className='flex flex-col items-center'>
@@ -244,7 +244,7 @@ export default function Reaction({
             <IoMdShareAlt size={22} />
           </button>
 
-          <div className='absolute -left-3 bottom-16 hidden w-[240px] group-hover:block'>
+          <div className='absolute bottom-16 right-0 hidden w-[240px] group-hover:block xl:-left-3'>
             <div className='rounded-md border border-gray-200 bg-slate-100 dark:border-darkBorder dark:bg-darkSecondary'>
               {socialIcons.map((item) => (
                 <ShareLink

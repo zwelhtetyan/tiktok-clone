@@ -13,7 +13,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className='side-bar h-[calc(100vh-97px)] w-14 min-w-[3.5rem] overflow-hidden overflow-y-auto border-r border-r-gray-100 dark:border-r-darkBorder lg:flex lg:w-full lg:max-w-[21rem] lg:flex-col lg:border-none lg:pr-4'>
+    <aside className='side-bar hidden h-[calc(100vh-97px)] w-14 min-w-[3.5rem] overflow-hidden overflow-y-auto border-r border-r-gray-100 dark:border-r-darkBorder lg:flex lg:w-full lg:max-w-[21rem] lg:flex-col lg:border-none lg:pr-4'>
       <div>
         {showMobileSearchBar && (
           <MobileSearchBarModal onClose={() => setShowMobileSearchBar(false)} />

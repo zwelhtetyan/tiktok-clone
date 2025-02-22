@@ -146,7 +146,11 @@ export default function Profile({ data }: Props) {
 
       <div
         ref={containerRef}
-        className='profile-container h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4'
+        style={{
+          height:
+            'calc(100vh - 97px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+        }}
+        className='profile-container overflow-y-auto pl-2 sm:pl-4'
       >
         {hasNoUser ? (
           <NoResult title='No user found!' />

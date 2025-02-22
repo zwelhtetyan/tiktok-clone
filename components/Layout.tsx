@@ -21,7 +21,13 @@ export default function Layout({ children }: Props) {
     <div className='dark:bg-dark'>
       <Navbar hasSidebar={showSideBar} />
 
-      <main className='mx-auto flex h-[calc(100vh-64px)] w-full overflow-hidden overflow-y-auto px-2 py-4 lg:px-4'>
+      <main
+        style={{
+          height:
+            'calc(100vh - 64px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+        }}
+        className='mx-auto flex w-full overflow-hidden overflow-y-auto px-2 py-4 lg:px-4'
+      >
         {showSideBar && <Sidebar />}
 
         <div className='w-full flex-1'>{children}</div>

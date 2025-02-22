@@ -236,12 +236,12 @@ export default function Reaction({
           className='reaction-btn'
           onClick={() => nativeShareVia(video.caption, POST_URL)}
         >
-          <IoMdShareAlt size={22} />
+          <IoMdShareAlt size={28} />
         </button>
       ) : (
         <div className='group relative'>
           <button className='reaction-btn'>
-            <IoMdShareAlt size={22} />
+            <IoMdShareAlt size={28} />
           </button>
 
           <div className='absolute bottom-16 right-0 hidden w-[240px] group-hover:block xl:-left-3'>

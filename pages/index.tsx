@@ -119,8 +119,13 @@ export default function Home({ videos }: Props) {
 
       <div
         ref={videoContainerRef}
-        style={{ scrollbarWidth: 'none', scrollSnapType: 'y mandatory' }}
-        className='video-container h-[calc(100vh-97px)] w-full space-y-6 overflow-y-auto px-4 md:px-10'
+        style={{
+          height:
+            'calc(100vh - 97px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+          scrollbarWidth: 'none',
+          scrollSnapType: 'y mandatory',
+        }}
+        className='video-container w-full space-y-6 overflow-y-auto px-4 md:px-10'
       >
         {videos?.length > 0 ? (
           videos.map((video) => (

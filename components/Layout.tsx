@@ -18,7 +18,7 @@ export default function Layout({ children }: Props) {
   const showSideBar = homeRoute || profileRoute || searchRoute;
 
   return (
-    <div className='dark:bg-dark'>
+    <div className='min-h-svh dark:bg-dark'>
       <Navbar hasSidebar={showSideBar} />
 
       <main

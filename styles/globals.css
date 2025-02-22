@@ -5,6 +5,7 @@
 @layer base {
   body {
     @apply text-black selection:bg-primary selection:text-white dark:text-white lg:overflow-hidden;
+    height: 100dvh;
   }
 
   ::-webkit-scrollbar {

@@ -148,7 +148,7 @@ export default function Reaction({
   ]);
 
   return (
-    <div className='absolute bottom-0 left-1/2 flex w-full max-w-80 -translate-x-1/2 select-none flex-wrap items-center justify-between gap-3 sm:static sm:ml-4 sm:h-full sm:w-12 sm:max-w-[unset] sm:transform-none sm:flex-col sm:flex-nowrap sm:justify-end'>
+    <div className='absolute bottom-0 left-1/2 flex w-full max-w-80 -translate-x-1/2 select-none flex-wrap items-start justify-between gap-3 sm:static sm:ml-4 sm:h-full sm:w-12 sm:max-w-[unset] sm:transform-none sm:flex-col sm:flex-nowrap sm:justify-end'>
       {/* follow or delete */}
       {isCreator ? (
         <div className='flex flex-col items-center'>

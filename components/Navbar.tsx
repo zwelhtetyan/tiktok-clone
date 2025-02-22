@@ -34,8 +34,8 @@ export default function Navbar({ hasSidebar }: Props) {
   }
 
   return (
-    <nav className='relative z-10 h-16 border-b border-b-[rgba(34,90,89,0.2)] bg-white dark:border-b-darkBorder dark:bg-dark'>
-      <div className='mx-auto flex items-center justify-between gap-4 px-2 py-2 lg:px-4'>
+    <nav className='relative z-10 flex h-16 items-center justify-center border-b border-b-[rgba(34,90,89,0.2)] bg-white dark:border-b-darkBorder dark:bg-dark'>
+      <div className='mx-auto flex w-full items-center justify-between gap-4 px-2 py-2 lg:px-4'>
         <Link
           href='/'
           aria-label='TikTok_logo'

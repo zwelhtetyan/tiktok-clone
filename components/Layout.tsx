@@ -24,7 +24,7 @@ export default function Layout({ children }: Props) {
       <main
         style={{
           height:
-            'calc(100vh - 64px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+            'calc(100vh - 54px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
         }}
         className='mx-auto flex w-full overflow-hidden overflow-y-auto px-2 py-4 lg:px-4'
       >

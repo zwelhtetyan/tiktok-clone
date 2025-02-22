@@ -164,8 +164,13 @@ export default function VideoItem({
         as='article'
         threshold={0.5}
         onChange={onIntersectingChange}
-        style={{ scrollSnapStop: 'always', scrollSnapAlign: 'start center' }}
-        className='relative flex h-[calc(100vh-97px)] w-full flex-col items-center justify-center pb-[90px] sm:flex-row sm:pb-0'
+        style={{
+          height:
+            'calc(100vh - 97px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+          scrollSnapStop: 'always',
+          scrollSnapAlign: 'start center',
+        }}
+        className='relative flex w-full flex-col items-center justify-center pb-[90px] sm:flex-row sm:pb-0'
       >
         <div
           aria-label='video'

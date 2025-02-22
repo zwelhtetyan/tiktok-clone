@@ -45,7 +45,13 @@ export default function Search({
         ></meta>
       </Head>
 
-      <div className='h-[calc(100vh-97px)] overflow-y-auto pl-2 sm:pl-4 lg:pl-10'>
+      <div
+        style={{
+          height:
+            'calc(100vh - 97px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+        }}
+        className='overflow-y-auto pl-2 sm:pl-4 lg:pl-10'
+      >
         {/* no videos */}
         {!hasSearchedPosts && !hasSearchedUsers && (
           <NoResult desc={`Couldn't find any matches for "${searchQuery}"`} />

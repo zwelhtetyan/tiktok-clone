@@ -113,7 +113,13 @@ export default function Upload() {
         ></meta>
       </Head>
 
-      <div className='h-[calc(100vh-97px)] w-full overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'>
+      <div
+        style={{
+          height:
+            'calc(100vh - 97px - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+        }}
+        className='w-full overflow-hidden overflow-y-auto text-gray-600 dark:text-gray-200'
+      >
         <div className='mx-auto mb-10 max-w-4xl overflow-hidden rounded-lg border p-4 shadow-sm dark:border-darkBtn xs:mb-0 xs:p-6'>
           <div className='mb-8'>
             <h2 className='text-2xl font-bold'>Upload video</h2>

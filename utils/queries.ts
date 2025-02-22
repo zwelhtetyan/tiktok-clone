@@ -1,5 +1,5 @@
 export const getAllPostsByLimit = (userId: string) => {
-  const query = `*[_type == "post"] | order(_createdAt desc) [1...30] {
+  const query = `*[_type == "post"] | order(_createdAt desc) [1...10] {
     _id,
      caption,
        video{
@@ -164,7 +164,7 @@ export const userLikedPostsQuery = (userId: string | string[]) => {
 };
 
 export const topicPostsQuery = (topic: string | string[], userId: string) => {
-  const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) [1...30] {
+  const query = `*[_type == "post" && topic match '${topic}*'] | order(_createdAt desc) [1...10] {
     _id,
      caption,
        video{
